@@ -4,7 +4,7 @@
     "slug": "ePMC-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/epmc-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash-screen.png",

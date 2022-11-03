@@ -1,17 +1,20 @@
 import { StyleSheet, ImageBackground, Button, Pressable, View, Text, TextInput } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 
 export default function Login( { navigation} ) {
   return (
     <View style={styles.container}>
       <ImageBackground source={require('../assets/loginbg.png')} style={styles.bgimage}>
         <Text style={styles.txtLogin}> Login </Text>
-        <View style={[styles.inputCard, styles.border1, styles.shadow]} >
+
+        <View style={[styles.inputCard, styles.shadow]} >
           <TextInput
             style={styles.input}
             placeholder="Username"
           />
         </View>
-        <View style={[styles.inputCard, styles.border2, styles.shadow]} >
+        <View style={[styles.inputCard, styles.shadow]} >
           <TextInput
             style={styles.input}
             placeholder="Password"
@@ -19,23 +22,12 @@ export default function Login( { navigation} ) {
         </View>
 
         <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("LoginStaff")}>
-          <Text style={styles.btnLogin1}> {'>'} </Text>
+          <AntDesign name="arrowright" style={styles.btnLogin1} />
         </Pressable>
 
-        <Pressable style={styles.forgot}>
-          <Text> Forgot Password? </Text>
-        </Pressable>
-        
-        
-        {/* <Pressable style={styles.btnLogin} onPress={() => navigation.navigate("LoginStaff")}>
-          <Text style={styles.btnText}>Login as Employee</Text>
-        </Pressable> */}
-
-        
-
-        {/* <Pressable style={styles.btnLogin} onPress={() => navigation.navigate("LoginPatient")}>
-          <Button title=" Login as Patient " />
-        </Pressable> */}
+        {/* <Pressable > */}
+          <Text onPress={() => navigation.navigate("LoginStaff")} style={styles.forgot}> Forgot Password? </Text>
+        {/* </Pressable> */}
       </ImageBackground>
     </View>
   );
@@ -57,8 +49,8 @@ const styles = StyleSheet.create({
   },
 
   txtLogin: {
-    marginTop: -200,
-    marginBottom: 45,
+    marginTop: -30,
+    marginBottom: 80,
     color: "#4d4d4d",
     fontSize: 42,
     lineHeight: 84,
@@ -67,18 +59,12 @@ const styles = StyleSheet.create({
   },
 
   inputCard: {
-    backgroundColor: 'white',
-    width: '80%',
+    backgroundColor: '#FFF',
+    width: '85%',
+    borderRadius: 20,
+    marginLeft: 20,
+    marginBottom: 10,
     // borderWidth: 1
-  },
-
-  border1: {
-    borderTopRightRadius: 50,
-    marginBottom: 1
-  },
-
-  border2: {
-    borderBottomRightRadius: 50
   },
 
   shadow: {
@@ -90,7 +76,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 1.00,
 
-    elevation: 1.5,
+    elevation: 3,
   },
 
   input: {
@@ -103,15 +89,11 @@ const styles = StyleSheet.create({
   btnLogin: {
     // flex: 1,
     position: 'absolute',
-    // top: 100,
-    right: 50,
-    top: 395,
+    right: 15,
+    top: 475,
     alignItems: 'center',
     justifyContent: 'center',
-    // paddingVertical: 12,
-    // paddingHorizontal: 32,
     borderRadius: 50,
-    // borderWidth: 5,
     backgroundColor: '#056EBA',
     height: 95,
     width: 95,
@@ -119,16 +101,15 @@ const styles = StyleSheet.create({
   },
 
   btnLogin1: {
-    color: 'white',
-    fontSize: 30
+    color: '#fff',
+    fontSize: 50
   },
 
   forgot: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-
-  txtForgot: {
-    fontSize: 30,
+    marginTop: 10,
+    marginRight: 30,
+    fontSize: 20,
+    textAlign: 'right',
+    color: '#BFBFBF'
   }
 });

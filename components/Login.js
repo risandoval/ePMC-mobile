@@ -1,8 +1,62 @@
+import React from "react";
 import { StyleSheet, ImageBackground, Button, Pressable, View, Text, TextInput } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
 export default function Login( { navigation} ) {
+  const [username, setUsername] = React.useState(null)
+  const [password, setPassword] = React.useState(null)
+
+  const [isLogin, setIsLogin] = React.useState(false)
+
+  const usernameHandler = (text) => {
+    setUsername(text);
+  }
+
+  const checkLogin = () => {
+    if (username == "" && password == "") {
+      setIsLogin(false);
+      alert("Required Field Is Missing");
+    } else {
+      setIsLogin(true);
+
+      var loginpath = "http://e-pmc.com/Login";
+      // var loginpath = {
+
+      // };
+
+      var headers = {
+        'Accept' : 'application/json',
+        'Content-Type' : 'application/json'
+      };
+
+      var Data ={
+        username: username,
+        password: password
+      };
+
+      fetch(loginpath,{
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(Data)
+      })
+      .then((Response)=>Response.json())
+      .then((Response)=>{
+        alert(Response[0].Message)
+        if (Response[0].Message == "Success") {
+          console.log("true")
+          this.props.navigation.navigate("LoginStaff");
+        }
+        console.log(Data);
+      })
+      .catch((error)=>{
+        console.error("ERROR FOUND" + error);
+      })
+
+      // navigation.navigate(loginpath);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground source={require('../assets/loginbg.png')} style={styles.bgimage}>
@@ -12,16 +66,22 @@ export default function Login( { navigation} ) {
           <TextInput
             style={styles.input}
             placeholder="Username"
+            onChangeText={usernameHandler}
+            value={username}
           />
         </View>
         <View style={[styles.inputCard, styles.shadow]} >
           <TextInput
             style={styles.input}
             placeholder="Password"
+            // secureTextEntry={true}
+            onChangeText={text => setPassword(text)}
+            value={password}
           />
         </View>
 
-        <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("LoginStaff")}>
+        <Pressable  style={styles.btnLogin} onPress={checkLogin}>
+        {/* <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("LoginStaff")}> */}
           <AntDesign name="arrowright" style={styles.btnLogin1} />
         </Pressable>
 

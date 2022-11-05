@@ -3,6 +3,8 @@ import { StyleSheet, ImageBackground, Button, Pressable, View, Text, TextInput }
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
+
+
 export default function Login( { navigation} ) {
   const [username, setUsername] = React.useState(null)
   const [password, setPassword] = React.useState(null)
@@ -80,8 +82,8 @@ export default function Login( { navigation} ) {
           />
         </View>
 
-        <Pressable  style={styles.btnLogin} onPress={checkLogin}>
-        {/* <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("LoginStaff")}> */}
+        {/* <Pressable  style={styles.btnLogin} onPress={checkLogin}> */}
+        <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("AdminNavbar")}>
           <AntDesign name="arrowright" style={styles.btnLogin1} />
         </Pressable>
 

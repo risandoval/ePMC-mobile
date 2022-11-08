@@ -1,7 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { StyleSheet } from 'react-native';
 
 //screens
 import AdminDashboard from './admin-screens/AdminDashboard';
@@ -19,8 +18,7 @@ const Tab = createBottomTabNavigator();
 
 export default function Navbar() {
     return(
-        // <NavigationContainer>
-            <Tab.Navigator initialRouteName={admdashboard}
+        <Tab.Navigator initialRouteName={admdashboard}
             screenOptions={({route}) => ({
                 tabBarIcon:({focused, color, size}) => {
                     let iconName;
@@ -41,24 +39,22 @@ export default function Navbar() {
                     }
                     return <MaterialCommunityIcons name={iconName} size={size} color={color}/>    
                 },
-                tabBarStyle: {
-                    backgroundColor: '#fff',
-                    height: 80,
-                    paddingTop: 15,
-                    paddingBottom: 15,
-                    borderTopLeftRadius: 30,
-                    borderTopRightRadius: 30,
-                    elevation: 50
-                }
+            tabBarStyle: {
+                backgroundColor: '#fff',
+                height: 80,
+                paddingTop: 15,
+                paddingBottom: 15,
+                borderTopLeftRadius: 30,
+                borderTopRightRadius: 30,
+                elevation: 50
+            }
             })}>
             
-                <Tab.Screen name={admdashboard} component={AdminDashboard} options={{headerShown: false}}/>
-                <Tab.Screen name={admpatientrec} component={AdminPatientRec} options={{headerShown: false}}/>
-                <Tab.Screen name={admsched} component={AdminSched} options={{headerShown: false}}/>
-                <Tab.Screen name={admreports} component={AdminReports} options={{headerShown: false}}/>
-
-            </Tab.Navigator>
-        // </NavigationContainer>
+            <Tab.Screen name={admdashboard} component={AdminDashboard} options={{headerShown: false}}/>
+            <Tab.Screen name={admpatientrec} component={AdminPatientRec} options={{headerShown: false}}/>
+            <Tab.Screen name={admsched} component={AdminSched} options={{headerShown: false}}/>
+            <Tab.Screen name={admreports} component={AdminReports} options={{headerShown: false}}/>
+        </Tab.Navigator>  
     )
 }
 

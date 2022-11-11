@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, FlatList, ScrollView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather'
@@ -30,10 +30,10 @@ export default function AdminDashboard() {
 
   return (
     <View style={styles.container}>
-      {/* <ScrollView> */}
+      <ImageBackground source={require('../../../assets/dashboardbg.png')} style={styles.bgimage}>
         <View style={[styles.box, styles.box1]}>
-          <FontAwesome name="clipboard-list" style={styles.icon} />
-          <Text style={styles.txtTotal}>Total No. of Patient Records</Text>
+          <FontAwesome name="clipboard-list" style={[styles.icon, styles.iconMargin]} />
+          <Text style={[styles.txtTotal, styles.txtTotal1]}>Total No. of Patient Records</Text>
           <Text style={styles.txtNum}>100</Text>
         </View>
 
@@ -50,8 +50,8 @@ export default function AdminDashboard() {
         </View>
 
         <View style={[styles.box, styles.box4]}>
-          <MaterialIcons name="inventory" style={styles.icon} />
-          <Text style={styles.txtTotal}>Total No. of Patients Today</Text>
+          <FontAwesome name="clipboard-list" style={[styles.icon, styles.iconMargin]} />
+          <Text style={[styles.txtTotal, styles.txtTotal1]}>Total No. of Patients Today</Text>
           <Text style={styles.txtNum}>34</Text>
         </View>
       
@@ -64,24 +64,35 @@ export default function AdminDashboard() {
           keyExtractor={item => item.id}
           />
         </View>
-      {/* </ScrollView> */}
+      </ImageBackground>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#F4F4F4',
+  bgimage: {
+    width: '100%',
+    height: '100%',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-evenly',
   },
+
+  container: {
+    backgroundColor: '#F4F4F4',
+    flex: 1,
+  },
   
   icon: {
-    marginBottom: 5,
+    marginTop: 16,
     color: "black",
-    fontSize: 40,
+    fontSize: 60,
+  },
+
+  iconMargin: {
+    marginTop: 10,
+    marginLeft: 5,
   },
 
   box: {
@@ -89,13 +100,15 @@ const styles = StyleSheet.create({
     height: 110,
     borderRadius: 20,
     padding: 10,
-    paddingLeft: 20,
+    paddingLeft: 10,
+    paddingRight: 70,
     marginTop: 30,
+    flexDirection: 'row'
   },
 
   box1: {
     backgroundColor: '#92CEFA',
-    marginTop: 80
+    marginTop: 80,
   },
 
   box2: {
@@ -112,17 +125,27 @@ const styles = StyleSheet.create({
   },
 
   txtTotal: {
-    fontSize: 12
+    fontSize: 12,
+    marginTop: 20,
+    marginLeft: 4,
+  },
+
+  txtTotal1: {
+    marginLeft: 11,
   },
 
   txtNum: {
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginTop: 50,
+    position: 'absolute',
+    left: 80,
+    top: 10,
   },
 
   txtRecent: {
     position: 'absolute',
-    bottom: 430,
+    top: 380,
     fontSize: 40,
     color: "#000",
     lineHeight: 84,
@@ -130,29 +153,26 @@ const styles = StyleSheet.create({
   },
 
   recentOuterBox: {
-    marginTop: 120,
+    marginTop: 110,
     marginBottom: 20,
     paddingTop: 20,
     paddingBottom: 20,
-    backgroundColor: '#fff',
-    color: "#000",
-    width: '80%',
-    height: 400,
-    borderRadius: 20,
-    elevation: 3
+    width: '85%',
+    height: 450,
   },
 
   recentInnerBox: {
-    backgroundColor: '#CDCDCD',
-    padding: 10,
+    backgroundColor: '#fff',
+    height: 60,
+    padding: 20,
     paddingLeft: 20,
     marginVertical: 8,
     marginHorizontal: 16,
     borderRadius: 10,
+    elevation: 1
   },
 
   recentData: {
     fontSize: 15,
   }
-
 })

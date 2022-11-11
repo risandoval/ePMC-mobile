@@ -20,6 +20,18 @@ export default function Navbar() {
     return(
         <Tab.Navigator initialRouteName={admdashboard}
             screenOptions={({route}) => ({
+                tabBarStyle: {
+                    position:'absolute',
+                    bottom: 0,
+                    backgroundColor: '#fff',
+                    height: 80,
+                    paddingTop: 15,
+                    paddingBottom: 15,
+                    borderTopLeftRadius: 30,
+                    borderTopRightRadius: 30,
+                    // elevation: 50,
+                    zIndex: 8 
+                },
                 tabBarIcon:({focused, color, size}) => {
                     let iconName;
                     let rn = route.name;
@@ -38,16 +50,8 @@ export default function Navbar() {
                         size = 40
                     }
                     return <MaterialCommunityIcons name={iconName} size={size} color={color}/>    
-                },
-            tabBarStyle: {
-                backgroundColor: '#fff',
-                height: 80,
-                paddingTop: 15,
-                paddingBottom: 15,
-                borderTopLeftRadius: 30,
-                borderTopRightRadius: 30,
-                elevation: 50
-            }
+                }
+            
             })}>
             
             <Tab.Screen name={admdashboard} component={AdminDashboard} options={{headerShown: false}}/>

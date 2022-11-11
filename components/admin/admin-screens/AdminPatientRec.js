@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
 
   search: {
-    flex:1
+    flex: 1
   },
 
   searchicon: {
@@ -85,11 +85,12 @@ const styles = StyleSheet.create({
   },
 
   patientlist: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: '#fff',
-    marginVertical: 20,
+    marginVertical: 25,
     marginHorizontal: 50,
     width: '80%',
+    height: 650,
     borderRadius: 20,
   },
 });

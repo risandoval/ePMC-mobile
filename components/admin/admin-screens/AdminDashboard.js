@@ -34,7 +34,7 @@ export default function AdminDashboard() {
         <View style={[styles.box, styles.box1]}>
           <FontAwesome name="clipboard-list" style={[styles.icon, styles.iconMargin]} />
           <Text style={[styles.txtTotal, styles.txtTotal1]}>Total No. of Patient Records</Text>
-          <Text style={styles.txtNum}>100</Text>
+          <Text style={[styles.txtNum, styles.txtNum1]}>100</Text>
         </View>
 
         <View style={[styles.box, styles.box2]}>
@@ -139,8 +139,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 50,
     position: 'absolute',
-    left: 80,
+    left: 75,
     top: 10,
+  },
+
+  txtNum1: {
+    position: 'absolute',
+    left: 70,
   },
 
   txtRecent: {

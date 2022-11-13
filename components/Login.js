@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import { StyleSheet, ImageBackground, Button, Pressable, View, Text, TextInput } from 'react-native';
+import { StyleSheet, ImageBackground, Button, Pressable, View, Text, TextInput, Alert } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-
-
-
 export default function Login( { navigation} ) {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState();
+  const [pass, setPass] = useState();
 
   const [isLogin, setIsLogin] = useState(false)
 
@@ -16,23 +13,23 @@ export default function Login( { navigation} ) {
   }
 
   const passHandler = (text) => {
-    setPassword(text);
+    setPass(text);
   }
 
   const checkLogin = async () => {
 
-    if (email == "" || password == "") {
+    if (email == "" || pass == "") {
       setIsLogin(false);
       alert("Required Field Is Missing");
     } else {
 
       setIsLogin(true);
 
-      var loginpath = "http://192.168.1.13:80/epmc-4/api/Login_mobile/validation";
+      var loginpath = "http://192.168.2.115:80/epmc-4/api/Login_mobile/validation";
 
       var data ={
         email: email,
-        password: password
+        pass: pass
       };
 
       await fetch(loginpath,{
@@ -40,17 +37,18 @@ export default function Login( { navigation} ) {
         headers: {
           'Accept': 'application/json',
           'Content-Type' : 'application/json;charset=UTF-8',
+          'X-API-KEY':'myapi',
+          'Authorization':'Basic YWRtaW46YWRtaW4xMjM='
         },
         body: JSON.stringify(data)
       })  
       .then((response)=>response.json())
       .then((response)=>{
-        // alert(response[0].Message)
-        // if (response[0].Message == "Success") {
-        //   console.log("true")
-        //   // this.props.navigation.navigate("HomeScreen");
-        // }
-        console.log(data);
+        alert(response[0].Message)
+        if (response[0].Message == "Login successful") {
+          console.log("true")
+          navigation.navigate("AdminNavbar");
+        }
       })
       .catch((error)=>{
         console.error("ERROR FOUND " + error);
@@ -77,12 +75,12 @@ export default function Login( { navigation} ) {
             placeholder="Password"
             // secureTextEntry={true}
             onChangeText={passHandler}
-            value={password}
+            value={pass}
           />
         </View>
 
-        {/* <Pressable  style={styles.btnLogin} onPress={checkLogin}> */}
-        <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("AdminNavbar")}>
+        <Pressable  style={styles.btnLogin} onPress={checkLogin}>
+        {/* <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("AdminNavbar")}> */}
           <AntDesign name="arrowright" style={styles.btnLogin1} />
         </Pressable>
 

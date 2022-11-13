@@ -7,6 +7,8 @@ import {
 } from "react-native-responsive-dimensions";
 
 
+
+
 export default function Login( { navigation} ) {
   const [email, setEmail] = useState();
   const [pass, setPass] = useState();
@@ -22,6 +24,7 @@ export default function Login( { navigation} ) {
   }
 
   const checkLogin = async () => {
+
     if (email == "" || pass == "") {
       setIsLogin(false);
       alert("Required Field Is Missing");
@@ -29,7 +32,7 @@ export default function Login( { navigation} ) {
 
       setIsLogin(true);
 
-      var loginpath = "http://192.168.1.5:80/epmc-4/api/Login_mobile/validation";
+      var loginpath = "http://192.168.1.13:80/epmc-4/api/Login_mobile/validation";
 
       var data ={
         email: email,

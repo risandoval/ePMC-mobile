@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, ImageBackground, Button, Pressable, View, Text, TextInput } from 'react-native';
+import { StyleSheet, ImageBackground, Button, Pressable, View, Text, TextInput, StatusBar } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: StatusBar.currentHeight,
     // marginTop: 22
   },
 

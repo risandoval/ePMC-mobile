@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, FlatList, ScrollView, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, FlatList, ScrollView, ImageBackground, StatusBar } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather'
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F4F4F4',
     flex: 1,
+    paddingTop: StatusBar.currentHeight,
   },
   
   icon: {
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
 
   txtRecent: {
     position: 'absolute',
-    top: 380,
+    top: 365,
     fontSize: 40,
     color: "#000",
     lineHeight: 84,
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
   },
 
   recentOuterBox: {
-    marginTop: 110,
+    marginTop: 85,
     marginBottom: 20,
     paddingTop: 20,
     paddingBottom: 20,

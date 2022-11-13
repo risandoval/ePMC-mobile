@@ -1,27 +1,29 @@
-import { StyleSheet, ImageBackground, View, Text, Image} from 'react-native';
+import React from 'react';
+import { StyleSheet, ImageBackground, View, Text, Image, StatusBar } from 'react-native';
 
 export default function Profile() {
   return (
-    <View style={styles.container}>
-      <ImageBackground source={require('../assets/profilebg.png')} style={styles.bgimage}>
-        <View>
-            <Image
-            style={styles.profileimg}
-            source={require('../assets/david.jpg')}
-            />
-        </View>
+    <View style={[styles.container, styles.responsiveBox]}>
+        {/* <View style={styles.responsiveBox}> */}
+            <ImageBackground source={require('../assets/profilebg.png')} style={styles.bgimage}>
+                <View>
+                    <Image
+                    style={styles.profileimg}
+                    source={require('../assets/david.jpg')}
+                    />
+                </View>
 
-        <View style={styles.namebox}>
-            <Text style={styles.profilename}>David Sandoval</Text>
-        </View>
+                <View style={styles.namebox}>
+                    <Text style={styles.profilename}>David Sandoval</Text>
+                </View>
 
+                <View style={styles.profileinfo}>
+                    {/* <Text style={[styles.profiletext, styles.profilelabel]}>{'Age: '}{'21'} </Text>
+                    <Text style={[styles.profiletext, styles.profilelabel]}>{'Birthday: '}{'July 25, 2000'} </Text> */}
+                </View>
+            </ImageBackground>
+        {/* </View> */}
         
-
-        <View style={styles.profileinfo}>
-            {/* <Text style={[styles.profiletext, styles.profilelabel]}>{'Age: '}{'21'} </Text>
-            <Text style={[styles.profiletext, styles.profilelabel]}>{'Birthday: '}{'July 25, 2000'} </Text> */}
-        </View>
-      </ImageBackground>
     </View>
     
   );
@@ -37,6 +39,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        paddingTop: StatusBar.currentHeight,
         // alignItems: 'center',
         // justifyContent: 'center',
     },
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
         position: 'absolute',
-        top: 50,
+        top: 30,
         left: 40,
         borderRadius: 100,
     },
@@ -54,7 +57,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 30,
         right: 25,
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         width: 250,
         height: 130,
         padding: 10,
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         // alignItems: 'center',
         // alignItems: 'flex-start',
-        marginTop: 270,
+        marginTop: 250,
         marginHorizontal: 50,
         padding: 25,
         paddingTop: 30,

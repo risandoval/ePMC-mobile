@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, ImageBackground, View, Pressable, Text, Alert, Modal, TouchableOpacity} from 'react-native';
+import { StyleSheet, ImageBackground, View, Pressable, Text, Alert, Modal, TouchableOpacity, StatusBar} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 export default function AdminReports() {
@@ -78,12 +78,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: StatusBar.currentHeight,
   },
 
   btnOuter: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginTop: 80,
+    marginTop: 60,
   },
 
   btnInner: {

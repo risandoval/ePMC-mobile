@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ImageBackground, View, Text, TouchableOpacity} from 'react-native';
+import { StyleSheet, ImageBackground, View, Text, TouchableOpacity, StatusBar} from 'react-native';
 
 function viewsched () {
   return (
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: StatusBar.currentHeight,
     // alignItems: 'center',
     // justifyContent: 'center',
   },
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
 
   btngrp: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 10,
   },
 
   btndays:{

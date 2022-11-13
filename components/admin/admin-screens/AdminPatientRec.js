@@ -1,4 +1,4 @@
-import { StyleSheet, ImageBackground, View, TextInput, Pressable, Alert, Text } from 'react-native';
+import { StyleSheet, ImageBackground, View, TextInput, Pressable, Alert, Text, StatusBar } from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
 const showAlert = () =>
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: StatusBar.currentHeight,
   },
 
   bgimage: {

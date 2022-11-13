@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, ImageBackground, View, Pressable, Text, Alert, Modal, TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
-export default function LoginStaff() {
+export default function AdminReports() {
   const [modal1Visible, setmodal1Visible] = useState(true);
   const [modal2Visible, setmodal2Visible] = useState(false);
 

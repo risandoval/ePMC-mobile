@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ImageBackground, View, Text} from 'react-native';
+import { StyleSheet, ImageBackground, View, Text, TouchableOpacity} from 'react-native';
 
+function viewsched () {
+  return (
+    <View>
+      <Text>schedule data</Text>
+    </View>
+  )
+}
 
-export default function LoginStaff() {
+export default function AdminSched({buttons, doSomethingAfterClick}) {
   const [date, setDate] = useState(null);
 
   useEffect(() => {
@@ -58,6 +65,30 @@ export default function LoginStaff() {
 
         <Text style={styles.date}>{date}</Text>
         <Text style={styles.availdoc}>Available Doctors</Text>
+
+        <View style={styles.btngrp}>
+          <TouchableOpacity style={[styles.btndays, styles.radiusLft]}>
+            <Text>Sun</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btndays}>
+            <Text>Mon</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btndays}>
+            <Text>Tue</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btndays}>
+            <Text>Wed</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btndays}>
+            <Text>Thu</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btndays}>
+            <Text>Fri</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.btndays, styles.radiusRgt]}>
+            <Text>Sat</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
     </View>
     
@@ -89,5 +120,26 @@ const styles = StyleSheet.create({
     marginTop: 25,
     fontSize: 25,
     fontWeight: '500',
+  },
+
+  btngrp: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+
+  btndays:{
+    backgroundColor: '#B6D9F3',
+    padding: 20,
+    // borderRadius: 10,
+  },
+
+  radiusLft: {
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+  },
+
+  radiusRgt: {
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
   },
 });

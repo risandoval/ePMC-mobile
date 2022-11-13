@@ -7,12 +7,14 @@ import AdminDashboard from './admin-screens/AdminDashboard';
 import AdminPatientRec from './admin-screens/AdminPatientRec';
 import AdminReports from './admin-screens/AdminReports';
 import AdminSched from './admin-screens/AdminSched';
+import Profile from "../Profile";
 
 //screen names
 const admdashboard = 'Dashboard';
 const admpatientrec = 'Patient Record';
 const admreports = 'Reports';
 const admsched = 'Schedule';
+const profile = 'Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -42,6 +44,9 @@ export default function Navbar() {
                     } else if (rn === admpatientrec){
                         iconName = focused ? 'clipboard-plus' : 'clipboard-plus';
                         size = 40
+                    } else if (rn === profile){
+                        iconName = focused ? 'account' : 'account';
+                        size = 40
                     } else if (rn === admsched){
                         iconName = focused ? 'calendar-month' : 'calendar-month';
                         size = 40
@@ -56,6 +61,7 @@ export default function Navbar() {
             
             <Tab.Screen name={admdashboard} component={AdminDashboard} options={{headerShown: false}}/>
             <Tab.Screen name={admpatientrec} component={AdminPatientRec} options={{headerShown: false}}/>
+            <Tab.Screen name={profile} component={Profile} options={{headerShown: false}}/>
             <Tab.Screen name={admsched} component={AdminSched} options={{headerShown: false}}/>
             <Tab.Screen name={admreports} component={AdminReports} options={{headerShown: false}}/>
         </Tab.Navigator>  

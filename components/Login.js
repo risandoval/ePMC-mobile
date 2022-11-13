@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { StyleSheet, ImageBackground, Button, Pressable, View, Text, TextInput, StatusBar } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-
-
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from "react-native-responsive-dimensions";
 
 
 export default function Login( { navigation} ) {
@@ -63,6 +65,10 @@ export default function Login( { navigation} ) {
       <ImageBackground source={require('../assets/loginbg.png')} style={styles.bgimage}>
         <Text style={styles.txtLogin}> Login </Text>
 
+        {/* <Pressable > */}
+        <Text onPress={() => navigation.navigate("LoginStaff")} style={styles.forgot}> Forgot Password? </Text>
+        {/* </Pressable> */}
+
         <View style={[styles.inputCard, styles.shadow]} >
           <TextInput
             style={styles.input}
@@ -83,12 +89,10 @@ export default function Login( { navigation} ) {
 
         {/* <Pressable  style={styles.btnLogin} onPress={checkLogin}> */}
         <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("AdminNavbar")}>
-          <AntDesign name="arrowright" style={styles.btnLogin1} />
+          {/* <AntDesign name="arrowright" style={styles.btnLogin1} /> */}
+          <Text style={styles.btnLogin1}>Login</Text>
         </Pressable>
 
-        {/* <Pressable > */}
-          <Text onPress={() => navigation.navigate("LoginStaff")} style={styles.forgot}> Forgot Password? </Text>
-        {/* </Pressable> */}
       </ImageBackground>
     </View>
   );
@@ -101,7 +105,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: StatusBar.currentHeight,
-    // marginTop: 22
   },
 
   bgimage: {
@@ -111,22 +114,28 @@ const styles = StyleSheet.create({
   },
 
   txtLogin: {
-    marginTop: -30,
-    marginBottom: 80,
+    marginTop: responsiveHeight(-1),
+    marginBottom: responsiveHeight(8),
     color: "#4d4d4d",
-    fontSize: 42,
-    lineHeight: 84,
+    fontSize: responsiveFontSize(6),
     fontWeight: "bold",
     textAlign: "center"
   },
 
+  forgot: {
+    marginRight: responsiveWidth(11),
+    marginBottom: responsiveHeight(0.5),
+    fontSize: responsiveFontSize(1.5),
+    textAlign: 'right',
+    color: '#BFBFBF'
+  },
+
   inputCard: {
     backgroundColor: '#FFF',
-    width: '85%',
+    width: responsiveWidth(80),
     borderRadius: 20,
-    marginLeft: 20,
-    marginBottom: 10,
-    // borderWidth: 1
+    marginHorizontal: responsiveWidth(10),
+    marginBottom: responsiveHeight(1),
   },
 
   shadow: {
@@ -150,28 +159,21 @@ const styles = StyleSheet.create({
 
   btnLogin: {
     // flex: 1,
-    position: 'absolute',
-    right: 15,
-    top: 475,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 50,
+    borderRadius: 30,
     backgroundColor: '#056EBA',
-    height: 95,
-    width: 95,
+    width: responsiveWidth(30),
+    height: responsiveHeight(5),
+    marginHorizontal: responsiveWidth(35),
+    marginTop: responsiveHeight(1),
     padding: 5
   },
 
   btnLogin1: {
     color: '#fff',
-    fontSize: 50
+    fontSize: 20
   },
 
-  forgot: {
-    marginTop: 10,
-    marginRight: 30,
-    fontSize: 20,
-    textAlign: 'right',
-    color: '#BFBFBF'
-  }
+  
 });

@@ -1,5 +1,10 @@
 import { StyleSheet, ImageBackground, View, TextInput, Pressable, Alert, Text, StatusBar } from 'react-native';
-import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from "react-native-responsive-dimensions";
 
 const showAlert = () =>
   Alert.alert(
@@ -22,7 +27,6 @@ export default function AdminPatientRec() {
 
         <View style={styles.total}>
           <Text style={styles.txtTotal}>1702 Patients</Text>
-
         </View>
 
         <View style={styles.patientlist}>
@@ -50,11 +54,11 @@ const styles = StyleSheet.create({
 
   searchBar: {
     backgroundColor: '#fff',
-    width: '80%',
-    height: 50,
-    marginVertical: 80,
-    marginHorizontal: 50,
-    paddingLeft: 20,
+    width: responsiveWidth(80),
+    height: responsiveHeight(5),
+    marginVertical: responsiveHeight(5),
+    marginHorizontal: responsiveWidth(10),
+    paddingLeft: responsiveWidth(5),
     borderRadius: 50,
     elevation: 5,
     flexDirection: 'row',
@@ -65,33 +69,30 @@ const styles = StyleSheet.create({
   },
 
   searchicon: {
-    paddingTop: 11,
-    paddingRight: 15,
-    fontSize: 30,
+    paddingTop: responsiveHeight(1),
+    paddingRight: responsiveWidth(2.8),
+    fontSize: responsiveFontSize(3),
   },
 
   total: {
-    marginTop: -60,
-    marginLeft: 50,
-    marginRight: 391,
-    borderBottomWidth: 3,
-    borderColor: '#32FFE6',
+    marginTop: responsiveHeight(-2),
+    marginHorizontal: responsiveWidth(10),
   },
 
   txtTotal: {
-    paddingBottom: 5,
     color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold'
+    fontSize: responsiveFontSize(1.7),
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+    textDecorationColor: '#32FFE6',
   },
 
   patientlist: {
-    // flex: 1,
     backgroundColor: '#fff',
-    marginVertical: 25,
-    marginHorizontal: 50,
-    width: '80%',
-    height: 650,
+    marginVertical: responsiveHeight(1.5),
+    marginHorizontal: responsiveWidth(10),
+    width: responsiveWidth(80),
+    height: responsiveHeight(70),
     borderRadius: 20,
   },
 });

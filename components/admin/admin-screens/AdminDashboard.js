@@ -3,6 +3,11 @@ import { StyleSheet, View, Text, FlatList, ScrollView, ImageBackground, StatusBa
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather'
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from "react-native-responsive-dimensions";
 
 const DATA = [
   { id: '1', title: 'Added a new patient record' },
@@ -33,26 +38,34 @@ export default function AdminDashboard() {
       <ImageBackground source={require('../../../assets/dashboardbg.png')} style={styles.bgimage}>
         <View style={[styles.box, styles.box1]}>
           <FontAwesome name="clipboard-list" style={[styles.icon, styles.iconMargin]} />
-          <Text style={[styles.txtTotal, styles.txtTotal1]}>Total No. of Patient Records</Text>
-          <Text style={[styles.txtNum, styles.txtNum1]}>100</Text>
+          <View>
+            <Text style={[styles.txtTotal, styles.txtTotal1]}>Total No. of Patient Records</Text>
+            <Text style={styles.txtNum}>100</Text>
+          </View>
         </View>
 
         <View style={[styles.box, styles.box2]}>
           <MaterialIcons name="inventory" style={styles.icon} />
-          <Text style={styles.txtTotal}>Total No. of Inventory Items</Text>
-          <Text style={styles.txtNum}>43</Text>
+          <View>
+            <Text style={styles.txtTotal}>Total No. of Inventory Items</Text>
+            <Text style={[styles.txtNum, styles.txtNum1]}>127</Text>
+          </View>
         </View>
 
         <View style={[styles.box, styles.box3]}>
           <Feather name="user" style={styles.icon} />
-          <Text style={styles.txtTotal}>Total No. of User Accounts</Text>
-          <Text style={styles.txtNum}>10</Text>
+          <View>
+            <Text style={styles.txtTotal}>Total No. of User Accounts</Text>
+            <Text style={[styles.txtNum, styles.txtNum1]}>10</Text>
+          </View>
         </View>
 
         <View style={[styles.box, styles.box4]}>
           <FontAwesome name="clipboard-list" style={[styles.icon, styles.iconMargin]} />
-          <Text style={[styles.txtTotal, styles.txtTotal1]}>Total No. of Patients Today</Text>
-          <Text style={styles.txtNum}>34</Text>
+          <View>
+            <Text style={[styles.txtTotal, styles.txtTotal1]}>Total No. of Patients Today</Text>
+            <Text style={styles.txtNum}>34</Text>
+          </View>
         </View>
       
         <Text style={styles.txtRecent}>Recent Activity</Text>
@@ -86,35 +99,36 @@ const styles = StyleSheet.create({
   },
   
   icon: {
-    marginTop: 16,
+    marginTop: responsiveHeight(1.9),
+    marginLeft: responsiveWidth(1),
     color: "black",
-    fontSize: 60,
+    fontSize: responsiveFontSize(5),
   },
 
   iconMargin: {
-    marginTop: 10,
-    marginLeft: 5,
+    marginTop: responsiveHeight(1.4),
+    marginLeft: responsiveWidth(1.5),
   },
 
   box: {
-    width: '35%',
-    height: 110,
+    width: responsiveWidth(35),
+    height: responsiveHeight(11),
     borderRadius: 20,
-    padding: 10,
-    paddingLeft: 10,
-    paddingRight: 70,
-    marginTop: 30,
+    padding: responsiveWidth(1.6),
+    paddingLeft: responsiveWidth(1),
+    paddingRight: responsiveWidth(10),
+    marginTop: responsiveHeight(3),
     flexDirection: 'row'
   },
 
   box1: {
     backgroundColor: '#92CEFA',
-    marginTop: 80,
+    marginTop: responsiveHeight(8),
   },
 
   box2: {
     backgroundColor: '#FAD692',
-    marginTop: 80
+    marginTop: responsiveHeight(8),
   },
 
   box3: {
@@ -126,59 +140,55 @@ const styles = StyleSheet.create({
   },
 
   txtTotal: {
-    fontSize: 12,
-    marginTop: 20,
-    marginLeft: 4,
+    fontSize: responsiveFontSize(1),
+    marginTop: responsiveHeight(2),
+    marginLeft: responsiveWidth(0.4),
   },
 
   txtTotal1: {
-    marginLeft: 11,
+    marginLeft: responsiveWidth(2),
   },
 
   txtNum: {
-    fontSize: 20,
+    fontSize: responsiveFontSize(2),
     fontWeight: 'bold',
-    marginTop: 50,
-    position: 'absolute',
-    left: 75,
-    top: 10,
+    marginLeft: responsiveWidth(2),
+    marginTop: responsiveHeight(-0.1),
   },
 
   txtNum1: {
-    position: 'absolute',
-    left: 70,
+    marginLeft: responsiveWidth(0),
   },
 
   txtRecent: {
-    position: 'absolute',
-    top: 365,
-    fontSize: 40,
+    marginTop: responsiveHeight(6),
+    fontSize: responsiveFontSize(4),
     color: "#000",
-    lineHeight: 84,
     fontWeight: "bold",
   },
 
   recentOuterBox: {
-    marginTop: 85,
-    marginBottom: 20,
-    paddingTop: 20,
-    paddingBottom: 20,
-    width: '85%',
-    height: 450,
+    marginTop: responsiveHeight(-2),
+    marginBottom: responsiveHeight(2),
+    paddingTop: responsiveHeight(2),
+    paddingBottom: responsiveHeight(2),
+    width: responsiveWidth(85),
+    height: responsiveHeight(47),
   },
 
   recentInnerBox: {
     backgroundColor: '#fff',
-    height: 60,
-    padding: 20,
-    paddingLeft: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    width: responsiveWidth(80),
+    height: responsiveHeight(6),
+    padding: responsiveWidth(3.3),
+    paddingLeft: responsiveWidth(3.3),
+    marginVertical: responsiveHeight(0.3),
+    marginHorizontal: responsiveWidth(2.5),
     borderRadius: 10,
     elevation: 1
   },
 
   recentData: {
-    fontSize: 15,
+    fontSize: responsiveFontSize(1.4),
   }
 })

@@ -8,6 +8,7 @@ import LoginStaff from './components/LoginStaff';
 import LoginPatient from './components/LoginPatient';
 import AdminNavbar from "./components/admin/AdminNavbar";
 import DoctorNavbar from "./components/doctor/DoctorNavbar";
+import PatientNavbar from "./components/patient/PatientNavbar";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Screen name="LoginPatient" component={LoginPatient} options={{headerShown: false}} />
         <Stack.Screen name="AdminNavbar" component={AdminNavbar} options={{headerShown: false}} />
         <Stack.Screen name="DoctorNavbar" component={DoctorNavbar} options={{headerShown: false}} />
+        <Stack.Screen name="PatientNavbar" component={PatientNavbar} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

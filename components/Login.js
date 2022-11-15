@@ -50,13 +50,19 @@ export default function Login( {navigation} ) {
       })  
       .then((response)=>response.json())
       .then((response)=>{
-        alert(response[0].Message)
-        if (response[0].Message == "Welcome to ePMC, admin!") {
+        // alert(response[0].Message)
+        if (response[0].Message == "Admin") {
           console.log("true")
           navigation.navigate("AdminNavbar");
-        } if (response[0].Message == "Welcome to ePMC, doc!") {
+        } else if (response[0].Message == "Doctor") {
           console.log("true")
           navigation.navigate("DoctorNavbar");
+        } else if (response[0].Message == "patient") {
+          console.log("true")
+          navigation.navigate("PatientNavbar");
+        }
+        else if (response[0].Message == "Invalid") {
+          alert("Invalid Email or Password");
         }
       })
       .catch((error)=>{

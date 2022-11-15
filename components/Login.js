@@ -7,9 +7,7 @@ import {
 } from "react-native-responsive-dimensions";
 
 
-
-
-export default function Login( { navigation} ) {
+export default function Login( {navigation} ) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
@@ -32,7 +30,7 @@ export default function Login( { navigation} ) {
 
       setIsLogin(true);
 
-      var loginpath = "http://192.168.1.13:80/epmc-4/api/Login_mobile/validation";
+      var loginpath = "http://192.168.1.5:80/epmc-4/api/Login_mobile/validation";
       var loginpath2 = "http://192.168.2.115:80/epmc-4/api/Login_mobile/validation";
 
       var data ={
@@ -53,9 +51,12 @@ export default function Login( { navigation} ) {
       .then((response)=>response.json())
       .then((response)=>{
         alert(response[0].Message)
-        if (response[0].Message == "Login successful") {
+        if (response[0].Message == "Welcome to ePMC, admin!") {
           console.log("true")
           navigation.navigate("AdminNavbar");
+        } if (response[0].Message == "Welcome to ePMC, doc!") {
+          console.log("true")
+          navigation.navigate("DoctorNavbar");
         }
       })
       .catch((error)=>{

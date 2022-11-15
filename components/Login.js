@@ -51,17 +51,17 @@ export default function Login( {navigation} ) {
       .then((response)=>response.json())
       .then((response)=>{
         // alert(response[0].Message)
-        if (response[0].Message == "Admin") {
+        if (response[0].role == "Admin") {
           console.log("true")
           navigation.navigate("AdminNavbar");
-        } else if (response[0].Message == "Doctor") {
+        } else if (response[0].role == "Doctor") {
           console.log("true")
           navigation.navigate("DoctorNavbar");
-        } else if (response[0].Message == "patient") {
+        } else if (response[0].role == "patient") {
           console.log("true")
           navigation.navigate("PatientNavbar");
         }
-        else if (response[0].Message == "Invalid") {
+        else if (response[0].role == "Invalid") {
           alert("Invalid Email or Password");
         }
       })

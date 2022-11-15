@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, ImageBackground, View, Pressable, Text, Alert, Modal, TouchableOpacity, StatusBar} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
-  responsiveHeight,
+  responsiveHeight, 
   responsiveWidth,
   responsiveFontSize
 } from "react-native-responsive-dimensions";
@@ -125,6 +125,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 20,
     padding: 30,
+    paddingLeft: 10,
+    paddingRight: 10,
     alignItems: "center",
     shadowColor: "#000",
 
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
   },
 
   buttonClose: {
-    marginLeft: responsiveWidth(75),
+    marginLeft: responsiveWidth(78),
     marginTop: responsiveHeight(-1.5),
   },
 

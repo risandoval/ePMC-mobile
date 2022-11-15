@@ -84,7 +84,7 @@ export default function Login( { navigation} ) {
           <TextInput
             style={styles.input}
             placeholder="Password"
-            // secureTextEntry={true}
+            secureTextEntry={true}
             onChangeText={passHandler}
             value={pass}
           />

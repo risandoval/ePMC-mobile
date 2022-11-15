@@ -5,18 +5,16 @@ import {
     responsiveWidth,
     responsiveFontSize
   } from "react-native-responsive-dimensions";
-import Login from './Login'
 
-//   const navigation = useNavigation();
-
-const showAlert = ({navigation}) =>
-Alert.alert(
-"Are you sure you want to logout?",
-"You can come back anytime!", [
-    {text: "Logout", onPress: () => navigation.navigate(Login)}, //not working
-    {text: "Cancel"},    
-],
-);
+function showAlert(navigation) {
+    Alert.alert(
+        "Are you sure you want to logout?",
+        "You can come back anytime!", [
+            {text: "Logout", onPress: () => navigation.navigate('Login')}, //not working
+            {text: "Cancel"},    
+        ],
+    );
+}
 
 export default function Profile({navigation}) {
   return (
@@ -35,7 +33,7 @@ export default function Profile({navigation}) {
                             <Text style={styles.profilename}>David Sandoval</Text>
                         </View>
                     </View>
-                    <Pressable onPress={showAlert} style={styles.logoutbox}>
+                    <Pressable onPress={() => showAlert(navigation)} style={styles.logoutbox}>
                         <Text style={styles.logouttxt}>Logout</Text>
                     </Pressable>
                 </View>

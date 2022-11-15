@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, ImageBackground, View, Text, TouchableOpacity, StatusBar} from 'react-native';
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from "react-native-responsive-dimensions";
 
 function viewsched () {
   return (
@@ -112,26 +117,25 @@ const styles = StyleSheet.create({
   },
 
   date: {
-    marginTop: 50,
-    fontSize: 35,
+    marginTop: responsiveHeight(3),
+    fontSize: responsiveFontSize(3.5),
     fontWeight: '900',
   },
 
   availdoc: {
-    marginTop: 25,
-    fontSize: 25,
+    marginTop: responsiveHeight(2.5),
+    fontSize: responsiveFontSize(2.3),
     fontWeight: '500',
   },
 
   btngrp: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: responsiveHeight(0.5),
   },
 
   btndays:{
     backgroundColor: '#B6D9F3',
     padding: 20,
-    // borderRadius: 10,
   },
 
   radiusLft: {

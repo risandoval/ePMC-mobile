@@ -32,7 +32,7 @@ export default function Login( { navigation} ) {
 
       setIsLogin(true);
 
-      var loginpath = "http://192.168.1.13:80/epmc-4/api/Login_mobile/validation";
+      var loginpath = "http://192.168.2.115:80/epmc-4/api/Login_mobile/validation";
 
       var data ={
         email: email,

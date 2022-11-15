@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { StyleSheet, ImageBackground, View, Pressable, Text, Alert, Modal, TouchableOpacity, StatusBar} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign'
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize
+} from "react-native-responsive-dimensions";
 
 export default function AdminReports() {
   const [modal1Visible, setmodal1Visible] = useState(true);
@@ -27,6 +32,8 @@ export default function AdminReports() {
                   <AntDesign name='closecircle' size={20} style={styles.closeBtn} />
               </Pressable>
               <Text style={styles.modalText}>Patient Record</Text>
+              <Text style={styles.modalText}>Patient Record</Text>
+              <Text style={styles.modalText}>Patient Record</Text>
             </TouchableOpacity>
           </TouchableOpacity>
         </Modal>
@@ -42,11 +49,15 @@ export default function AdminReports() {
         >
           <TouchableOpacity onPress={() => setmodal2Visible(false)} style={styles.centeredView}>
             <TouchableOpacity style={styles.modalView} onPress={() => console.log('do nothing')} activeOpacity={1} >
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setmodal2Visible(!modal2Visible)} >
-                  <AntDesign name='closecircle' size={20} style={styles.closeBtn} />
-              </Pressable>
+              {/* <View style={[styles.buttonClose]}> */}
+                <Pressable
+                  style={[styles.buttonClose]}
+                  onPress={() => setmodal2Visible(!modal2Visible)} >
+                    <AntDesign name='closecircle' size={20} />
+                </Pressable>
+              {/* </View> */}
+              <Text style={styles.modalText}>Inventory</Text>
+              <Text style={styles.modalText}>Inventory</Text>
               <Text style={styles.modalText}>Inventory</Text>
             </TouchableOpacity>
           </TouchableOpacity>
@@ -76,47 +87,47 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     paddingTop: StatusBar.currentHeight,
   },
 
   btnOuter: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginTop: 60,
+    marginTop: responsiveHeight(5),
   },
 
   btnInner: {
     backgroundColor: '#D4EDFF',
-    width: 200,
-    height: 70,
-    padding: 20,
+    width: responsiveWidth(40),
+    padding: 15,
     borderRadius: 30
   },
 
   btnText: {
     color: '#000',
-    fontSize: 20,
+    // fontSize: 20,
+    fontSize: responsiveFontSize(1.8),
     textAlign: 'center'
   },
 
   centeredView: {
     flex: 1,
     justifyContent: "flex-end",
-    marginBottom: 70,
+    marginBottom: responsiveHeight(10),
   },
 
   modalView: {
-    height: 700,
-    // margin: 50,
-    marginHorizontal: 40,
-    marginBottom: 20,
-    backgroundColor: "white",
+    width: responsiveWidth(90),
+    height: responsiveHeight(73),
+    marginHorizontal: responsiveWidth(5),
+    backgroundColor: "#fff",
     borderRadius: 20,
-    padding: 35,
+    padding: 30,
     alignItems: "center",
     shadowColor: "#000",
+
     shadowOffset: {
       width: 0,
       height: 2
@@ -126,9 +137,12 @@ const styles = StyleSheet.create({
     elevation: 5
   },
 
-  closeBtn: {
-    position: 'absolute',
-    top: -15,
-    left: 190,
+  buttonClose: {
+    marginLeft: responsiveWidth(75),
+    marginTop: responsiveHeight(-1.5),
+  },
+
+  modalText: {
+    fontSize: responsiveFontSize(1.5),
   },
 });

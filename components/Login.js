@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, ImageBackground, Button, Pressable, View, Text, TextInput, StatusBar } from 'react-native';
+import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput, StatusBar } from 'react-native';
 import {
   responsiveHeight,
   responsiveWidth,
@@ -10,8 +10,8 @@ import {
 
 
 export default function Login( { navigation} ) {
-  const [email, setEmail] = useState();
-  const [pass, setPass] = useState();
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
 
   const [isLogin, setIsLogin] = useState(false)
 

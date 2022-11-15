@@ -1,29 +1,52 @@
 import React from 'react';
-import { StyleSheet, ImageBackground, View, Text, Image, StatusBar } from 'react-native';
+import { StyleSheet, ImageBackground, View, Text, Image, StatusBar, Pressable, Alert } from 'react-native';
+import {
+    responsiveHeight,
+    responsiveWidth,
+    responsiveFontSize
+  } from "react-native-responsive-dimensions";
+import Login from './Login'
 
-export default function Profile() {
+//   const navigation = useNavigation();
+
+const showAlert = ({navigation}) =>
+Alert.alert(
+"Are you sure you want to logout?",
+"You can come back anytime!", [
+    {text: "Logout", onPress: () => navigation.navigate(Login)}, //not working
+    {text: "Cancel"},    
+],
+);
+
+export default function Profile({navigation}) {
   return (
     <View style={[styles.container, styles.responsiveBox]}>
-        {/* <View style={styles.responsiveBox}> */}
             <ImageBackground source={require('../assets/profilebg.png')} style={styles.bgimage}>
                 <View>
-                    <Image
-                    style={styles.profileimg}
-                    source={require('../assets/david.jpg')}
-                    />
-                </View>
+                    <View style={styles.row}>
+                        <View style={styles.profilecont}>
+                            <Image
+                            style={styles.profileimg}
+                            source={require('../assets/david.jpg')}
+                            />
+                        </View>
 
-                <View style={styles.namebox}>
-                    <Text style={styles.profilename}>David Sandoval</Text>
+                        <View style={styles.namebox}>
+                            <Text style={styles.profilename}>David Sandoval</Text>
+                        </View>
+                    </View>
+                    <Pressable onPress={showAlert} style={styles.logoutbox}>
+                        <Text style={styles.logouttxt}>Logout</Text>
+                    </Pressable>
                 </View>
+                
+                
 
                 <View style={styles.profileinfo}>
-                    {/* <Text style={[styles.profiletext, styles.profilelabel]}>{'Age: '}{'21'} </Text>
-                    <Text style={[styles.profiletext, styles.profilelabel]}>{'Birthday: '}{'July 25, 2000'} </Text> */}
+                    <Text style={[styles.profiletext, styles.profilelabel]}>{'Age: '}{'21'} </Text>
+                    <Text style={[styles.profiletext, styles.profilelabel]}>{'Birthday: '}{'July 25, 2000'} </Text>
                 </View>
             </ImageBackground>
-        {/* </View> */}
-        
     </View>
     
   );
@@ -44,27 +67,32 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
     },
 
+    row: {
+        flexDirection: 'row',
+    },
+
+    profilecont: {
+        width: responsiveWidth(45),
+        height: responsiveHeight(25),
+        marginTop: responsiveHeight(3),
+        marginLeft: responsiveWidth(6),
+        borderRadius: 500,
+        elevation: 30,
+    },
+
     profileimg: {
-        width: 200,
-        height: 200,
-        position: 'absolute',
-        top: 30,
-        left: 40,
-        borderRadius: 100,
+        width: responsiveWidth(45),
+        height: responsiveHeight(25),
+        resizeMode: 'contain',
+        borderRadius: 500,
     },
     
     namebox: {
-        position: 'absolute',
-        top: 30,
-        right: 25,
-        // backgroundColor: '#fff',
-        width: 250,
-        height: 130,
-        padding: 10,
+        width: responsiveWidth(45),
+        height: responsiveHeight(16),
+        padding: responsiveWidth(1),
         alignItems: 'center',
         justifyContent: 'center',
-        // textAlign: 'center',
-        // marginLeft: 200,
         // borderWidth: 1,
         
     },
@@ -74,29 +102,46 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 
+    logoutbox: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#49bccf',
+        width: responsiveWidth(21),
+        padding: responsiveWidth(1.5),
+        marginTop: responsiveWidth(-18),
+        marginLeft: responsiveWidth(61),
+        borderRadius: 15,
+        // elevation: 15,
+        // borderWidth: 1,
+    },
+
+    logouttxt: {
+        fontSize: 16,
+        color: '#fff',
+    },
+
     profileinfo: {
         backgroundColor: '#fff',
         // alignItems: 'center',
-        // alignItems: 'flex-start',
-        marginTop: 250,
-        marginHorizontal: 50,
-        padding: 25,
-        paddingTop: 30,
-        width: '80%',
-        height: 590,
+        marginTop: responsiveHeight(8),
+        marginHorizontal: responsiveWidth(10),
+        padding: responsiveWidth(5),
+        paddingTop: responsiveHeight(2),
+        width: responsiveWidth(80),
+        height: responsiveHeight(57),
         borderRadius: 15,
         elevation: 5,
     },
 
     profiletext: {
-        fontSize: 20,
+        fontSize: responsiveFontSize(1.8),
     },
 
     profilelabel: {
         // alignItems: 'flex-start',
         // borderWidth: 1,
         textAlign: 'left',
-        paddingBottom: 20
+        paddingBottom: responsiveHeight(1),
     },
 
     

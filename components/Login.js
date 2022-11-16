@@ -7,11 +7,9 @@ import {
   responsiveFontSize
 } from "react-native-responsive-dimensions";
 
-
 export default function Login( {navigation} ) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [token, setToken] = useState(null);
 
   const [isLogin, setIsLogin] = useState(false);
 
@@ -40,7 +38,7 @@ export default function Login( {navigation} ) {
         pass: pass
       };
 
-      await fetch(loginpath,{
+      await fetch(loginpath2,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -52,34 +50,23 @@ export default function Login( {navigation} ) {
       })  
       .then((response)=>response.json())
       .then((response)=>{
-        // alert(response[0].Message)
-        if (response[0].role == "Admin") {
-          console.log("true")
-          navigation.navigate("AdminNavbar");
-        } else if (response[0].role == "Doctor") {
-          console.log("true")
-          navigation.navigate("DoctorNavbar");
-        } else if (response[0].role == "patient") {
-          console.log("true")
-          navigation.navigate("PatientNavbar");
+        if (response.role == "Admin") {
+            console.log("truee");
+            AsyncStorage.setItem('loggedin', JSON.stringify(true));
+            navigation.navigate("AdminNavbar");
         }
-        else if (response[0].role == "Invalid") {
-          alert("Invalid Email or Password");
-        }
-
-        tokenlogin();
-        // alert(response[0].Message)
-        // if (response[0].role == "Admin") {
+        // alert(response.Message)
+        // if (response.role == "Admin") {
         //   console.log("true");
         //   navigation.navigate("AdminNavbar");
-        // } else if (response[0].role == "Doctor") {
+        // } else if (response.role == "Doctor") {
         //   console.log("true")
         //   navigation.navigate("DoctorNavbar");
-        // } else if (response[0].role == "patient") {
+        // } else if (response.role == "patient") {
         //   console.log("true")
         //   navigation.navigate("PatientNavbar");
         // }
-        // else if (response[0].role == "Invalid") {
+        // else if (response.role == "Invalid") {
         //   alert("Invalid Email or Password");
         // }
       })

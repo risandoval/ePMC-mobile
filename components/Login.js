@@ -1,5 +1,6 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
-import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput, StatusBar } from 'react-native';
+import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput, StatusBar, TouchableNativeFeedbackComponent } from 'react-native';
 import {
   responsiveHeight,
   responsiveWidth,
@@ -10,8 +11,9 @@ import {
 export default function Login( {navigation} ) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [token, setToken] = useState(null);
 
-  const [isLogin, setIsLogin] = useState(false)
+  const [isLogin, setIsLogin] = useState(false);
 
   const emailHandler = (text) => {
     setEmail(text);
@@ -22,7 +24,7 @@ export default function Login( {navigation} ) {
   }
 
   const checkLogin = async () => {
-
+    await AsyncStorage.setItem('token', email)
     if (email == "" || pass == "") {
       setIsLogin(false);
       alert("Required Field Is Missing");
@@ -51,25 +53,44 @@ export default function Login( {navigation} ) {
       .then((response)=>response.json())
       .then((response)=>{
         // alert(response[0].Message)
-        if (response.role == "Admin") {
+        if (response[0].role == "Admin") {
           console.log("true")
           navigation.navigate("AdminNavbar");
-        } else if (response.role == "Doctor") {
+        } else if (response[0].role == "Doctor") {
           console.log("true")
           navigation.navigate("DoctorNavbar");
-        } else if (response.role == "patient") {
+        } else if (response[0].role == "patient") {
           console.log("true")
           navigation.navigate("PatientNavbar");
         }
-        else if (response.role == "Invalid") {
+        else if (response[0].role == "Invalid") {
           alert("Invalid Email or Password");
         }
+
+        tokenlogin();
+        // alert(response[0].Message)
+        // if (response[0].role == "Admin") {
+        //   console.log("true");
+        //   navigation.navigate("AdminNavbar");
+        // } else if (response[0].role == "Doctor") {
+        //   console.log("true")
+        //   navigation.navigate("DoctorNavbar");
+        // } else if (response[0].role == "patient") {
+        //   console.log("true")
+        //   navigation.navigate("PatientNavbar");
+        // }
+        // else if (response[0].role == "Invalid") {
+        //   alert("Invalid Email or Password");
+        // }
       })
       .catch((error)=>{
         console.error("ERROR FOUND " + error);
       })
+      
     }
   }
+
+  
 
   return (
     <View style={styles.container}>

@@ -32,7 +32,7 @@ export default function AdminPatientRec({navigation}) {
     var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_dashboard/total";
     var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
   
-    await fetch(patientrec,{
+    await fetch(patientrec2,{
       headers: headers
     })  
     .then((response)=>response.json())
@@ -52,7 +52,7 @@ export default function AdminPatientRec({navigation}) {
     var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
     var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
   
-    await fetch(patientrec,{
+    await fetch(patientrec2,{
       headers: headers
     })  
     .then((response)=>response.json())
@@ -95,29 +95,25 @@ export default function AdminPatientRec({navigation}) {
     },
   ];
 
-  // function ListItem({
-  //   navigation,
-  //   section,
-  //   item,
-  //   index,
-  // })
-
-
-
-  // const Item = ({ title }) => (
-  //   <View style={styles.recordContainer}>
-  //     <View style={styles.recordDataContainer}>
-  //       {/* <Text>hello</Text> */}
-  //       <Text style={styles.recordData}>hello {title}</Text>
-  //     </View>
-  //   </View>
-    
-  // );
-  //End Section List - Patient Record View
+  function ListItem({
+    section,
+    item,
+    index,
+  }) {
+    const amountOfItemsInSection = section.data.length - 1
+    return (
+    <View style={{
+          ...styles.recordContainer,...{
+          borderBottomLeftRadius: index === amountOfItemsInSection ? 15 : 0,
+          borderBottomRightRadius: index === amountOfItemsInSection ? 15 : 0}}}>
+      <View style={styles.recordDataContainer}>
+        <Text style={styles.recordData}>{item.id}: {item.value} </Text>
+      </View>
+    </View>
+  )}
 
   // Modal for Patient Record
   const [modal1Visible, setmodal1Visible] = useState(false);
-
   return (
     <View style={styles.container}>
       <Modal
@@ -138,13 +134,12 @@ export default function AdminPatientRec({navigation}) {
               <SectionList
                 sections={DATA}
                 // keyExtractor={(item, index) => item + index}
-                renderItem={({ item, index }) => 
-                  <View style={styles.recordContainer}>
-                      <View style={styles.recordDataContainer}>
-                        <Text style={styles.recordData}>{item.id}: {item.value} </Text>
-                      </View>
-                  </View>
-                  
+                renderItem={({ item, section, index }) =>
+                  <ListItem
+                    section={section}
+                    item={item}
+                    index={index}
+                  />
                 }
                 renderSectionHeader={({ section: { title } }) => (
                   <Text style={styles.recordheader}>{title}</Text>
@@ -381,7 +376,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingLeft: 0,
     fontSize: responsiveFontSize(2),
-    borderWidth: 1,
+    borderBottomWidth: 1,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
@@ -391,8 +386,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#49bccf',
     // paddingTop: responsiveHeight(1),
     // elevation: 5,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
+    // borderBottomLeftRadius: 15,
+    // borderBottomRightRadius: 15,
   },
 
   recordDataContainer: {

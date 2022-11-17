@@ -15,6 +15,14 @@ export default function AdminDashboard() {
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
   
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type' : 'application/json;charset=UTF-8',
+    'X-API-KEY':'myapi',
+    'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
+  }
+
+  
   // fetching for Total
   const fetchTotal = async () => {
 
@@ -22,12 +30,7 @@ export default function AdminDashboard() {
     var dashboardpath2 = "http://192.168.2.115:80/epmc-4/api/Admin_dashboard/total";
   
     await fetch(dashboardpath2,{
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type' : 'application/json;charset=UTF-8',
-        'X-API-KEY':'myapi',
-        'Authorization':'Basic YWRtaW46YWRtaW4xMjM='
-      },
+      headers: headers
     })  
     .then((response)=>response.json())
     .then((json)=>setData(json))
@@ -38,7 +41,6 @@ export default function AdminDashboard() {
   useEffect(()=>{
     fetchTotal();
     const dataInterval = setInterval(() => fetchTotal(), 5 * 1000);
-
     return () => clearInterval(dataInterval);
   },[]);
 
@@ -49,12 +51,7 @@ export default function AdminDashboard() {
     var dashboardpath2 = "http://192.168.2.115:80/epmc-4/api/Admin_dashboard/recent";
   
     await fetch(dashboardpath2,{
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type' : 'application/json;charset=UTF-8',
-        'X-API-KEY':'myapi',
-        'Authorization':'Basic YWRtaW46YWRtaW4xMjM='
-      },
+      headers: headers
     })  
     .then((response)=>response.json())
     .then((json)=>setData2(json))
@@ -65,7 +62,6 @@ export default function AdminDashboard() {
   useEffect(()=>{
     fetchRecent();
     const dataInterval = setInterval(() => fetchRecent(), 5 * 1000);
-
     return () => clearInterval(dataInterval);
   },[]);
 

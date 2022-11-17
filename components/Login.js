@@ -11,7 +11,6 @@ import {
 export default function Login( {navigation} ) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [token, setToken] = useState(null);
 
   const [isLogin, setIsLogin] = useState(false);
 
@@ -23,13 +22,12 @@ export default function Login( {navigation} ) {
     setPass(text);
   }
 
-  const checkLogin = async () => {
-    await AsyncStorage.setItem('token', email)
+  const checkLogin = async() => {
     if (email == "" || pass == "") {
       setIsLogin(false);
       alert("Required Field Is Missing");
     } else {
-
+      
       setIsLogin(true);
 
       var loginpath = "http://192.168.1.5:80/epmc-4/api/Login_mobile/validation";
@@ -52,40 +50,46 @@ export default function Login( {navigation} ) {
       })  
       .then((response)=>response.json())
       .then((response)=>{
-        const tokenlogin = async() => {
-          const value = await AsyncStorage.getItem('token')
-          if (value !== null) {
-            if (response[0].role == "Admin") {
-                console.log("true");
-                navigation.navigate("AdminNavbar");
-              }
+        (async function() {
+          if (response.role == "Admin") {
+            await AsyncStorage.setItem('role', "Admin");
+            await AsyncStorage.setItem('email', email);
+            navigation.navigate("AdminNavbar");
+          } 
+          else if (response.role == "Doctor") {
+            await AsyncStorage.setItem('role', "Doctor");
+            await AsyncStorage.setItem('email', email);
+            navigation.navigate("DoctorNavbar");
           }
-        }
-
-        tokenlogin();
-        // alert(response[0].Message)
-        // if (response[0].role == "Admin") {
-        //   console.log("true");
-        //   navigation.navigate("AdminNavbar");
-        // } else if (response[0].role == "Doctor") {
-        //   console.log("true")
-        //   navigation.navigate("DoctorNavbar");
-        // } else if (response[0].role == "patient") {
-        //   console.log("true")
-        //   navigation.navigate("PatientNavbar");
-        // }
-        // else if (response[0].role == "Invalid") {
-        //   alert("Invalid Email or Password");
-        // }
+          else if (response.role == "patient") {
+            await AsyncStorage.setItem('role', "patient");
+            await AsyncStorage.setItem('email', email);
+            navigation.navigate("PatientNavbar");
+          }
+        })();
       })
       .catch((error)=>{
         console.error("ERROR FOUND " + error);
       })
-      
     }
   }
-
-  
+  const keeploggedin = async() => {
+    const role = await AsyncStorage.getItem('role');
+    const email = await AsyncStorage.getItem('email');
+    // console.log(email);
+    if (email !== null && role !== null) {
+      if (role == "Admin") {
+        navigation.navigate("AdminNavbar");
+      }
+      else if (role == "Doctor") {
+        navigation.navigate("DoctorNavbar");
+      }
+      else if (role == "patient") {
+        navigation.navigate("PatientNavbar");
+      }
+    } else {}
+  }
+  keeploggedin();
 
   return (
     <View style={styles.container}>
@@ -93,7 +97,7 @@ export default function Login( {navigation} ) {
         <Text style={styles.txtLogin}> Login </Text>
 
         {/* <Pressable > */}
-        <Text onPress={() => navigation.navigate("LoginStaff")} style={styles.forgot}> Forgot Password? </Text>
+        {/* <Text onPress={() => navigation.navigate("LoginStaff")} style={styles.forgot}> Forgot Password? </Text> */}
         {/* </Pressable> */}
 
         <View style={[styles.inputCard, styles.shadow]} >
@@ -201,6 +205,4 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20
   },
-
-  
 });

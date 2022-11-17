@@ -374,14 +374,17 @@ const styles = StyleSheet.create({
   //SECTION LIST STYLE
   recordheader: {
     backgroundColor: '#49bccf',
+    color: '#000',
     flex: 1,
     textAlign: 'left',
     width: responsiveWidth(80),
     marginTop: responsiveHeight(1),
     padding: 10,
-    paddingLeft: 0,
+    paddingLeft: 10,
     fontSize: responsiveFontSize(2),
-    borderWidth: 1,
+    // borderWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#ABABAB',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
@@ -393,6 +396,9 @@ const styles = StyleSheet.create({
     // elevation: 5,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
+    padding: 12,
+    paddingLeft: 0,
+    
   },
 
   recordDataContainer: {
@@ -403,5 +409,6 @@ const styles = StyleSheet.create({
   recordData: {
     // backgroundColor: 'blue'
     fontSize: responsiveFontSize(1.5),
+    color: '#fff',
   },
 });

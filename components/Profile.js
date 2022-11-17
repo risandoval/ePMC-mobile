@@ -1,4 +1,5 @@
 import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, ImageBackground, View, Text, Image, StatusBar, Pressable, Alert } from 'react-native';
 import {
     responsiveHeight,
@@ -6,14 +7,18 @@ import {
     responsiveFontSize
   } from "react-native-responsive-dimensions";
 
-function showAlert(navigation) {
+  
+const logout = async(navigation) =>  {
+    AsyncStorage.setItem('role', "");
+    AsyncStorage.setItem('email', "");
     Alert.alert(
         "Are you sure you want to logout?",
         "You can come back anytime!", [
-            {text: "Logout", onPress: () => navigation.navigate('Login')}, //not working
+            {text: "Logout", onPress: () => navigation.navigate('Login')}, 
             {text: "Cancel"},    
         ],
     );
+    console.log("logout")
 }
 
 export default function Profile({navigation}) {
@@ -33,7 +38,7 @@ export default function Profile({navigation}) {
                             <Text style={styles.profilename}>David Sandoval</Text>
                         </View>
                     </View>
-                    <Pressable onPress={() => showAlert(navigation)} style={styles.logoutbox}>
+                    <Pressable onPress={() => logout(navigation)} style={styles.logoutbox}>
                         <Text style={styles.logouttxt}>Logout</Text>
                     </Pressable>
                 </View>

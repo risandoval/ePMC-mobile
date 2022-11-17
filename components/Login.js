@@ -7,7 +7,6 @@ import {
   responsiveFontSize
 } from "react-native-responsive-dimensions";
 
-
 export default function Login( {navigation} ) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -30,15 +29,15 @@ export default function Login( {navigation} ) {
       
       setIsLogin(true);
 
-      var loginpath = "http://192.168.1.5:80/epmc-4/api/Login_mobile/validation";
-      var loginpath2 = "http://192.168.2.115:80/epmc-4/api/Login_mobile/validation";
+      var loginpath = "http://192.168.1.5:80/epmc-4/login_mobile";
+      var loginpath2 = "http://192.168.2.115:80/epmc-4/login_mobile";
 
       var data ={
         email: email,
         pass: pass
       };
 
-      await fetch(loginpath,{
+      await fetch(loginpath2,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',

@@ -48,7 +48,7 @@ export default function AdminPatientRec() {
 
   const fetchPatient = async () => {
 
-    var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_patientrec_mobile/patients";
+    var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
     var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
   
     await fetch(patientrec2,{

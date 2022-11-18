@@ -23,6 +23,18 @@ const logout = async(navigation) =>  {
 }
 
 export default function Profile({navigation}) {
+    const [shouldShow, setShouldShow] = useState(true);
+    var showPass = "PMCDS0001";
+    let passGetLength = showPass.length;
+    let passLength = passGetLength;
+    let hidePass = "";
+    
+    if (passLength == passGetLength) {
+        let passBullet = "*".repeat(passLength);
+        hidePass = passBullet;
+    }
+
+
     return (
         <View style={[styles.container, styles.responsiveBox]}>
                 <ImageBackground source={require('../assets/profilebg.png')} style={styles.bgimage}>
@@ -53,7 +65,10 @@ export default function Profile({navigation}) {
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Password: '} </Text>
-                            <Text style={[styles.profiletext]}>{'PMCDS0001'} 
+                            <Text style={[styles.profiletext, styles.row]}> 
+                                {shouldShow ? (showPass) : (hidePass)}
+                                <Pressable onPress={() => setShouldShow(!shouldShow)}><Text style={styles.passBtn}>  Show/Hide</Text></Pressable>
+                                {' '}
                             </Text>
                         </View>
                         <View style={styles.rowProfile}>
@@ -85,8 +100,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         paddingTop: StatusBar.currentHeight,
-        // alignItems: 'center',
-        // justifyContent: 'center',
     },
 
     row: {
@@ -133,8 +146,6 @@ const styles = StyleSheet.create({
         marginTop: responsiveWidth(-18),
         marginLeft: responsiveWidth(61),
         borderRadius: 15,
-        // elevation: 15,
-        // borderWidth: 1,
     },
 
     logouttxt: {
@@ -144,7 +155,6 @@ const styles = StyleSheet.create({
 
     profileinfo: {
         backgroundColor: '#fff',
-        // alignItems: 'center',
         marginTop: responsiveHeight(8),
         marginHorizontal: responsiveWidth(10),
         padding: responsiveWidth(5),
@@ -163,11 +173,9 @@ const styles = StyleSheet.create({
     },
 
     profilelabel: {
-        // borderWidth: 1,
         color: '#656565',
         fontSize: responsiveFontSize(2),
         textAlign: 'left',
-        // paddingBottom: responsiveHeight(1),
         padding: responsiveWidth(5),
         paddingLeft: responsiveWidth(0),
         paddingRight: responsiveWidth(0),
@@ -186,9 +194,8 @@ const styles = StyleSheet.create({
     },
 
     passBtn: {
-        // width: responsiveWidth(10),
-        // fontSize: responsiveFontSize(2.5),
-        marginBottom: responsiveHeight(-0.9),
+        marginBottom: responsiveHeight(-0.3),
+        borderLeftWidth: 1,
     },
 
     

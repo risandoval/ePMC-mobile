@@ -79,19 +79,19 @@ export default function AdminPatientRec({navigation}) {
   const DATA = [
     {
       title: "Personal Information",
-      data: [{id: "avatar", value : "image"}, {id: "id", value : "PMC"}, {id: "3", value : "Risotto"}]
+      data: [{id: "1", value : "image"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
     },
     {
       title: "Contact Information",
-      data: [{id: "avatar", value : "image"}, {id: "id", value : "PMC"}, {id: "3", value : "Risotto"}]
+      data: [{id: "1", value : "image"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
     },
     {
       title: "Emergency Information",
-      data: [{id: "avatar", value : "image"}, {id: "id", value : "PMC"}, {id: "3", value : "Risotto"}]
+      data: [{id: "1", value : "image"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
     },
     {
       title: "Vital Signs",
-      data: [{id: "avatar", value : "image"}, {id: "id", value : "PMC"}, {id: "3", value : "Risotto"}]
+      data: [{id: "1", value : "image"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
     },
   ];
 
@@ -114,6 +114,7 @@ export default function AdminPatientRec({navigation}) {
 
   // Modal for Patient Record
   const [modal1Visible, setmodal1Visible] = useState(false);
+  const [modalEntry, setModalEntry] = useState();
   return (
     <View style={styles.container}>
       <Modal
@@ -177,7 +178,7 @@ export default function AdminPatientRec({navigation}) {
                 <Text style={styles.nametxt}>{item.pt_fullname}</Text>
 
                 <View style={styles.viewContainer}>
-                  <Pressable onPress={() => setmodal1Visible(true)} style={styles.viewbox}>
+                  <Pressable onPress={() => {setmodal1Visible(true);setModalEntry(item)}} style={styles.viewbox}>
                     <Text style={styles.viewtxt}>View</Text>
                   </Pressable>
                 </View>
@@ -369,7 +370,7 @@ const styles = StyleSheet.create({
   //SECTION LIST STYLE
   recordheader: {
     backgroundColor: '#49bccf',
-    color: '#000',
+    color: '#fff',
     flex: 1,
     textAlign: 'left',
     width: responsiveWidth(80),
@@ -385,7 +386,7 @@ const styles = StyleSheet.create({
   recordContainer: {
     flex: 1,
     backgroundColor: '#49bccf',
-    // paddingTop: responsiveHeight(1),
+    padding: 10,
     // elevation: 5,
     // borderBottomLeftRadius: 15,
     // borderBottomRightRadius: 15,
@@ -402,3 +403,5 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
+
+  

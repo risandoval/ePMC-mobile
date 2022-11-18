@@ -56,9 +56,11 @@ export default function Profile({navigation}) {
             }
             else if (doc.role !== null) {
                 setValue(doc);
+                setPass(doc[0].pass)
             }
             else if (pat.role !== null) {
-                setValue(pat);
+                setValue(adm);
+                setPass(adm[0].pass)
             } 
           }
         } catch (e) {

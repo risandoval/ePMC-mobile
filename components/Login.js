@@ -29,15 +29,17 @@ export default function Login( {navigation} ) {
       
       setIsLogin(true);
 
-      var loginpath = "http://192.168.1.5:80/epmc-4/login_mobile";
-      var loginpath2 = "http://192.168.2.115:80/epmc-4/login_mobile";
+      // var loginpath = "http://192.168.1.5:80/epmc-4/login_mobile";
+      // var loginpath2 = "http://192.168.2.115:80/epmc-4/login_mobile";
+
+      var loginpath = "http://e-pmc.com/login_mobile";
 
       var data ={
         email: email,
         pass: pass
       };
 
-      await fetch(loginpath2,{
+      await fetch(loginpath,{
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -58,7 +60,7 @@ export default function Login( {navigation} ) {
               routes: [{ name: "AdminNavbar" }],
             });
           } 
-          else if (response.role == "Doctor") {
+          else if (response[0].role == "Doctor") {
             await AsyncStorage.setItem('doctor', JSON.stringify(response));
             // await AsyncStorage.setItem('email', email);
             navigation.reset({
@@ -66,14 +68,14 @@ export default function Login( {navigation} ) {
               routes: [{ name: "DoctorNavbar" }],
             });
           }
-          else if (response.role == "patient") {
+          else if (response[0].role == "patient") {
             await AsyncStorage.setItem('patient', JSON.stringify(response));
             // await AsyncStorage.setItem('email', email);
             navigation.reset({
               index: 0,
               routes: [{ name: "PatientNavbar" }],
             });
-          } else if (response.role == "Invalid") {
+          } else if (response[0].role == "Invalid") {
             alert("Invalid email or password");
           }
         })();
@@ -94,7 +96,7 @@ export default function Login( {navigation} ) {
       const pat = JSON.parse(data3);
       // const datata = JSON.parse(getdata);
       // const email = await AsyncStorage.getItem('email');
-      console.log(adm);
+      // console.log(adm);
       if (adm !== null || doc !== null || pat !== null) {
         if (adm.role !== null) {
           navigation.reset({

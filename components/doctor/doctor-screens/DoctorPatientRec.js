@@ -28,11 +28,13 @@ export default function DoctorPatientRec({navigation}) {
     'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
   }
 
+  var patientrec = "http://e-pmc.com/adm_patientrec_patients";
+
   // fetching for Total
   const fetchTotal = async () => {
 
-    var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_dashboard/total";
-    var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
+    // var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_dashboard/total";
+    // var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
   
     await fetch(patientrec,{
       headers: headers
@@ -51,8 +53,8 @@ export default function DoctorPatientRec({navigation}) {
 
   const fetchPatient = async () => {
 
-    var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
-    var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
+    // var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
+    // var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
   
     await fetch(patientrec,{
       headers: headers

@@ -31,8 +31,10 @@ export default function AdminPatientRec({navigation}) {
   // fetching for Total
   const fetchTotal = async () => {
 
-    var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_dashboard/total";
-    var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
+    // var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_dashboard/total";
+    // var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
+
+    var patientrec = "http://e-pmc.com/adm_patientrec_total";
   
     await fetch(patientrec,{
       headers: headers
@@ -51,8 +53,10 @@ export default function AdminPatientRec({navigation}) {
 
   const fetchPatient = async () => {
 
-    var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
-    var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
+    // var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
+    // var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
+
+    var patientrec = "http://e-pmc.com/adm_patientrec_patients";
   
     await fetch(patientrec,{
       headers: headers
@@ -93,12 +97,14 @@ export default function AdminPatientRec({navigation}) {
     }
   }
   //end search
-
+  const url = "http://e-pmc.com/assets/img/profile-avatars/patient-avatar-1.jpg"
   //Section List - Patient Record View
   const DATA = [
     {
       title: "Personal Information",
-      data: [{id: "1", value : "image"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
+      data: [{id:"                                  ", value: <View style={styles.avatarContainer}>
+      <Image source={{uri:url}} style={styles.avatar2}/>
+    </View>},{id: "                    PATIENT NO: ", value : "PMCKAS"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
     },
     {
       title: "Contact Information",
@@ -128,7 +134,7 @@ export default function AdminPatientRec({navigation}) {
           borderBottomLeftRadius: index === amountOfItemsInSection ? 15 : 0,
           borderBottomRightRadius: index === amountOfItemsInSection ? 15 : 0}}}>
       <View style={styles.recordDataContainer}>
-        <Text style={styles.recordData}>{item.id}: {item.value} </Text>
+        <Text style={styles.recordData}>{item.id} {item.value} </Text>
       </View>
     </View>
   )}
@@ -311,6 +317,18 @@ const styles = StyleSheet.create({
     // borderRadius: 100,
     height: 90,
     width: 90,
+    paddingTop: 10,
+    marginLeft: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  avatarContainer2: {
+    // backgroundColor: '#D9D9D9',
+    // borderRadius: 100,
+    height: 90,
+    width: 90,
+    paddingTop: 10,
     marginLeft: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -320,6 +338,12 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     height: 75,
     width: 75,
+  },
+
+  avatar2: {
+    borderRadius: 100,
+    height: 110,
+    width: 110,
   },
 
   nametxt: {

@@ -50,7 +50,7 @@ export default function Login( {navigation} ) {
       .then((response)=>response.json())
       .then((response)=>{
         (async function() {
-          if (response.role == "Admin") {
+          if (response[0].role == "Admin") {
             await AsyncStorage.setItem('admin', JSON.stringify(response));
             // await AsyncStorage.setItem('email', email);
             navigation.reset({
@@ -94,7 +94,7 @@ export default function Login( {navigation} ) {
       const pat = JSON.parse(data3);
       // const datata = JSON.parse(getdata);
       // const email = await AsyncStorage.getItem('email');
-      // console.log(adm);
+      console.log(adm);
       if (adm !== null || doc !== null || pat !== null) {
         if (adm.role !== null) {
           navigation.reset({

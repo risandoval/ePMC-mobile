@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, ImageBackground, View, Text, Image, StatusBar, Pressable, Alert } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo'
@@ -24,9 +24,13 @@ const logout = async(navigation) =>  {
     console.log("logout")
 }
 
+
+
 export default function Profile({navigation}) {
     const [shouldShow, setShouldShow] = useState(true);
-    var showPass = "PMCDS0001";
+    const [val, setValue] = useState([]);
+    const [pass, setPass] = useState([]);
+    var showPass = pass;
     let passGetLength = showPass.length;
     let passLength = passGetLength;
     let hidePass = "";
@@ -35,7 +39,38 @@ export default function Profile({navigation}) {
         let passBullet = "*".repeat(passLength);
         hidePass = passBullet;
     }
+    const prof = async() => {
+        try {
+          const data1 = await AsyncStorage.getItem('admin');
+          const data2 = await AsyncStorage.getItem('doctor');
+          const data3 = await AsyncStorage.getItem('patient');
+          const adm = JSON.parse(data1);
+          const doc = JSON.parse(data2);
+          const pat = JSON.parse(data3);
+          // const datata = JSON.parse(getdata);
+          // const email = await AsyncStorage.getItem('email');
+          if (adm !== null || doc !== null || pat !== null) {
+            if (adm.role !== null) {
+                setValue(adm)
+                setPass(adm[0].pass)
+            }
+            else if (doc.role !== null) {
+                setValue(doc);
+            }
+            else if (pat.role !== null) {
+                setValue(pat);
+            } 
+          }
+        } catch (e) {
+          alert('Failed to fetch the input from storage');
+        }
+        
+      }
 
+      useEffect(() => {
+        prof();
+      }, []);
+    
 
     return (
         <View style={[styles.container, styles.responsiveBox]}>
@@ -43,31 +78,27 @@ export default function Profile({navigation}) {
                     <View>
                         <View style={styles.row}>
                             <View style={styles.profilecont}>
-                                <Image
-                                style={styles.profileimg}
-                                source={require('../assets/david.jpg')}
-                                />
+                                {val.map(_prof=><Image style={styles.profileimg} key={""}source={{uri:_prof.avatar}}/>)}
                             </View>
 
                             <View style={styles.namebox}>
-                                <Text style={styles.profilename}>David Sandoval</Text>
+                                {val.map(_prof=><Text style={styles.profilename} key={""}>{_prof.full_name}</Text>)}
                             </View>
                         </View>
                         <Pressable onPress={() => logout(navigation)} style={styles.logoutbox}>
                             <Text style={styles.logouttxt}>Logout</Text>
                         </Pressable>
                     </View>
-                    
-                    
-
+                
                     <View style={styles.profileinfo}>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Username: '} </Text>
-                            <Text style={[styles.profiletext]}>{'PMCDS0001'} </Text>
+                            {val.map(_prof=><Text style={styles.profiletext} key={""}>{_prof.username}</Text>)}
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Password: '} </Text>
                             <Text style={[styles.profiletext, styles.row]}> 
+                            
                                 {shouldShow ? (showPass) : (hidePass)}
                                 <Pressable onPress={() => setShouldShow(!shouldShow)}><Text style={styles.passBtn}>  Show/Hide</Text></Pressable>
                                 {' '}
@@ -75,15 +106,15 @@ export default function Profile({navigation}) {
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Birthday:    '} </Text>
-                            <Text style={[styles.profiletext]}>{'2000-07-25'} </Text>
+                            {val.map(_prof=><Text style={styles.profiletext} key={""}>{_prof.bday}</Text>)}
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Contact:     '} </Text>
-                            <Text style={[styles.profiletext]}>{'09123456789'} </Text>
+                            {val.map(_prof=><Text style={styles.profiletext} key={""}>{_prof.contact_no}</Text>)}
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Email:         '} </Text>
-                            <Text style={[styles.profiletext]}>{'email@gmail.com'} </Text>
+                            {val.map(_prof=><Text style={styles.profiletext} key={""}>{_prof.email}</Text>)}
                         </View>
                     </View>
                 </ImageBackground>

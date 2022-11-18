@@ -133,6 +133,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F4F4F4',
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingTop: StatusBar.currentHeight,
   },
   

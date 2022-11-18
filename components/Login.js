@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput, StatusBar, TouchableNativeFeedbackComponent } from 'react-native';
 import {
   responsiveHeight,
@@ -51,19 +51,30 @@ export default function Login( {navigation} ) {
       .then((response)=>{
         (async function() {
           if (response.role == "Admin") {
-            await AsyncStorage.setItem('role', "Admin");
-            await AsyncStorage.setItem('email', email);
-            navigation.navigate("AdminNavbar");
+            await AsyncStorage.setItem('admin', JSON.stringify(response));
+            // await AsyncStorage.setItem('email', email);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "AdminNavbar" }],
+            });
           } 
           else if (response.role == "Doctor") {
-            await AsyncStorage.setItem('role', "Doctor");
-            await AsyncStorage.setItem('email', email);
-            navigation.navigate("DoctorNavbar");
+            await AsyncStorage.setItem('doctor', JSON.stringify(response));
+            // await AsyncStorage.setItem('email', email);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "DoctorNavbar" }],
+            });
           }
           else if (response.role == "patient") {
-            await AsyncStorage.setItem('role', "patient");
-            await AsyncStorage.setItem('email', email);
-            navigation.navigate("PatientNavbar");
+            await AsyncStorage.setItem('patient', JSON.stringify(response));
+            // await AsyncStorage.setItem('email', email);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "PatientNavbar" }],
+            });
+          } else if (response.role == "Invalid") {
+            alert("Invalid email or password");
           }
         })();
       })
@@ -72,23 +83,49 @@ export default function Login( {navigation} ) {
       })
     }
   }
+
   const keeploggedin = async() => {
-    const role = await AsyncStorage.getItem('role');
-    const email = await AsyncStorage.getItem('email');
-    // console.log(email);
-    if (email !== null && role !== null) {
-      if (role == "Admin") {
-        navigation.navigate("AdminNavbar");
+    try {
+      const data1 = await AsyncStorage.getItem('admin');
+      const data2 = await AsyncStorage.getItem('doctor');
+      const data3 = await AsyncStorage.getItem('patient');
+      const adm = JSON.parse(data1);
+      const doc = JSON.parse(data2);
+      const pat = JSON.parse(data3);
+      // const datata = JSON.parse(getdata);
+      // const email = await AsyncStorage.getItem('email');
+      // console.log(adm);
+      if (adm !== null || doc !== null || pat !== null) {
+        if (adm.role !== null) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "AdminNavbar" }],
+          });
+        }
+        else if (doc.role !== null) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "DoctorNavbar" }],
+          });
+        }
+        else if (pat.role !== null) {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "PatientNavbar" }],
+          });
+        } 
       }
-      else if (role == "Doctor") {
-        navigation.navigate("DoctorNavbar");
-      }
-      else if (role == "patient") {
-        navigation.navigate("PatientNavbar");
-      }
-    } else {}
+    } catch (e) {
+      alert('Failed to fetch the input from storage');
+    }
+    
   }
-  keeploggedin();
+
+  useEffect(() => {
+    keeploggedin();
+  }, []);
+
+  
 
   return (
     <View style={styles.container}>

@@ -7,14 +7,16 @@ import {
     responsiveFontSize
   } from "react-native-responsive-dimensions";
 
-  
 const logout = async(navigation) =>  {
-    AsyncStorage.setItem('role', "");
-    AsyncStorage.setItem('email', "");
     Alert.alert(
         "Are you sure you want to logout?",
         "You can come back anytime!", [
-            {text: "Logout", onPress: () => navigation.navigate('Login')}, 
+            {text: "Logout", onPress: async() => {await AsyncStorage.clear();
+                                                  navigation.reset({
+                                                    index: 0,
+                                                    routes: [{ name: "Login" }],
+                                                  });
+        }}, 
             {text: "Cancel"},    
         ],
     );
@@ -44,7 +46,7 @@ export default function Profile({navigation}) {
                 </View>
                 
                 
-
+                
                 <View style={styles.profileinfo}>
                     <Text style={[styles.profiletext, styles.profilelabel]}>{'Age: '}{'21'} </Text>
                     <Text style={[styles.profiletext, styles.profilelabel]}>{'Birthday: '}{'July 25, 2000'} </Text>

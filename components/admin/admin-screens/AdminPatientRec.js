@@ -8,16 +8,18 @@ import {
   responsiveFontSize
 } from "react-native-responsive-dimensions";
 
-const showAlert = () =>
-  Alert.alert(
-    "Search",
-    "Search Button Working",
-  );
+// const showAlert = () =>
+//   Alert.alert(
+//     "Search",
+//     "Search Button Working",
+//   );
 
 export default function AdminPatientRec({navigation}) {
   const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-  const [data2, setData2] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [data, setData] = useState([]); //total patients
+  const [data2, setData2] = useState([]); //patient list
+  const [search, setSearch] = useState('');
   
   const headers = {
     'Accept': 'application/json',
@@ -32,7 +34,7 @@ export default function AdminPatientRec({navigation}) {
     var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_dashboard/total";
     var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
   
-    await fetch(patientrec2,{
+    await fetch(patientrec,{
       headers: headers
     })  
     .then((response)=>response.json())
@@ -52,7 +54,7 @@ export default function AdminPatientRec({navigation}) {
     var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
     var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
   
-    await fetch(patientrec2,{
+    await fetch(patientrec,{
       headers: headers
     })  
     .then((response)=>response.json())
@@ -75,6 +77,23 @@ export default function AdminPatientRec({navigation}) {
     return <View style={styles.separator}/>
   }
 
+  //search
+  const searchFilter = (text) => {
+    if (text) {
+      const newData = data2.filter((item) => {
+        const itemData = item.pt_fullname ? item.pt_fullname.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setData2(newData);
+      setSearch(text);
+    } else {
+      setData2(data2);
+        setSearch(text);
+    }
+  }
+  //end search
+
   //Section List - Patient Record View
   const DATA = [
     {
@@ -95,6 +114,8 @@ export default function AdminPatientRec({navigation}) {
     },
   ];
 
+
+  //for border bottom radius
   function ListItem({
     section,
     item,
@@ -154,9 +175,12 @@ export default function AdminPatientRec({navigation}) {
         <View style={styles.searchBar}>
           <TextInput 
             style={styles.search}
+            value={search}
             placeholder="Search"
+            onChangeText={(text) => searchFilter(text)}
           />
-          <Pressable onPress={showAlert} ><EvilIcons name='search' style={styles.searchicon} /></Pressable>
+          {/* <Pressable ><EvilIcons name='search' style={styles.searchicon} /></Pressable> */}
+          <EvilIcons name='search' style={styles.searchicon} />
         </View>
 
         <View style={styles.total}>
@@ -228,7 +252,8 @@ const styles = StyleSheet.create({
   searchicon: {
     paddingTop: responsiveHeight(1),
     paddingRight: responsiveWidth(2.8),
-    fontSize: responsiveFontSize(3),
+    fontSize: responsiveFontSize(2.5),
+    color: '#909090'
   },
 
   total: {

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StyleSheet, ImageBackground, View, Text, Image, StatusBar, Pressable, Alert } from 'react-native';
+import Entypo from 'react-native-vector-icons/Entypo'
 import {
     responsiveHeight,
     responsiveWidth,
@@ -24,37 +25,70 @@ const logout = async(navigation) =>  {
 }
 
 export default function Profile({navigation}) {
-  return (
-    <View style={[styles.container, styles.responsiveBox]}>
-            <ImageBackground source={require('../assets/profilebg.png')} style={styles.bgimage}>
-                <View>
-                    <View style={styles.row}>
-                        <View style={styles.profilecont}>
-                            <Image
-                            style={styles.profileimg}
-                            source={require('../assets/david.jpg')}
-                            />
-                        </View>
+    const [shouldShow, setShouldShow] = useState(true);
+    var showPass = "PMCDS0001";
+    let passGetLength = showPass.length;
+    let passLength = passGetLength;
+    let hidePass = "";
+    
+    if (passLength == passGetLength) {
+        let passBullet = "*".repeat(passLength);
+        hidePass = passBullet;
+    }
 
-                        <View style={styles.namebox}>
-                            <Text style={styles.profilename}>David Sandoval</Text>
+
+    return (
+        <View style={[styles.container, styles.responsiveBox]}>
+                <ImageBackground source={require('../assets/profilebg.png')} style={styles.bgimage}>
+                    <View>
+                        <View style={styles.row}>
+                            <View style={styles.profilecont}>
+                                <Image
+                                style={styles.profileimg}
+                                source={require('../assets/david.jpg')}
+                                />
+                            </View>
+
+                            <View style={styles.namebox}>
+                                <Text style={styles.profilename}>David Sandoval</Text>
+                            </View>
+                        </View>
+                        <Pressable onPress={() => logout(navigation)} style={styles.logoutbox}>
+                            <Text style={styles.logouttxt}>Logout</Text>
+                        </Pressable>
+                    </View>
+                    
+                    
+
+                    <View style={styles.profileinfo}>
+                        <View style={styles.rowProfile}>
+                            <Text style={[styles.profilelabel]}>{'Username: '} </Text>
+                            <Text style={[styles.profiletext]}>{'PMCDS0001'} </Text>
+                        </View>
+                        <View style={styles.rowProfile}>
+                            <Text style={[styles.profilelabel]}>{'Password: '} </Text>
+                            <Text style={[styles.profiletext, styles.row]}> 
+                                {shouldShow ? (showPass) : (hidePass)}
+                                <Pressable onPress={() => setShouldShow(!shouldShow)}><Text style={styles.passBtn}>  Show/Hide</Text></Pressable>
+                                {' '}
+                            </Text>
+                        </View>
+                        <View style={styles.rowProfile}>
+                            <Text style={[styles.profilelabel]}>{'Birthday:    '} </Text>
+                            <Text style={[styles.profiletext]}>{'2000-07-25'} </Text>
+                        </View>
+                        <View style={styles.rowProfile}>
+                            <Text style={[styles.profilelabel]}>{'Contact:     '} </Text>
+                            <Text style={[styles.profiletext]}>{'09123456789'} </Text>
+                        </View>
+                        <View style={styles.rowProfile}>
+                            <Text style={[styles.profilelabel]}>{'Email:         '} </Text>
+                            <Text style={[styles.profiletext]}>{'email@gmail.com'} </Text>
                         </View>
                     </View>
-                    <Pressable onPress={() => logout(navigation)} style={styles.logoutbox}>
-                        <Text style={styles.logouttxt}>Logout</Text>
-                    </Pressable>
-                </View>
-                
-                
-                
-                <View style={styles.profileinfo}>
-                    <Text style={[styles.profiletext, styles.profilelabel]}>{'Age: '}{'21'} </Text>
-                    <Text style={[styles.profiletext, styles.profilelabel]}>{'Birthday: '}{'July 25, 2000'} </Text>
-                </View>
-            </ImageBackground>
-    </View>
-    
-  );
+                </ImageBackground>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -68,8 +102,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         paddingTop: StatusBar.currentHeight,
-        // alignItems: 'center',
-        // justifyContent: 'center',
     },
 
     row: {
@@ -116,8 +148,6 @@ const styles = StyleSheet.create({
         marginTop: responsiveWidth(-18),
         marginLeft: responsiveWidth(61),
         borderRadius: 15,
-        // elevation: 15,
-        // borderWidth: 1,
     },
 
     logouttxt: {
@@ -127,7 +157,6 @@ const styles = StyleSheet.create({
 
     profileinfo: {
         backgroundColor: '#fff',
-        // alignItems: 'center',
         marginTop: responsiveHeight(8),
         marginHorizontal: responsiveWidth(10),
         padding: responsiveWidth(5),
@@ -138,15 +167,37 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
 
-    profiletext: {
-        fontSize: responsiveFontSize(1.8),
+    rowProfile: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        
     },
 
     profilelabel: {
-        // alignItems: 'flex-start',
-        // borderWidth: 1,
+        color: '#656565',
+        fontSize: responsiveFontSize(2),
         textAlign: 'left',
-        paddingBottom: responsiveHeight(1),
+        padding: responsiveWidth(5),
+        paddingLeft: responsiveWidth(0),
+        paddingRight: responsiveWidth(0),
+        
+    },
+
+    profiletext: {
+        fontSize: responsiveFontSize(1.5),
+        borderWidth: 1,
+        width: responsiveWidth(50),
+        textAlign: 'right',
+        padding: responsiveWidth(2),
+        paddingLeft: responsiveWidth(0),
+        paddingRight: responsiveWidth(2),
+        borderRadius: 10,
+    },
+
+    passBtn: {
+        marginBottom: responsiveHeight(-0.3),
+        borderLeftWidth: 1,
     },
 
     

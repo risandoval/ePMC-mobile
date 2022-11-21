@@ -4,11 +4,7 @@ import { StyleSheet, View, Text, FlatList, ImageBackground } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather'
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize
-} from "react-native-responsive-dimensions";
+import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 
 export default function AdminDashboard() {
   const [isLoading, setLoading] = useState(true);

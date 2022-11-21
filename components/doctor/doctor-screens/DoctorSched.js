@@ -321,9 +321,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: StatusBar.currentHeight,
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
 
   date: {

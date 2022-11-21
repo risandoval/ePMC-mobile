@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import {StyleSheet, ImageBackground, View, Pressable, Text, 
-        Alert, Modal, TouchableOpacity } from 'react-native';
+import {StyleSheet, ImageBackground, View, Pressable, Text, Modal, TouchableOpacity } from 'react-native';
+import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {
-  responsiveHeight, 
-  responsiveWidth,
-  responsiveFontSize
-} from "react-native-responsive-dimensions";
+import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+
+
 
 export default function AdminReports() {
   const [modal1Visible, setmodal1Visible] = useState(true);

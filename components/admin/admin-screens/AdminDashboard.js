@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, FlatList, ScrollView, ImageBackground, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, FlatList, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather'
@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight,
   },
   
   icon: {

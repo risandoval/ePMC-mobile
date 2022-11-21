@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, ImageBackground, FlatList, View, TextInput, Pressable, Alert, Text, StatusBar, Image, Modal, SectionList } from 'react-native';
+import { StyleSheet, ImageBackground, FlatList, View, TextInput, 
+          Pressable, Alert, Text, Image, Modal, SectionList } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {
@@ -231,7 +232,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight,
   },
 
   bgimage: {

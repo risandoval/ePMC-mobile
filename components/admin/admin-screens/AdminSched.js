@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ImageBackground, View, Text, TouchableOpacity, StatusBar, Modal, Pressable } from 'react-native';
+import {StyleSheet, ImageBackground, View, Text, TouchableOpacity, 
+        Modal, Pressable } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
   responsiveHeight,
@@ -320,9 +321,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: StatusBar.currentHeight,
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
 
   date: {

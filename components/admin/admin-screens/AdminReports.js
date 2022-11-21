@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import {StyleSheet, ImageBackground, View, Pressable, Text, Modal, TouchableOpacity } from 'react-native';
+import {StyleSheet, ImageBackground, View, Pressable, Text, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { VictoryBar, VictoryChart, VictoryTheme } from "victory-native";
+import { VictoryBar, VictoryChart, VictoryPie, VictoryTheme } from "victory-native";
 
-
+const allPatientSatisfaction = [
+  {satisfaction: "Very Satisfied", satisfactionTotal: 15},
+  {satisfaction: "Satisfied", satisfactionTotal: 20},
+  {satisfaction: "Neutral", satisfactionTotal: 10},
+  {satisfaction: "Unsatisfied", satisfactionTotal: 5},
+  {satisfaction: "Very Unsatisfied", satisfactionTotal: 2},
+];
 
 export default function AdminReports() {
   const [modal1Visible, setmodal1Visible] = useState(true);
@@ -13,63 +19,22 @@ export default function AdminReports() {
   return (
     <View style={styles.container}>
       <ImageBackground source={require('../../../assets/reportbg.png')} style={styles.bgimage}>
-        {/* Patient Rec Modal */}
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={modal1Visible}
-          onRequestClose={() => {
-            setmodal1Visible(!modal1Visible);
-          }}
-          
-        >
-          <TouchableOpacity onPress={() => setmodal1Visible(false)} style={styles.centeredView}>
-            <TouchableOpacity style={styles.modalView} onPress={() => console.log('do nothing')} activeOpacity={1} >
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setmodal1Visible(!modal1Visible)} >
-                  <AntDesign name='closecircle' size={20} style={styles.closeBtn} />
-              </Pressable>
-              <Text style={styles.modalText}>Patient Record</Text>
-              <Text style={styles.modalText}>Patient Record</Text>
-              <Text style={styles.modalText}>Patient Record</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-        </Modal>
-        
-        {/* Inventory Modal */}
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={modal2Visible}
-          onRequestClose={() => {
-            setmodal2Visible(!modal2Visible);
-          }}
-        >
-          <TouchableOpacity onPress={() => setmodal2Visible(false)} style={styles.centeredView}>
-            <TouchableOpacity style={styles.modalView} onPress={() => console.log('do nothing')} activeOpacity={1} >
-              {/* <View style={[styles.buttonClose]}> */}
-                <Pressable
-                  style={[styles.buttonClose]}
-                  onPress={() => setmodal2Visible(!modal2Visible)} >
-                    <AntDesign name='closecircle' size={20} />
-                </Pressable>
-              {/* </View> */}
-              <Text style={styles.modalText}>Inventory</Text>
-              <Text style={styles.modalText}>Inventory</Text>
-              <Text style={styles.modalText}>Inventory</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-        </Modal>
-
-        <View style={styles.btnOuter}>
-          <Pressable onPress={() => setmodal1Visible(true)} style={styles.btnInner}>
-            <Text style={styles.btnText}>Patient Record</Text>
-          </Pressable>
-          <Pressable onPress={() => setmodal2Visible(true)} style={styles.btnInner}>
-            <Text style={styles.btnText}>Inventory</Text>
-          </Pressable>
+        <ScrollView>
+        <View style={styles.reportContainer}>
+          {/* Overall Patient Satisfaction - Pie Chart */}
+          <Text style={styles.reportTitle}>Overall Patient Satisfaction</Text>
+          <VictoryPie
+            theme={VictoryTheme.material}
+            width={responsiveWidth(80)}
+            data={allPatientSatisfaction}
+            x="satisfaction"
+            y="satisfactionTotal"
+            innerRadius={50}
+            colorScale={["#F78DA7", "#5300EB", "#1A237E", "#1273DE", "#8ED1FC"]}
+            style={{ labels: { display: "none" } }}
+          />
         </View>
+        </ScrollView>
       </ImageBackground>
     </View>
     
@@ -88,58 +53,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 
-  btnOuter: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    marginTop: responsiveHeight(5),
-  },
-
-  btnInner: {
-    backgroundColor: '#D4EDFF',
-    width: responsiveWidth(40),
-    padding: 15,
-    borderRadius: 30
-  },
-
-  btnText: {
-    color: '#000',
-    fontSize: responsiveFontSize(1.8),
-    textAlign: 'center'
-  },
-
-  centeredView: {
+  reportContainer: {
     flex: 1,
-    justifyContent: "flex-end",
-    marginBottom: responsiveHeight(10),
-  },
-
-  modalView: {
+    alignSelf: 'center',
+    backgroundColor: '#fff',
     width: responsiveWidth(90),
-    height: responsiveHeight(73),
-    marginHorizontal: responsiveWidth(5),
-    backgroundColor: "#fff",
+    marginTop: responsiveHeight(7),
+    marginBottom: responsiveHeight(10),
+    padding: 20,
     borderRadius: 20,
-    padding: 30,
-    paddingLeft: 10,
-    paddingRight: 10,
-    alignItems: "center",
-    shadowColor: "#000",
-
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
   },
 
-  buttonClose: {
-    marginLeft: responsiveWidth(78),
-    marginTop: responsiveHeight(-1.5),
+  reportTitle: {
+    fontSize: responsiveFontSize(2.3),
   },
 
-  modalText: {
-    fontSize: responsiveFontSize(1.5),
+  piechart: {
+    width: 400,
   },
 });

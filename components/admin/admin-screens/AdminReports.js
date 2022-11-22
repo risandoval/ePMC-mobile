@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import {StyleSheet, ImageBackground, View, Pressable, Text, Modal, TouchableOpacity, ScrollView } from 'react-native';
-import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
-import { VictoryBar, VictoryChart, VictoryPie, VictoryTheme, VictoryGroup, VictoryStack, VictoryLabel } from "victory-native";
+import {StyleSheet, ImageBackground, View, Text, ScrollView } from 'react-native';
+import {responsiveHeight, responsiveWidth, responsiveFontSize} from "react-native-responsive-dimensions";
+import {VictoryBar, VictoryChart, VictoryPie, VictoryTheme, VictoryGroup, VictoryZoomContainer,} from "victory-native";
 
 const allPatientSatisfaction = [
   {satisfaction: "Very Satisfied", satisfactionTotal: 15},
@@ -19,80 +19,13 @@ const docTreatmentPlan = [
   {agreement: "SA", agreementTotal: 21}
 ];
 
-const inventory = [
-  [ //stock in
-    {product: "Neozep", stockTotal: 13},
-    {product: "Biogesic", stockTotal: 10},
-    {product: "Bioflue", stockTotal: 32},
-    {product: "Paracetamol", stockTotal: 8},
-    {product: "Cefixime", stockTotal: 17},
-    {product: "Ceftriaxone", stockTotal: 28},
-    {product: "Cefuroxime", stockTotal: 20},
-    {product: "Alaxan", stockTotal: 8},
-    {product: "Amoxicillin", stockTotal: 77},
-  ],
-
-  [ //stock out
-    {product: "Neozep", stockTotal: 18},
-    {product: "Biogesic", stockTotal: 24},
-    {product: "Bioflue", stockTotal: 56},
-    {product: "Paracetamol", stockTotal: 42},
-    {product: "Cefixime", stockTotal: 53},
-    {product: "Ceftriaxone", stockTotal: 34},
-    {product: "Cefuroxime", stockTotal: 66},
-    {product: "Alaxan", stockTotal: 12},
-    {product: "Amoxicillin", stockTotal: 87},
-  ]
-]
-
-const stockIn = [ //displays bottom to top
-  {product: "Neozep", stockTotal: 13},
-  {product: "Biogesic", stockTotal: 10},
-  {product: "Bioflue", stockTotal: 32},
-  {product: "Paracetamol", stockTotal: 8},
-  {product: "Cefixime", stockTotal: 17},
-  {product: "Ceftriaxone", stockTotal: 28},
-  {product: "Cefuroxime", stockTotal: 20},
-  {product: "Alaxan", stockTotal: 8},
-  {product: "Amoxicillin", stockTotal: 77},
-];
-
-const stockOut = [
-  {product: "Neozep", stockTotal: 18},
-  {product: "Biogesic", stockTotal: 24},
-  {product: "Bioflue", stockTotal: 56},
-  {product: "Paracetamol", stockTotal: 42},
-  {product: "Cefixime", stockTotal: 53},
-  {product: "Ceftriaxone", stockTotal: 34},
-  {product: "Cefuroxime", stockTotal: 66},
-  {product: "Alaxan", stockTotal: 12},
-  {product: "Amoxicillin", stockTotal: 87},
-];
-
-
 export default function AdminReports() {
-  //transform data to 100%
-  function transformData(dataset) {
-    const totals = dataset[0].map((data, i) => {
-      return dataset.reduce((memo, curr) => {
-        return memo + curr[i].y;
-      }, 0);
-    });
-    return dataset.map((data) => {
-      return data.map((datum, i) => {
-        return { x: datum.x, y: (datum.y / totals[i]) * 100 };
-      });
-    });
-  };
-
-  const dataset = transformData(inventory);
-
   return (
     <View style={styles.container}>
       <ImageBackground source={require('../../../assets/reportbg.png')} style={styles.bgimage}>
         <ScrollView>
           <View style={styles.reportContainer}>
-            {/* Overall Patient Satisfaction - Pie Chart */}
+            {/* Overall Patient Satisfaction */}
               <Text style={styles.reportTitle}>Overall Patient Satisfaction</Text>
               <View style={styles.chartContainer}>
                 <VictoryPie
@@ -116,13 +49,13 @@ export default function AdminReports() {
                 />
                 <View style={[styles.labelContainer]}>
                   <View style={styles.rowLabel}>
-                    <Text style={styles.piechartLabel}><Text style={{color: '#F78DA7'}}>{'\u2B24'}</Text> Very Satisfied</Text>
-                    <Text style={styles.piechartLabel}><Text style={{color: '#5300EB'}}>{'\u2B24'}</Text> Satisfied</Text>
-                    <Text style={styles.piechartLabel}><Text style={{color: '#1A237E'}}>{'\u2B24'}</Text> Neutral</Text>
+                    <Text style={styles.chartLabel}><Text style={{color: '#F78DA7'}}>{'\u2B24'}</Text> Very Satisfied</Text>
+                    <Text style={styles.chartLabel}><Text style={{color: '#5300EB'}}>{'\u2B24'}</Text> Satisfied</Text>
+                    <Text style={styles.chartLabel}><Text style={{color: '#1A237E'}}>{'\u2B24'}</Text> Neutral</Text>
                   </View>
                   <View style={styles.rowLabel}>
-                    <Text style={styles.piechartLabel}><Text style={{color: '#1273DE'}}>{'\u2B24'}</Text> Unsatisfied</Text>
-                    <Text style={styles.piechartLabel}><Text style={{color: '#8ED1FC'}}>{'\u2B24'}</Text> Very Unsatisfied</Text>
+                    <Text style={styles.chartLabel}><Text style={{color: '#1273DE'}}>{'\u2B24'}</Text> Unsatisfied</Text>
+                    <Text style={styles.chartLabel}><Text style={{color: '#8ED1FC'}}>{'\u2B24'}</Text> Very Unsatisfied</Text>
                   </View>
                 </View>
 
@@ -172,8 +105,8 @@ export default function AdminReports() {
                   </VictoryChart>
                   <View style={[styles.labelContainer, {marginTop:responsiveHeight(-1)}]}>
                     <View style={styles.rowLabel}>
-                      <Text style={styles.piechartLabel}><Text style={{color: '#E8D06D'}}>{'\u2B24'}</Text> Insertions</Text>
-                      <Text style={styles.piechartLabel}><Text style={{color: '#B80000'}}>{'\u2B24'}</Text> Deletions</Text>
+                      <Text style={styles.chartLabel}><Text style={{color: '#E8D06D'}}>{'\u2B24'}</Text> Insertions</Text>
+                      <Text style={styles.chartLabel}><Text style={{color: '#B80000'}}>{'\u2B24'}</Text> Deletions</Text>
                     </View>
                   </View>
               </View>
@@ -202,72 +135,85 @@ export default function AdminReports() {
                 </VictoryChart>
                 <View style={[styles.labelContainer, {marginTop:responsiveHeight(-1)}]}>
                   <View style={styles.rowLabel}>
-                    <Text style={styles.piechartLabel}>SA - Strongly Agree</Text>
-                    <Text style={styles.piechartLabel}>A - Agree</Text>
-                    <Text style={styles.piechartLabel}>N - Neutral</Text>
+                    <Text style={styles.chartLabel}>SA - Strongly Agree</Text>
+                    <Text style={styles.chartLabel}>A - Agree</Text>
+                    <Text style={styles.chartLabel}>N - Neutral</Text>
                   </View>
                   <View style={styles.rowLabel}>
-                    <Text style={styles.piechartLabel}>D - Disagree</Text>
-                    <Text style={styles.piechartLabel}>SD - Strongly Disagree</Text>
+                    <Text style={styles.chartLabel}>D - Disagree</Text>
+                    <Text style={styles.chartLabel}>SD - Strongly Disagree</Text>
                   </View>
                 </View>
               </View>
 
               {/* Stock Items */}
                 <Text style={[styles.reportTitle, styles.marginbottom]}>Stock Items</Text>
-                <View style={styles.chartContainer}>
-                <VictoryChart horizontal
+                <View style={[styles.chartContainer]}>
+                  <VictoryChart 
                     theme={VictoryTheme.material}
                     width={responsiveWidth(80)}
-                    height={responsiveHeight(90)}
-                    domainPadding={20}
-                    >
-                    <VictoryGroup offset={17} style={{ data: { width: 15 } }}>
-                      {/* Stock In*/}
-                      <VictoryBar 
-                        data={[
-                          {x: "Neozep", y: 13},
-                          {x: "Biogesic", y: 10},
-                          {x: "Bioflu", y: 32},
-                          {x: "Paracetamol", y: 8},
-                          {x: "Cefixime", y: 17},
-                          {x: "Ceftriaxone", y: 28},
-                          {x: "Cefuroxime", y: 20},
-                          {x: "Alaxan", y: 8},
-                          {x: "Amoxicillin", y: 77},
-                        ]} 
-                        style={{
-                          data: { 
-                            fillOpacity: 1,
-                            fill: "#E8D06D",
-                          },
-                        }}/>
-                      {/* Stock Out */}
-                      <VictoryBar
-                        data={[
-                          {x: "Neozep", y: 10},
-                          {x: "Biogesic", y: 42},
-                          {x: "Bioflu", y: 34},
-                          {x: "Paracetamol", y: 18},
-                          {x: "Cefixime", y: 6},
-                          {x: "Ceftriaxone", y: 36},
-                          {x: "Cefuroxime", y: 4},
-                          {x: "Alaxan", y: 1},
-                          {x: "Amoxicillin", y: 2},
-                        ]}
-                        style={{
-                          data: { 
-                            fillOpacity: 1, 
-                            fill: "#B80000",
-                          },
-                        }} />
-                        <VictoryLabel 
-                          textAnchor="middle"
+                    domainPadding={{x:20}}
+                    containerComponent={
+                      <VictoryZoomContainer
+                        allowZoom={false}
+                        zoomDomain={{x: [0.8, 4.5]}}
+                      />
+                    } >
+                      <VictoryGroup offset={15} style={{ data: { width: 15 } }}>
+                        {/* Stock In */}
+                        <VictoryBar 
+                          data={[
+                            { x: "Neozep", y: 1 },
+                            { x: "Biogesic", y: 3 },
+                            { x: "Bioflu", y: 2 },
+                            { x: "Alaxan", y: 8 },
+                            { x: "Skelan", y: 9 },
+                            { x: "Medical Advance", y: 15 },
+                            { x: "Liver Prime", y: 13 },
+                            { x: "Adoxa Pak", y: 13 },
+                            { x: "Benzodiazepine", y: 29 },
+                            { x: "Onpattro", y: 12 },
+                            { x: "Adderall XR", y: 13 },
+                            { x: "Xanax XR", y: 13 },
+                          ]} 
+                          style={{
+                            data: { 
+                              fillOpacity: 1,
+                              fill: "#F78DA7",
+                            },
+                          }}
                         />
-                    </VictoryGroup>
+                        {/* Stock Out */}
+                        <VictoryBar
+                          data={[
+                            { x: "Neozep", y: 1 },
+                            { x: "Biogesic", y: 9 },
+                            { x: "Bioflu", y: 2 },
+                            { x: "Alaxan", y: 3 },
+                            { x: "Skelan", y: 8 },
+                            { x: "Medical Advance", y: 5 },
+                            { x: "Liver Prime", y: 2 },
+                            { x: "Adoxa Pak", y: 2 },
+                            { x: "Benzodiazepine", y: 2 },
+                            { x: "Onpattro", y: 2 },
+                            { x: "Adderall XR", y: 2 },
+                            { x: "Xanax XR", y: 2 },
+                          ]}
+                          style={{
+                            data: { 
+                              fillOpacity: 1, 
+                              fill: "#F47867",
+                            },
+                          }}
+                        />
+                      </VictoryGroup>
                   </VictoryChart>
-                    
-                  
+                  <View style={[styles.labelContainer, {marginTop:responsiveHeight(-1)}]}>
+                    <View style={styles.rowLabel}>
+                      <Text style={styles.chartLabel}><Text style={{color: '#F78DA7'}}>{'\u2B24'}</Text> Stock In</Text>
+                      <Text style={styles.chartLabel}><Text style={{color: '#F47867'}}>{'\u2B24'}</Text> Stock Out</Text>
+                    </View>
+                  </View>
                 </View>
             </View>
           </View>
@@ -320,12 +266,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
 
-  piechartLabel: {
+  chartLabel: {
     
   },
 
   marginbottom: {
     marginBottom: responsiveHeight(1),
+  },
+
+  nospace: {
+    marginLeft: responsiveWidth(0),
+    marginRight: responsiveWidth(-20),
+    paddingLeft: responsiveWidth(-20),
+    paddingRight: responsiveWidth(0),
   },
 
 });

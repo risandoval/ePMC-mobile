@@ -22,7 +22,7 @@ export default function AdminDashboard() {
   // fetching for Total
   const fetchTotal = async () => {
 
-    // var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_total";
+    // var dashboardpath2 = "http://192.168.1.5:80/epmc-4/adm_dashboard_total";
     // var dashboardpath2 = "http://192.168.2.115:80/epmc-4/adm_dashboard_total";
 
        var dashboardpath2 = "http://e-pmc.com/adm_dashboard_total";

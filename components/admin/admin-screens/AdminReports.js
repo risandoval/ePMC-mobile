@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {StyleSheet, ImageBackground, View, Text, ScrollView } from 'react-native';
 import {responsiveHeight, responsiveWidth, responsiveFontSize} from "react-native-responsive-dimensions";
-import {VictoryBar, VictoryChart, VictoryPie, VictoryTheme, VictoryGroup, VictoryZoomContainer,} from "victory-native";
+import {VictoryBar, VictoryChart, VictoryPie, VictoryTheme, VictoryGroup, VictoryZoomContainer,
+        VictoryAxis} from "victory-native";
 
 const allPatientSatisfaction = [
   {satisfaction: "Very Satisfied", satisfactionTotal: 15},
@@ -19,9 +20,68 @@ const docTreatmentPlan = [
   {agreement: "SA", agreementTotal: 21}
 ];
 
+
+
 export default function AdminReports() {
+  const [isLoading, setLoading] = useState(true);
+  const [stockIn, setStockIn] = useState([]);
+  const [stockOut, setStockOut] = useState([]);
+
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type' : 'application/json;charset=UTF-8',
+    'X-API-KEY':'myapi',
+    'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
+  }
+
+  //START - fetch all inventory item (stockin)
+  const fetchStockIn = async() => {
+
+  // var stockinpath = "http://e-pmc.com/adm_reports_stockin";
+  var stockinpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockin";
+
+  await fetch(stockinpath,{
+    headers: headers
+  })  
+  .then((response)=>response.json())
+  .then((json)=>setStockIn(json))
+  .catch((error)=> console.error("ERROR FOUND " + error))
+  .finally(() => setLoading(false));
+  }
+
+  useEffect(()=>{
+    fetchStockIn();
+    const dataInterval = setInterval(() => fetchStockIn(), 5 * 1000);
+    return () => clearInterval(dataInterval);
+  },[]);
+  //END - fetch all inventory item (stockout)
+
+  //START - fetch all stock in (stockout)
+  const fetchStockOut = async() => {
+
+    // var stockoutpath = "http://e-pmc.com/adm_reports_stockin";
+  var stockoutpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockout";
+
+  await fetch(stockoutpath,{
+    headers: headers
+  })  
+  .then((response)=>response.json())
+  .then((json)=>setStockOut(json))
+  .catch((error)=> console.error("ERROR FOUND " + error))
+  .finally(() => setLoading(false));
+  }
+
+  useEffect(()=>{
+    fetchStockOut();
+    
+    const dataInterval = setInterval(() => fetchStockOut(), 5 * 1000);
+    return () => clearInterval(dataInterval);
+  },[]);
+  //END - fetch all stock in (stockout)
+  
   return (
     <View style={styles.container}>
+      {isLoading ? <Text style={styles.loadingtext}>Loading Data...</Text>:
       <ImageBackground source={require('../../../assets/reportbg.png')} style={styles.bgimage}>
         <ScrollView>
           <View style={styles.reportContainer}>
@@ -150,32 +210,20 @@ export default function AdminReports() {
                 <Text style={[styles.reportTitle, styles.marginbottom]}>Stock Items</Text>
                 <View style={[styles.chartContainer]}>
                   <VictoryChart 
-                    theme={VictoryTheme.material}
+                    // theme={VictoryTheme.material}
                     width={responsiveWidth(80)}
                     domainPadding={{x:20}}
                     containerComponent={
                       <VictoryZoomContainer
                         allowZoom={false}
-                        zoomDomain={{x: [0.8, 4.5]}}
+                        zoomDomain={{x: [0.8, 4]}}
                       />
-                    } >
-                      <VictoryGroup offset={15} style={{ data: { width: 15 } }}>
+                    }
+                     >
+                      <VictoryGroup offset={21} style={{ data: { width: 20 } }}>
                         {/* Stock In */}
                         <VictoryBar 
-                          data={[
-                            { x: "Neozep", y: 1 },
-                            { x: "Biogesic", y: 3 },
-                            { x: "Bioflu", y: 2 },
-                            { x: "Alaxan", y: 8 },
-                            { x: "Skelan", y: 9 },
-                            { x: "Medical Advance", y: 15 },
-                            { x: "Liver Prime", y: 13 },
-                            { x: "Adoxa Pak", y: 13 },
-                            { x: "Benzodiazepine", y: 29 },
-                            { x: "Onpattro", y: 12 },
-                            { x: "Adderall XR", y: 13 },
-                            { x: "Xanax XR", y: 13 },
-                          ]} 
+                          data={stockIn} 
                           style={{
                             data: { 
                               fillOpacity: 1,
@@ -185,20 +233,7 @@ export default function AdminReports() {
                         />
                         {/* Stock Out */}
                         <VictoryBar
-                          data={[
-                            { x: "Neozep", y: 1 },
-                            { x: "Biogesic", y: 9 },
-                            { x: "Bioflu", y: 2 },
-                            { x: "Alaxan", y: 3 },
-                            { x: "Skelan", y: 8 },
-                            { x: "Medical Advance", y: 5 },
-                            { x: "Liver Prime", y: 2 },
-                            { x: "Adoxa Pak", y: 2 },
-                            { x: "Benzodiazepine", y: 2 },
-                            { x: "Onpattro", y: 2 },
-                            { x: "Adderall XR", y: 2 },
-                            { x: "Xanax XR", y: 2 },
-                          ]}
+                          data={stockOut} 
                           style={{
                             data: { 
                               fillOpacity: 1, 
@@ -207,6 +242,13 @@ export default function AdminReports() {
                           }}
                         />
                       </VictoryGroup>
+                      
+                      <VictoryAxis />
+
+                      <VictoryAxis
+                        tickCount={ 10 }
+                        dependentAxis={ true } /* To target the y-axis */
+                      />
                   </VictoryChart>
                   <View style={[styles.labelContainer, {marginTop:responsiveHeight(-1)}]}>
                     <View style={styles.rowLabel}>
@@ -219,6 +261,7 @@ export default function AdminReports() {
           </View>
         </ScrollView>
       </ImageBackground>
+    }
     </View>
     
   );

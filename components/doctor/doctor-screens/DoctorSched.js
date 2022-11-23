@@ -4,7 +4,7 @@ import {responsiveHeight, responsiveWidth, responsiveFontSize} from "react-nativ
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
-export default function AdminSched({}) {
+export default function DoctorSched({}) {
   const [isLoading, setLoading] = useState(true);
   const [date, setDate] = useState(null);
   const [day, setDay] = useState(null);

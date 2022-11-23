@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, FlatList, ScrollView, ImageBackground, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, FlatList, ScrollView, ImageBackground } from 'react-native';
+import { responsiveHeight,  responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather'
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize
-} from "react-native-responsive-dimensions";
+
 
 export default function AdminDashboard() {
   const [isLoading, setLoading] = useState(true);
@@ -139,7 +136,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight,
   },
   
   icon: {
@@ -205,7 +201,7 @@ const styles = StyleSheet.create({
   },
 
   txtRecent: {
-    marginTop: responsiveHeight(6),
+    marginTop: responsiveHeight(7),
     fontSize: responsiveFontSize(4),
     color: "#000",
     fontWeight: "bold",

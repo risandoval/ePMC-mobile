@@ -93,7 +93,9 @@ export default function AdminPatientRec({navigation}) {
     }
   }
   //end search
+
   const url = "http://e-pmc.com/assets/img/profile-avatars/patient-avatar-1.jpg"
+  
   //Section List - Patient Record View
   const DATA = [
     {
@@ -239,7 +241,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: responsiveWidth(80),
     height: responsiveHeight(5),
-    marginVertical: responsiveHeight(5),
+    marginVertical: responsiveHeight(6),
     marginHorizontal: responsiveWidth(10),
     paddingLeft: responsiveWidth(5),
     borderRadius: 50,

@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, FlatList, ScrollView, ImageBackground, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, FlatList, ScrollView, ImageBackground } from 'react-native';
+import { responsiveHeight,  responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather'
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize
-} from "react-native-responsive-dimensions";
+
 
 export default function AdminDashboard() {
   const [isLoading, setLoading] = useState(true);
@@ -29,7 +26,7 @@ export default function AdminDashboard() {
     // var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_total";
     // var dashboardpath = "http://192.168.2.115:80/epmc-4/adm_dashboard_total";
 
-      //  var dashboardpath = "http://e-pmc.com/adm_dashboard_total";
+       var dashboardpath = "http://e-pmc.com/adm_dashboard_total";
   
     await fetch(dashboardpath,{
       headers: headers
@@ -52,9 +49,9 @@ export default function AdminDashboard() {
     // var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_recent";
     // var dashboardpath = "http://192.168.2.115:80/epmc-4/adm_dashboard_recent";
 
-    // var dashboardpath = "http://e-pmc.com/adm_dashboard_recent";
+    var dashboardpath = "http://e-pmc.com/adm_dashboard_recent";
   
-    await fetch(dashboardpath2,{
+    await fetch(dashboardpath,{
       headers: headers
     })  
     .then((response)=>response.json())
@@ -139,7 +136,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight,
   },
   
   icon: {
@@ -205,7 +201,7 @@ const styles = StyleSheet.create({
   },
 
   txtRecent: {
-    marginTop: responsiveHeight(6),
+    marginTop: responsiveHeight(7),
     fontSize: responsiveFontSize(4),
     color: "#000",
     fontWeight: "bold",

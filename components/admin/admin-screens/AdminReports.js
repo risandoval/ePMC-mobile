@@ -110,10 +110,10 @@ export default function AdminReports() {
   //START - fetch 7 days deletion of patients
   const fetchDeletion = async() => {
 
-    // var deletionnpath = "http://e-pmc.com/adm_delete_patient";
-  var deletionnpath = "http://192.168.1.5:80/epmc-4/adm_delete_patient";
+    // var deletionpath = "http://e-pmc.com/adm_delete_patient";
+  var deletionpath = "http://192.168.1.5:80/epmc-4/adm_delete_patient";
 
-  await fetch(deletionnpath,{
+  await fetch(deletionpath,{
     headers: headers
   })  
   .then((response)=>response.json())

@@ -31,9 +31,9 @@ export default function AdminPatientRec({navigation}) {
   const fetchTotal = async () => {
 
     // var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_dashboard/total";
-    var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
+    // var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
 
-    // var patientrec = "http://e-pmc.com/adm_patientrec_total";
+    var patientrec = "http://e-pmc.com/adm_patientrec_total";
   
     await fetch(patientrec,{
       headers: headers
@@ -53,9 +53,9 @@ export default function AdminPatientRec({navigation}) {
   const fetchPatient = async () => {
 
     // var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
-    var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
+    // var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
 
-    // var patientrec = "http://e-pmc.com/adm_patientrec_patients";
+    var patientrec = "http://e-pmc.com/adm_patientrec_patients";
   
     await fetch(patientrec,{
       headers: headers
@@ -139,7 +139,9 @@ export default function AdminPatientRec({navigation}) {
     }
   }
   //end search
+
   const url = "http://e-pmc.com/assets/img/profile-avatars/patient-avatar-1.jpg"
+  
   //Section List - Patient Record View
   const asd = [
     {
@@ -387,7 +389,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: responsiveWidth(80),
     height: responsiveHeight(5),
-    marginVertical: responsiveHeight(5),
+    marginVertical: responsiveHeight(6),
     marginHorizontal: responsiveWidth(10),
     paddingLeft: responsiveWidth(5),
     borderRadius: 50,

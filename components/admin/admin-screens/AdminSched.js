@@ -108,9 +108,9 @@ export default function AdminSched({}) {
   //START fetch Monday Sched
     const fetchMonSchedule = async () => {
 
-      var monschedpath = "http://192.168.1.5:80/epmc-4/adm_Monsched";
+      // var monschedpath = "http://192.168.1.5:80/epmc-4/adm_Monsched";
       // var monschedpath = "http://192.168.2.115:80/epmc-4/adm_Monsched";
-      // var monschedpath = "http://e-pmc.com/adm_Monsched";
+      var monschedpath = "http://e-pmc.com/adm_Monsched";
     
       await fetch(monschedpath,{
         headers: headers
@@ -131,9 +131,9 @@ export default function AdminSched({}) {
   //START fetch Tuesday Sched
     const fetchTueSchedule = async () => {
 
-      var tueschedpath = "http://192.168.1.5:80/epmc-4/adm_Tuesched";
+      // var tueschedpath = "http://192.168.1.5:80/epmc-4/adm_Tuesched";
       // var tueschedpath = "http://192.168.2.115:80/epmc-4/adm_Tuesched";
-      // var tueschedpath = "http://e-pmc.com/adm_Tuesched";
+      var tueschedpath = "http://e-pmc.com/adm_Tuesched";
     
       await fetch(tueschedpath,{
         headers: headers
@@ -154,9 +154,9 @@ export default function AdminSched({}) {
   //START fetch Wednesday Sched
   const fetchWedSchedule = async () => {
 
-    var wedschedpath = "http://192.168.1.5:80/epmc-4/adm_Wedsched";
+    // var wedschedpath = "http://192.168.1.5:80/epmc-4/adm_Wedsched";
     // var wedschedpath = "http://192.168.2.115:80/epmc-4/adm_Wedsched";
-    // var wedschedpath = "http://e-pmc.com/adm_Wedsched";
+    var wedschedpath = "http://e-pmc.com/adm_Wedsched";
   
     await fetch(wedschedpath,{
       headers: headers
@@ -177,9 +177,9 @@ export default function AdminSched({}) {
   //START fetch Thursday Sched
   const fetchThuSchedule = async () => {
 
-    var thuschedpath = "http://192.168.1.5:80/epmc-4/adm_Thursched";
+    // var thuschedpath = "http://192.168.1.5:80/epmc-4/adm_Thursched";
     // var thuschedpath = "http://192.168.2.115:80/epmc-4/adm_Thursched";
-    // var thuschedpath = "http://e-pmc.com/adm_Thursched";
+    var thuschedpath = "http://e-pmc.com/adm_Thursched";
   
     await fetch(thuschedpath,{
       headers: headers
@@ -200,9 +200,9 @@ export default function AdminSched({}) {
   //START fetch Friday Sched
   const fetchFriSchedule = async () => {
 
-    var frischedpath = "http://192.168.1.5:80/epmc-4/adm_Frisched";
+    // var frischedpath = "http://192.168.1.5:80/epmc-4/adm_Frisched";
     // var frischedpath = "http://192.168.2.115:80/epmc-4/adm_Frisched";
-    // var frischedpath = "http://e-pmc.com/adm_Frisched";
+    var frischedpath = "http://e-pmc.com/adm_Frisched";
   
     await fetch(frischedpath,{
       headers: headers
@@ -223,9 +223,9 @@ export default function AdminSched({}) {
   //START fetch Saturday Sched
   const fetchSatSchedule = async () => {
 
-    var satschedpath = "http://192.168.1.5:80/epmc-4/adm_Satsched";
+    // var satschedpath = "http://192.168.1.5:80/epmc-4/adm_Satsched";
     // var satschedpath = "http://192.168.2.115:80/epmc-4/adm_Satsched";
-    // var satschedpath = "http://e-pmc.com/adm_Satsched";
+    var satschedpath = "http://e-pmc.com/adm_Satsched";
   
     await fetch(satschedpath,{
       headers: headers

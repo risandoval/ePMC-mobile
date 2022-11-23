@@ -26,6 +26,8 @@ export default function AdminReports() {
   const [isLoading, setLoading] = useState(true);
   const [stockIn, setStockIn] = useState([]);
   const [stockOut, setStockOut] = useState([]);
+  const [insertion, setInsertion] = useState([]);
+  const [deletion, setDeletion] = useState([]);
 
   const headers = {
     'Accept': 'application/json',
@@ -35,49 +37,97 @@ export default function AdminReports() {
   }
 
   //START - fetch all inventory item (stockin)
-  const fetchStockIn = async() => {
+    const fetchStockIn = async() => {
 
-  // var stockinpath = "http://e-pmc.com/adm_reports_stockin";
-  var stockinpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockin";
+    // var stockinpath = "http://e-pmc.com/adm_reports_stockin";
+    var stockinpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockin";
 
-  await fetch(stockinpath,{
-    headers: headers
-  })  
-  .then((response)=>response.json())
-  .then((json)=>setStockIn(json))
-  .catch((error)=> console.error("ERROR FOUND " + error))
-  .finally(() => setLoading(false));
-  }
+    await fetch(stockinpath,{
+      headers: headers
+    })  
+    .then((response)=>response.json())
+    .then((json)=>setStockIn(json))
+    .catch((error)=> console.error("ERROR FOUND " + error))
+    .finally(() => setLoading(false));
+    }
 
-  useEffect(()=>{
-    fetchStockIn();
-    const dataInterval = setInterval(() => fetchStockIn(), 5 * 1000);
-    return () => clearInterval(dataInterval);
-  },[]);
+    useEffect(()=>{
+      fetchStockIn();
+      const dataInterval = setInterval(() => fetchStockIn(), 5 * 1000);
+      return () => clearInterval(dataInterval);
+    },[]);
   //END - fetch all inventory item (stockout)
 
+
   //START - fetch all stock in (stockout)
-  const fetchStockOut = async() => {
+    const fetchStockOut = async() => {
 
-    // var stockoutpath = "http://e-pmc.com/adm_reports_stockin";
-  var stockoutpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockout";
+      // var stockoutpath = "http://e-pmc.com/adm_reports_stockin";
+    var stockoutpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockout";
 
-  await fetch(stockoutpath,{
+    await fetch(stockoutpath,{
+      headers: headers
+    })  
+    .then((response)=>response.json())
+    .then((json)=>setStockOut(json))
+    .catch((error)=> console.error("ERROR FOUND " + error))
+    .finally(() => setLoading(false));
+    }
+
+    useEffect(()=>{
+      fetchStockOut();
+      
+      const dataInterval = setInterval(() => fetchStockOut(), 5 * 1000);
+      return () => clearInterval(dataInterval);
+    },[]);
+  //END - fetch all stock in (stockout)
+
+  
+  //START - fetch 7 days insertion of patients
+    const fetchInsertion = async() => {
+
+      // var insertionpath = "http://e-pmc.com/adm_insert_patient";
+    var insertionpath = "http://192.168.1.5:80/epmc-4/adm_insert_patient";
+
+    await fetch(insertionpath,{
+      headers: headers
+    })  
+    .then((response)=>response.json())
+    .then((json)=>setInsertion(json))
+    .catch((error)=> console.error("ERROR FOUND " + error))
+    .finally(() => setLoading(false));
+    }
+
+    useEffect(()=>{
+      fetchInsertion();
+      
+      const dataInterval = setInterval(() => fetchInsertion(), 5 * 1000);
+      return () => clearInterval(dataInterval);
+    },[]);
+  //END - fetch 7 days insertion of patients
+
+
+  //START - fetch 7 days deletion of patients
+  const fetchDeletion = async() => {
+
+    // var deletionnpath = "http://e-pmc.com/adm_delete_patient";
+  var deletionnpath = "http://192.168.1.5:80/epmc-4/adm_delete_patient";
+
+  await fetch(deletionnpath,{
     headers: headers
   })  
   .then((response)=>response.json())
-  .then((json)=>setStockOut(json))
+  .then((json)=>setDeletion(json))
   .catch((error)=> console.error("ERROR FOUND " + error))
   .finally(() => setLoading(false));
   }
 
   useEffect(()=>{
-    fetchStockOut();
+    fetchDeletion();
     
-    const dataInterval = setInterval(() => fetchStockOut(), 5 * 1000);
+    const dataInterval = setInterval(() => fetchDeletion(), 5 * 1000);
     return () => clearInterval(dataInterval);
   },[]);
-  //END - fetch all stock in (stockout)
   
   return (
     <View style={styles.container}>
@@ -129,15 +179,7 @@ export default function AdminReports() {
                     <VictoryGroup offset={16} style={{ data: { width: 15 } }}>
                       {/* Insertion Bar */}
                       <VictoryBar 
-                        data={[
-                          { x: "sun", y: 1 },
-                          { x: "mon", y: 3 },
-                          { x: "tue", y: 2 },
-                          { x: "wed", y: 8 },
-                          { x: "thu", y: 9 },
-                          { x: "fri", y: 15 },
-                          { x: "sat", y: 13 }
-                        ]} 
+                        data={insertion} 
                         style={{
                           data: { 
                             fillOpacity: 1,
@@ -146,15 +188,7 @@ export default function AdminReports() {
                         }}/>
                       {/* Deletion Bar */}
                       <VictoryBar
-                        data={[
-                          { x: "sun", y: 1 },
-                          { x: "mon", y: 9 },
-                          { x: "tue", y: 2 },
-                          { x: "wed", y: 3 },
-                          { x: "thu", y: 8 },
-                          { x: "fri", y: 5 },
-                          { x: "sat", y: 2 }
-                        ]}
+                        data={deletion}
                         style={{
                           data: { 
                             fillOpacity: 1, 

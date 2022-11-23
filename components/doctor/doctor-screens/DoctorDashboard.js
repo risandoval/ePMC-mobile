@@ -1,16 +1,12 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, FlatList, ImageBackground} from 'react-native';
+import { StyleSheet, View, Text, FlatList, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather'
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize
-} from "react-native-responsive-dimensions";
+import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 
-export default function DoctorDashboard() {
+export default function AdminDashboard() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
@@ -21,13 +17,17 @@ export default function DoctorDashboard() {
     'X-API-KEY':'myapi',
     'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
   }
-  var dashboardpath = "http://e-pmc.com/adm_dashboard_total";
+
   
   // fetching for Total
   const fetchTotal = async () => {
 
+    // var dashboardpath2 = "http://192.168.1.5:80/epmc-4/adm_dashboard_total";
+    // var dashboardpath2 = "http://192.168.2.115:80/epmc-4/adm_dashboard_total";
+
+       var dashboardpath2 = "http://e-pmc.com/adm_dashboard_total";
   
-    await fetch(dashboardpath,{
+    await fetch(dashboardpath2,{
       headers: headers
     })  
     .then((response)=>response.json())
@@ -42,16 +42,15 @@ export default function DoctorDashboard() {
     return () => clearInterval(dataInterval);
   },[]);
 
- 
-
   // fetching for Recent Activity
   const fetchRecent = async () => {
 
     // var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_recent";
     // var dashboardpath2 = "http://192.168.2.115:80/epmc-4/adm_dashboard_recent";
-    
+
+    var dashboardpath2 = "http://e-pmc.com/adm_dashboard_recent";
   
-    await fetch(dashboardpath,{
+    await fetch(dashboardpath2,{
       headers: headers
     })  
     .then((response)=>response.json())
@@ -134,6 +133,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#F4F4F4',
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   
   icon: {

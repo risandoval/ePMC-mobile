@@ -50,17 +50,17 @@ export default function Profile({navigation}) {
           // const datata = JSON.parse(getdata);
           // const email = await AsyncStorage.getItem('email');
           if (adm !== null || doc !== null || pat !== null) {
-            if (adm.role !== null) {
+            if (adm !== null) {
                 setValue(adm)
                 setPass(adm[0].pass)
             }
-            else if (doc.role !== null) {
+            else if (doc !== null) {
                 setValue(doc);
                 setPass(doc[0].pass)
             }
-            else if (pat.role !== null) {
-                setValue(adm);
-                setPass(adm[0].pass)
+            else if (pat !== null) {
+                setValue(pat);
+                setPass(pat[0].pass)
             } 
           }
         } catch (e) {

@@ -14,7 +14,7 @@ import {
 //     "Search Button Working",
 //   );
 
-export default function DoctorPatientRec({navigation}) {
+export default function AdminPatientRec({navigation}) {
   const [isLoading, setLoading] = useState(true);
   const [filteredData, setFilteredData] = useState([]);
   const [data, setData] = useState([]); //total patients
@@ -28,13 +28,13 @@ export default function DoctorPatientRec({navigation}) {
     'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
   }
 
-  var patientrec = "http://e-pmc.com/adm_patientrec_patients";
-
   // fetching for Total
   const fetchTotal = async () => {
 
     // var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_dashboard/total";
-    // var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
+    var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
+
+    // var patientrec = "http://e-pmc.com/adm_patientrec_total";
   
     await fetch(patientrec,{
       headers: headers
@@ -54,7 +54,9 @@ export default function DoctorPatientRec({navigation}) {
   const fetchPatient = async () => {
 
     // var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
-    // var patientrec2 = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
+    var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
+
+    // var patientrec = "http://e-pmc.com/adm_patientrec_patients";
   
     await fetch(patientrec,{
       headers: headers
@@ -95,24 +97,26 @@ export default function DoctorPatientRec({navigation}) {
     }
   }
   //end search
-
+  const url = "http://e-pmc.com/assets/img/profile-avatars/patient-avatar-1.jpg"
   //Section List - Patient Record View
   const DATA = [
     {
       title: "Personal Information",
-      data: [{id: "avatar", value : "image"}, {id: "id", value : "PMC"}, {id: "3", value : "Risotto"}]
+      data: [{id:"                                  ", value: <View style={styles.avatarContainer}>
+      <Image source={{uri:url}} style={styles.avatar2}/>
+    </View>},{id: "                    PATIENT NO: ", value : "PMCKAS"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
     },
     {
       title: "Contact Information",
-      data: [{id: "avatar", value : "image"}, {id: "id", value : "PMC"}, {id: "3", value : "Risotto"}]
+      data: [{id: "1", value : "image"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
     },
     {
       title: "Emergency Information",
-      data: [{id: "avatar", value : "image"}, {id: "id", value : "PMC"}, {id: "3", value : "Risotto"}]
+      data: [{id: "1", value : "image"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
     },
     {
       title: "Vital Signs",
-      data: [{id: "avatar", value : "image"}, {id: "id", value : "PMC"}, {id: "3", value : "Risotto"}]
+      data: [{id: "1", value : "image"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
     },
   ];
 
@@ -130,13 +134,14 @@ export default function DoctorPatientRec({navigation}) {
           borderBottomLeftRadius: index === amountOfItemsInSection ? 15 : 0,
           borderBottomRightRadius: index === amountOfItemsInSection ? 15 : 0}}}>
       <View style={styles.recordDataContainer}>
-        <Text style={styles.recordData}>{item.id}: {item.value} </Text>
+        <Text style={styles.recordData}>{item.id} {item.value} </Text>
       </View>
     </View>
   )}
 
   // Modal for Patient Record
   const [modal1Visible, setmodal1Visible] = useState(false);
+  const [modalEntry, setModalEntry] = useState();
   return (
     <View style={styles.container}>
       <Modal
@@ -203,7 +208,7 @@ export default function DoctorPatientRec({navigation}) {
                 <Text style={styles.nametxt}>{item.pt_fullname}</Text>
 
                 <View style={styles.viewContainer}>
-                  <Pressable onPress={() => setmodal1Visible(true)} style={styles.viewbox}>
+                  <Pressable onPress={() => {setmodal1Visible(true);setModalEntry(item)}} style={styles.viewbox}>
                     <Text style={styles.viewtxt}>View</Text>
                   </Pressable>
                 </View>
@@ -312,6 +317,18 @@ const styles = StyleSheet.create({
     // borderRadius: 100,
     height: 90,
     width: 90,
+    paddingTop: 10,
+    marginLeft: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  avatarContainer2: {
+    // backgroundColor: '#D9D9D9',
+    // borderRadius: 100,
+    height: 90,
+    width: 90,
+    paddingTop: 10,
     marginLeft: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -321,6 +338,12 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     height: 75,
     width: 75,
+  },
+
+  avatar2: {
+    borderRadius: 100,
+    height: 110,
+    width: 110,
   },
 
   nametxt: {
@@ -396,7 +419,7 @@ const styles = StyleSheet.create({
   //SECTION LIST STYLE
   recordheader: {
     backgroundColor: '#49bccf',
-    color: '#000',
+    color: '#fff',
     flex: 1,
     textAlign: 'left',
     width: responsiveWidth(80),
@@ -412,7 +435,7 @@ const styles = StyleSheet.create({
   recordContainer: {
     flex: 1,
     backgroundColor: '#49bccf',
-    // paddingTop: responsiveHeight(1),
+    padding: 10,
     // elevation: 5,
     // borderBottomLeftRadius: 15,
     // borderBottomRightRadius: 15,
@@ -429,3 +452,5 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
+
+  

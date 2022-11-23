@@ -30,9 +30,9 @@ export default function Login( {navigation} ) {
       setIsLogin(true);
 
       // var loginpath = "http://192.168.1.5:80/epmc-4/login_mobile";
-      // var loginpath2 = "http://192.168.2.115:80/epmc-4/login_mobile";
+      var loginpath = "http://192.168.2.115:80/epmc-4/login_mobile";
 
-      var loginpath = "http://e-pmc.com/login_mobile";
+      // var loginpath = "http://e-pmc.com/login_mobile";
 
       var data ={
         email: email,
@@ -96,21 +96,21 @@ export default function Login( {navigation} ) {
       const pat = JSON.parse(data3);
       // const datata = JSON.parse(getdata);
       // const email = await AsyncStorage.getItem('email');
-      // console.log(adm);
       if (adm !== null || doc !== null || pat !== null) {
-        if (adm.role !== null) {
+        console.log(doc)
+        if (adm !== null) {
           navigation.reset({
             index: 0,
             routes: [{ name: "AdminNavbar" }],
           });
         }
-        else if (doc.role !== null) {
+        else if (doc !== null) {
           navigation.reset({
             index: 0,
             routes: [{ name: "DoctorNavbar" }],
           });
         }
-        else if (pat.role !== null) {
+        else if (pat !== null) {
           navigation.reset({
             index: 0,
             routes: [{ name: "PatientNavbar" }],

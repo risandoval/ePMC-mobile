@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StyleSheet, ImageBackground, View, Text, Image, StatusBar, Pressable, Alert } from 'react-native';
+import { StyleSheet, ImageBackground, View, Text, Image, Pressable, Alert } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo'
 import {
     responsiveHeight,
@@ -134,7 +134,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingTop: StatusBar.currentHeight,
     },
 
     row: {

@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, ImageBackground, FlatList, View, TextInput, Pressable, Alert, Text, StatusBar, Image, Modal, SectionList } from 'react-native';
+import { StyleSheet, ImageBackground, FlatList, View, TextInput, Pressable, Text, Image, Modal, SectionList } from 'react-native';
+import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize
-} from "react-native-responsive-dimensions";
 
 // const showAlert = () =>
 //   Alert.alert(
@@ -32,7 +28,7 @@ export default function AdminPatientRec({navigation}) {
   const fetchTotal = async () => {
 
     // var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_dashboard/total";
-    var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
+    // var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
 
     // var patientrec = "http://e-pmc.com/adm_patientrec_total";
   
@@ -54,7 +50,7 @@ export default function AdminPatientRec({navigation}) {
   const fetchPatient = async () => {
 
     // var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
-    var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
+    // var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
 
     // var patientrec = "http://e-pmc.com/adm_patientrec_patients";
   
@@ -231,7 +227,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight,
   },
 
   bgimage: {

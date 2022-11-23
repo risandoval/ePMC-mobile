@@ -1,77 +1,301 @@
-import React, { useState } from "react";
-import { StyleSheet, ImageBackground, View, Pressable, Text, Alert, Modal, TouchableOpacity, StatusBar} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {
-  responsiveHeight, 
-  responsiveWidth,
-  responsiveFontSize
-} from "react-native-responsive-dimensions";
+import React, { useState, useEffect } from "react";
+import {StyleSheet, ImageBackground, View, Text, ScrollView } from 'react-native';
+import {responsiveHeight, responsiveWidth, responsiveFontSize} from "react-native-responsive-dimensions";
+import {VictoryBar, VictoryChart, VictoryPie, VictoryTheme, VictoryGroup, VictoryZoomContainer,
+        VictoryAxis} from "victory-native";
+
+const allPatientSatisfaction = [
+  {satisfaction: "Very Satisfied", satisfactionTotal: 15},
+  {satisfaction: "Satisfied", satisfactionTotal: 20},
+  {satisfaction: "Neutral", satisfactionTotal: 10},
+  {satisfaction: "Unsatisfied", satisfactionTotal: 5},
+  {satisfaction: "Very Unsatisfied", satisfactionTotal: 2},
+];
+
+const docTreatmentPlan = [
+  {agreement: "SD", agreementTotal: 5},
+  {agreement: "D", agreementTotal: 3},
+  {agreement: "N", agreementTotal: 18},
+  {agreement: "A", agreementTotal: 28},
+  {agreement: "SA", agreementTotal: 21}
+];
+
+
 
 export default function AdminReports() {
-  const [modal1Visible, setmodal1Visible] = useState(true);
-  const [modal2Visible, setmodal2Visible] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [stockIn, setStockIn] = useState([]);
+  const [stockOut, setStockOut] = useState([]);
+  const [insertion, setInsertion] = useState([]);
+  const [deletion, setDeletion] = useState([]);
 
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type' : 'application/json;charset=UTF-8',
+    'X-API-KEY':'myapi',
+    'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
+  }
+
+  //START - fetch all inventory item (stockin)
+    const fetchStockIn = async() => {
+
+    // var stockinpath = "http://e-pmc.com/adm_reports_stockin";
+    var stockinpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockin";
+
+    await fetch(stockinpath,{
+      headers: headers
+    })  
+    .then((response)=>response.json())
+    .then((json)=>setStockIn(json))
+    .catch((error)=> console.error("ERROR FOUND " + error))
+    .finally(() => setLoading(false));
+    }
+
+    useEffect(()=>{
+      fetchStockIn();
+      const dataInterval = setInterval(() => fetchStockIn(), 5 * 1000);
+      return () => clearInterval(dataInterval);
+    },[]);
+  //END - fetch all inventory item (stockout)
+
+
+  //START - fetch all stock in (stockout)
+    const fetchStockOut = async() => {
+
+      // var stockoutpath = "http://e-pmc.com/adm_reports_stockin";
+    var stockoutpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockout";
+
+    await fetch(stockoutpath,{
+      headers: headers
+    })  
+    .then((response)=>response.json())
+    .then((json)=>setStockOut(json))
+    .catch((error)=> console.error("ERROR FOUND " + error))
+    .finally(() => setLoading(false));
+    }
+
+    useEffect(()=>{
+      fetchStockOut();
+      
+      const dataInterval = setInterval(() => fetchStockOut(), 5 * 1000);
+      return () => clearInterval(dataInterval);
+    },[]);
+  //END - fetch all stock in (stockout)
+
+  
+  //START - fetch 7 days insertion of patients
+    const fetchInsertion = async() => {
+
+      // var insertionpath = "http://e-pmc.com/adm_insert_patient";
+    var insertionpath = "http://192.168.1.5:80/epmc-4/adm_insert_patient";
+
+    await fetch(insertionpath,{
+      headers: headers
+    })  
+    .then((response)=>response.json())
+    .then((json)=>setInsertion(json))
+    .catch((error)=> console.error("ERROR FOUND " + error))
+    .finally(() => setLoading(false));
+    }
+
+    useEffect(()=>{
+      fetchInsertion();
+      
+      const dataInterval = setInterval(() => fetchInsertion(), 5 * 1000);
+      return () => clearInterval(dataInterval);
+    },[]);
+  //END - fetch 7 days insertion of patients
+
+
+  //START - fetch 7 days deletion of patients
+  const fetchDeletion = async() => {
+
+    // var deletionnpath = "http://e-pmc.com/adm_delete_patient";
+  var deletionnpath = "http://192.168.1.5:80/epmc-4/adm_delete_patient";
+
+  await fetch(deletionnpath,{
+    headers: headers
+  })  
+  .then((response)=>response.json())
+  .then((json)=>setDeletion(json))
+  .catch((error)=> console.error("ERROR FOUND " + error))
+  .finally(() => setLoading(false));
+  }
+
+  useEffect(()=>{
+    fetchDeletion();
+    
+    const dataInterval = setInterval(() => fetchDeletion(), 5 * 1000);
+    return () => clearInterval(dataInterval);
+  },[]);
+  
   return (
     <View style={styles.container}>
+      {isLoading ? <Text style={styles.loadingtext}>Loading Data...</Text>:
       <ImageBackground source={require('../../../assets/reportbg.png')} style={styles.bgimage}>
-        {/* Patient Rec Modal */}
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={modal1Visible}
-          onRequestClose={() => {
-            setmodal1Visible(!modal1Visible);
-          }}
-          
-        >
-          <TouchableOpacity onPress={() => setmodal1Visible(false)} style={styles.centeredView}>
-            <TouchableOpacity style={styles.modalView} onPress={() => console.log('do nothing')} activeOpacity={1} >
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setmodal1Visible(!modal1Visible)} >
-                  <AntDesign name='closecircle' size={20} style={styles.closeBtn} />
-              </Pressable>
-              <Text style={styles.modalText}>Patient Record</Text>
-              <Text style={styles.modalText}>Patient Record</Text>
-              <Text style={styles.modalText}>Patient Record</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-        </Modal>
-        
-        {/* Inventory Modal */}
-        <Modal
-          animationType='fade'
-          transparent={true}
-          visible={modal2Visible}
-          onRequestClose={() => {
-            setmodal2Visible(!modal2Visible);
-          }}
-        >
-          <TouchableOpacity onPress={() => setmodal2Visible(false)} style={styles.centeredView}>
-            <TouchableOpacity style={styles.modalView} onPress={() => console.log('do nothing')} activeOpacity={1} >
-              {/* <View style={[styles.buttonClose]}> */}
-                <Pressable
-                  style={[styles.buttonClose]}
-                  onPress={() => setmodal2Visible(!modal2Visible)} >
-                    <AntDesign name='closecircle' size={20} />
-                </Pressable>
-              {/* </View> */}
-              <Text style={styles.modalText}>Inventory</Text>
-              <Text style={styles.modalText}>Inventory</Text>
-              <Text style={styles.modalText}>Inventory</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-        </Modal>
+        <ScrollView>
+          <View style={styles.reportContainer}>
+            {/* Overall Patient Satisfaction */}
+              <Text style={styles.reportTitle}>Overall Patient Satisfaction</Text>
+              <View style={styles.chartContainer}>
+                <VictoryPie
+                  theme={VictoryTheme.material}
+                  width={responsiveWidth(80)}
+                  data={allPatientSatisfaction}
+                  x="satisfaction"
+                  y="satisfactionTotal"
+                  labels={({ datum }) => `${datum.satisfactionTotal}`}
+                  innerRadius={50}
+                  colorScale={["#F78DA7", "#5300EB", "#1A237E", "#1273DE", "#8ED1FC"]}
+                  style={{ 
+                    labels: { 
+                      fontSize: responsiveFontSize(1.5),
+                    } ,
+                    data: { 
+                      fillOpacity: 0.9, 
+                      stroke: "#A4A7A5",
+                      strokeWidth: 1 },
+                  }}
+                />
+                <View style={[styles.labelContainer]}>
+                  <View style={styles.rowLabel}>
+                    <Text style={styles.chartLabel}><Text style={{color: '#F78DA7'}}>{'\u2B24'}</Text> Very Satisfied</Text>
+                    <Text style={styles.chartLabel}><Text style={{color: '#5300EB'}}>{'\u2B24'}</Text> Satisfied</Text>
+                    <Text style={styles.chartLabel}><Text style={{color: '#1A237E'}}>{'\u2B24'}</Text> Neutral</Text>
+                  </View>
+                  <View style={styles.rowLabel}>
+                    <Text style={styles.chartLabel}><Text style={{color: '#1273DE'}}>{'\u2B24'}</Text> Unsatisfied</Text>
+                    <Text style={styles.chartLabel}><Text style={{color: '#8ED1FC'}}>{'\u2B24'}</Text> Very Unsatisfied</Text>
+                  </View>
+                </View>
 
-        <View style={styles.btnOuter}>
-          <Pressable onPress={() => setmodal1Visible(true)} style={styles.btnInner}>
-            <Text style={styles.btnText}>Patient Record</Text>
-          </Pressable>
-          <Pressable onPress={() => setmodal2Visible(true)} style={styles.btnInner}>
-            <Text style={styles.btnText}>Inventory</Text>
-          </Pressable>
-        </View>
+            {/* Insertion and Deletion of Patients */}
+              <Text style={[styles.reportTitle, styles.marginbottom]}>Insertions vs. Deletions of Patient </Text>
+              <View style={styles.chartContainer}>
+                  <VictoryChart
+                    theme={VictoryTheme.material}
+                    width={responsiveWidth(80)}
+                    >
+                    <VictoryGroup offset={16} style={{ data: { width: 15 } }}>
+                      {/* Insertion Bar */}
+                      <VictoryBar 
+                        data={insertion} 
+                        style={{
+                          data: { 
+                            fillOpacity: 1,
+                            fill: "#E8D06D",
+                          },
+                        }}/>
+                      {/* Deletion Bar */}
+                      <VictoryBar
+                        data={deletion}
+                        style={{
+                          data: { 
+                            fillOpacity: 1, 
+                            fill: "#B80000",
+                          },
+                        }} />
+                    </VictoryGroup>
+                  </VictoryChart>
+                  <View style={[styles.labelContainer, {marginTop:responsiveHeight(-1)}]}>
+                    <View style={styles.rowLabel}>
+                      <Text style={styles.chartLabel}><Text style={{color: '#E8D06D'}}>{'\u2B24'}</Text> Insertions</Text>
+                      <Text style={styles.chartLabel}><Text style={{color: '#B80000'}}>{'\u2B24'}</Text> Deletions</Text>
+                    </View>
+                  </View>
+              </View>
+
+              {/* Doctor's Treatment Plan */}
+              <Text style={[styles.reportTitle, styles.marginbottom]}>Doctor's Treatment Plan</Text>
+              <View style={styles.chartContainer}>
+                <VictoryChart horizontal
+                  theme={VictoryTheme.material}
+                  domainPadding={30}
+                  width={responsiveWidth(80)}
+                >
+                  <VictoryBar
+                    data={docTreatmentPlan}
+                    x="agreement"
+                    y="agreementTotal"
+                    colorScale={["#F78DA7", "#5300EB", "#1A237E", "#1273DE", "#8ED1FC"]}
+                    style={{
+                      data: { 
+                        fillOpacity: 1, 
+                        fill: "#64B5F6",
+                        width: 40
+                      },
+                    }}
+                  />
+                </VictoryChart>
+                <View style={[styles.labelContainer, {marginTop:responsiveHeight(-1)}]}>
+                  <View style={styles.rowLabel}>
+                    <Text style={styles.chartLabel}>SA - Strongly Agree</Text>
+                    <Text style={styles.chartLabel}>A - Agree</Text>
+                    <Text style={styles.chartLabel}>N - Neutral</Text>
+                  </View>
+                  <View style={styles.rowLabel}>
+                    <Text style={styles.chartLabel}>D - Disagree</Text>
+                    <Text style={styles.chartLabel}>SD - Strongly Disagree</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* Stock Items */}
+                <Text style={[styles.reportTitle, styles.marginbottom]}>Stock Items</Text>
+                <View style={[styles.chartContainer]}>
+                  <VictoryChart 
+                    // theme={VictoryTheme.material}
+                    width={responsiveWidth(80)}
+                    domainPadding={{x:20}}
+                    containerComponent={
+                      <VictoryZoomContainer
+                        allowZoom={false}
+                        zoomDomain={{x: [0.8, 4]}}
+                      />
+                    }
+                     >
+                      <VictoryGroup offset={21} style={{ data: { width: 20 } }}>
+                        {/* Stock In */}
+                        <VictoryBar 
+                          data={stockIn} 
+                          style={{
+                            data: { 
+                              fillOpacity: 1,
+                              fill: "#F78DA7",
+                            },
+                          }}
+                        />
+                        {/* Stock Out */}
+                        <VictoryBar
+                          data={stockOut} 
+                          style={{
+                            data: { 
+                              fillOpacity: 1, 
+                              fill: "#F47867",
+                            },
+                          }}
+                        />
+                      </VictoryGroup>
+                      
+                      <VictoryAxis />
+
+                      <VictoryAxis
+                        tickCount={ 10 }
+                        dependentAxis={ true } /* To target the y-axis */
+                      />
+                  </VictoryChart>
+                  <View style={[styles.labelContainer, {marginTop:responsiveHeight(-1)}]}>
+                    <View style={styles.rowLabel}>
+                      <Text style={styles.chartLabel}><Text style={{color: '#F78DA7'}}>{'\u2B24'}</Text> Stock In</Text>
+                      <Text style={styles.chartLabel}><Text style={{color: '#F47867'}}>{'\u2B24'}</Text> Stock Out</Text>
+                    </View>
+                  </View>
+                </View>
+            </View>
+          </View>
+        </ScrollView>
       </ImageBackground>
+    }
     </View>
     
   );
@@ -87,64 +311,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight,
   },
 
-  btnOuter: {
+  reportContainer: {
+    flex: 1,
+    alignSelf: 'center',
+    backgroundColor: '#fff',
+    width: responsiveWidth(90),
+    marginTop: responsiveHeight(7),
+    marginBottom: responsiveHeight(10),
+    padding: 20,
+    borderRadius: 20,
+  },
+
+  reportTitle: {
+    fontSize: responsiveFontSize(2.3),
+  },
+
+  chartContainer: {
+    alignSelf: 'center',
+    marginTop: responsiveHeight(-5),
+  },
+
+  labelContainer: {
+    marginTop: responsiveHeight(-4),
+    marginBottom: responsiveHeight(3),
+  },
+
+  rowLabel: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginTop: responsiveHeight(5),
   },
 
-  btnInner: {
-    backgroundColor: '#D4EDFF',
-    width: responsiveWidth(40),
-    padding: 15,
-    borderRadius: 30
+  chartLabel: {
+    
   },
 
-  btnText: {
-    color: '#000',
-    // fontSize: 20,
-    fontSize: responsiveFontSize(1.8),
-    textAlign: 'center'
+  marginbottom: {
+    marginBottom: responsiveHeight(1),
   },
 
-  centeredView: {
-    flex: 1,
-    justifyContent: "flex-end",
-    marginBottom: responsiveHeight(10),
+  nospace: {
+    marginLeft: responsiveWidth(0),
+    marginRight: responsiveWidth(-20),
+    paddingLeft: responsiveWidth(-20),
+    paddingRight: responsiveWidth(0),
   },
 
-  modalView: {
-    width: responsiveWidth(90),
-    height: responsiveHeight(73),
-    marginHorizontal: responsiveWidth(5),
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 30,
-    paddingLeft: 10,
-    paddingRight: 10,
-    alignItems: "center",
-    shadowColor: "#000",
-
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-
-  buttonClose: {
-    marginLeft: responsiveWidth(78),
-    marginTop: responsiveHeight(-1.5),
-  },
-
-  modalText: {
-    fontSize: responsiveFontSize(1.5),
-  },
 });

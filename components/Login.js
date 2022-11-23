@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput, StatusBar, TouchableNativeFeedbackComponent } from 'react-native';
+import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput } from 'react-native';
 import {
   responsiveHeight,
   responsiveWidth,
@@ -173,7 +173,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight,
   },
 
   bgimage: {

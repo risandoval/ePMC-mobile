@@ -24,10 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/epmc-logo.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.maryangel.ePMCmobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3b415aa7-8578-49d1-b4bf-9e3e5d7bc486"
+      }
     }
   }
 }

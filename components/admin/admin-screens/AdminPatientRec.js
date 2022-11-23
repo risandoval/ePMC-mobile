@@ -15,7 +15,10 @@ export default function AdminPatientRec({navigation}) {
   const [filteredData, setFilteredData] = useState([]);
   const [data, setData] = useState([]); //total patients
   const [data2, setData2] = useState([]); //patient list
+  const [data3, setData3] = useState([]); //patient rec view
   const [search, setSearch] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalEntry, setModalEntry] = useState([]);
   
   const headers = {
     'Accept': 'application/json',
@@ -68,6 +71,49 @@ export default function AdminPatientRec({navigation}) {
     const dataInterval = setInterval(() => fetchPatient(), 5 * 1000);
     return () => clearInterval(dataInterval);
   },[]);
+
+  // const fetchModal = async () => {
+  //   var patientrecpath = 'http://192.168.2.115:80/epmc-4/adm_patientrec_view';
+
+  //   await fetch(patientrecpath,{
+  //     method: 'POST',
+  //     headers: headers,
+  //     body: JSON.stringify(modalEntry)
+  //   })
+  //   .then((response)=>response.json())
+  //   //.then((response)=>console.log(response))
+  //   .then((json)=>setData3(json))
+  //   .catch((error)=>{
+  //     console.error("ERROR FOUND " + error);
+  //   })
+  // }
+
+  // useEffect(()=>{
+  //   fetchModal();
+  //   const dataInterval = setInterval(() => fetchModal(), 5 * 1000);
+  //   return () => clearInterval(dataInterval);
+  // },[]);
+
+  useEffect(()=>{
+    
+      var patientrecpath = 'http://192.168.2.115:80/epmc-4/adm_patientrec_view';
+      // let isSubscribed = true;
+
+      const fetchModal = async () => {
+        await fetch(patientrecpath,{
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(modalEntry)
+        })
+        .then((response)=>response.json())
+        // .then((response)=>console.log(response))
+        .then((json)=>setData3(json))
+      }
+      fetchModal()
+        .catch(console.error);;
+      // return () => isSubscribed = false;
+    
+  },[modalEntry]);
   
   const headerComponent = () => {
     return <Text style={styles.listHeadline}>Patient Record</Text>
@@ -95,7 +141,7 @@ export default function AdminPatientRec({navigation}) {
   //end search
   const url = "http://e-pmc.com/assets/img/profile-avatars/patient-avatar-1.jpg"
   //Section List - Patient Record View
-  const DATA = [
+  const asd = [
     {
       title: "Personal Information",
       data: [{id:"                                  ", value: <View style={styles.avatarContainer}>
@@ -118,11 +164,7 @@ export default function AdminPatientRec({navigation}) {
 
 
   //for border bottom radius
-  function ListItem({
-    section,
-    item,
-    index,
-  }) {
+  function ListItem({section,item,index,}) {
     const amountOfItemsInSection = section.data.length - 1
     return (
     <View style={{
@@ -130,49 +172,97 @@ export default function AdminPatientRec({navigation}) {
           borderBottomLeftRadius: index === amountOfItemsInSection ? 15 : 0,
           borderBottomRightRadius: index === amountOfItemsInSection ? 15 : 0}}}>
       <View style={styles.recordDataContainer}>
-        <Text style={styles.recordData}>{item.id} {item.value} </Text>
+      
+        <Text style={styles.recordData}>{item.value}</Text>
+        
       </View>
     </View>
   )}
 
+  // function Cards() {
+  //   return (
+  //     <View style={styles.patientlist}>
+  //       <FlatList
+  //       ListHeaderComponentStyle={styles.listHeader}
+  //       ListHeaderComponent={headerComponent}
+  //       data={data2}
+  //       keyExtractor={(item) => item.id.toString()}
+  //       renderItem={({ item }) => (
+  //         <View style={styles.item}>
+  //           <View style={styles.avatarContainer}>
+  //             <Image source={{uri:item.image}} style={styles.avatar}/>
+  //           </View>
+  //           <Text style={styles.nametxt}>{item.pt_fullname}</Text>
+
+  //           <View style={styles.viewContainer}>
+  //             <Pressable onPress={() => {setModalVisible(true); setModalEntry(item); }} style={styles.viewbox}>
+  //               <Text style={styles.viewtxt}>View</Text>
+  //             </Pressable>
+  //           </View>
+          
+  //         </View>
+  //       )}
+  //       ItemSeparatorComponent = {itemSeparator}
+  //       />
+  //       <Modal
+  //         entry={modalEntry}
+  //         modalVisible={modalVisible}
+  //         onClose={() => setModalVisible(false)}
+  //       />
+  //     </View>
+      
+  //   );
+  // }
+
+  // function Modal({ entry, modalVisible, onClose }) {
+  //   return (
+  //     <View>
+  //       <Modal
+  //       animationType='fade'
+  //       // transparent={true}
+  //       visible={modalVisible}
+  //       onRequestClose={() => {
+  //         onClose();
+  //       }} >
+  //         <View style={styles.centeredView}>
+  //           <View style={styles.modalView} >
+  //             <Pressable
+  //               style={[styles.button, styles.buttonClose]}
+  //               onPress={() => onClose()} >
+  //                 <AntDesign name='closecircle' size={20} style={styles.closeBtn} />
+  //             </Pressable>
+  //             {/* SECTION LIST */}
+  //             <SectionList
+  //               sections={asd}
+  //               // keyExtractor={(item, index) => item + index}
+  //               renderItem={({ item, section, index }) =>
+  //                 {
+  //                   const amountOfItemsInSection = section.data.length - 1
+  //                   return (
+  //                   <View style={{
+  //                         ...styles.recordContainer,...{
+  //                         borderBottomLeftRadius: index === amountOfItemsInSection ? 15 : 0,
+  //                         borderBottomRightRadius: index === amountOfItemsInSection ? 15 : 0}}}>
+  //                     <View style={styles.recordDataContainer}>
+  //                       <Text style={styles.recordData}>{item.id} {item.value} </Text>
+  //                     </View>
+  //                   </View>
+  //                 )}
+  //               }
+  //               renderSectionHeader={({ section: { title } }) => (
+  //                 <Text style={styles.recordheader}>{title}</Text>
+  //               )}
+  //             />
+  //           </View>
+  //         </View>
+  //       </Modal>
+  //     </View>
+  //   );
+  // }
+
   // Modal for Patient Record
-  const [modal1Visible, setmodal1Visible] = useState(false);
-  const [modalEntry, setModalEntry] = useState();
   return (
     <View style={styles.container}>
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={modal1Visible}
-        onRequestClose={() => {
-          setmodal1Visible(!modal1Visible);
-        }} >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView} >
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setmodal1Visible(!modal1Visible)} >
-                  <AntDesign name='closecircle' size={20} style={styles.closeBtn} />
-              </Pressable>
-              {/* SECTION LIST */}
-              <SectionList
-                sections={DATA}
-                // keyExtractor={(item, index) => item + index}
-                renderItem={({ item, section, index }) =>
-                  <ListItem
-                    section={section}
-                    item={item}
-                    index={index}
-                  />
-                }
-                renderSectionHeader={({ section: { title } }) => (
-                  <Text style={styles.recordheader}>{title}</Text>
-                )}
-              />
-            </View>
-          </View>
-      </Modal>
-
       {isLoading ? <Text style={styles.loadingtext}>Loading Data...</Text>:
       <ImageBackground source={require('../../../assets/patientrecbg.png')} style={styles.bgimage}>
         <View style={styles.searchBar}>
@@ -190,7 +280,8 @@ export default function AdminPatientRec({navigation}) {
         {data.map(_total=><Text style={styles.txtTotal} key={_total.id}>{_total.patient} Patients</Text>)}
         </View>
 
-        <View style={styles.patientlist}>
+
+        {/* <View style={styles.patientlist}>
           <FlatList
             ListHeaderComponentStyle={styles.listHeader}
             ListHeaderComponent={headerComponent}
@@ -213,7 +304,64 @@ export default function AdminPatientRec({navigation}) {
             )}
             ItemSeparatorComponent = {itemSeparator}
           />
+          
+        </View> */}
+
+        <View style={styles.patientlist}>
+          <FlatList
+          ListHeaderComponentStyle={styles.listHeader}
+          ListHeaderComponent={headerComponent}
+          data={data2}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              <View style={styles.avatarContainer}>
+                <Image source={{uri:item.image}} style={styles.avatar}/>
+              </View>
+              <Text style={styles.nametxt}>{item.pt_fullname}</Text>
+
+              <View style={styles.viewContainer}>
+                <Pressable onPress={() => {setModalVisible(!modalVisible); setModalEntry(item); }} style={styles.viewbox}>
+                  <Text style={styles.viewtxt}>View</Text>
+                </Pressable>
+              </View> 
+            </View> 
+          )}
+          ItemSeparatorComponent = {itemSeparator}
+          />
         </View>
+        <Modal
+        animationType='fade'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }} >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView} >
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)} >
+                  <AntDesign name='closecircle' size={20} style={styles.closeBtn} />
+              </Pressable>
+              {/* SECTION LIST */}
+              <SectionList
+                sections={data3}
+                // keyExtractor={(item, index) => item + index}
+                renderItem={({ item, section, index }) =>
+                  <ListItem
+                  section={section}
+                  item={item}
+                  index={index}
+                  />
+                }
+                renderSectionHeader={({ section: { title } }) => (
+                  <Text style={styles.recordheader}>{title}</Text>
+                )}
+              />
+            </View>
+          </View>
+        </Modal>
         
       </ImageBackground>
       }
@@ -321,8 +469,8 @@ const styles = StyleSheet.create({
   avatarContainer2: {
     // backgroundColor: '#D9D9D9',
     // borderRadius: 100,
-    height: 90,
-    width: 90,
+    height: 50,
+    width: 50,
     paddingTop: 10,
     marginLeft: 10,
     justifyContent: 'center',
@@ -337,8 +485,8 @@ const styles = StyleSheet.create({
 
   avatar2: {
     borderRadius: 100,
-    height: 110,
-    width: 110,
+    height: 100,
+    width: 100,
   },
 
   nametxt: {

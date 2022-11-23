@@ -97,7 +97,6 @@ export default function Login( {navigation} ) {
       // const datata = JSON.parse(getdata);
       // const email = await AsyncStorage.getItem('email');
       if (adm !== null || doc !== null || pat !== null) {
-        console.log(doc)
         if (adm !== null) {
           navigation.reset({
             index: 0,

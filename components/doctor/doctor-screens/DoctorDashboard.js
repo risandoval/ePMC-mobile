@@ -29,7 +29,7 @@ export default function AdminDashboard() {
     // var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_total";
     // var dashboardpath = "http://192.168.2.115:80/epmc-4/adm_dashboard_total";
 
-      //  var dashboardpath = "http://e-pmc.com/adm_dashboard_total";
+       var dashboardpath = "http://e-pmc.com/adm_dashboard_total";
   
     await fetch(dashboardpath,{
       headers: headers
@@ -52,9 +52,9 @@ export default function AdminDashboard() {
     // var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_recent";
     // var dashboardpath = "http://192.168.2.115:80/epmc-4/adm_dashboard_recent";
 
-    // var dashboardpath = "http://e-pmc.com/adm_dashboard_recent";
+    var dashboardpath = "http://e-pmc.com/adm_dashboard_recent";
   
-    await fetch(dashboardpath2,{
+    await fetch(dashboardpath,{
       headers: headers
     })  
     .then((response)=>response.json())

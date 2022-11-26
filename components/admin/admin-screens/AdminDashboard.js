@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, FlatList, ScrollView, ImageBackground } from 'react-native';
 import { responsiveHeight,  responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather'
@@ -69,7 +70,7 @@ export default function AdminDashboard() {
   return (
     <View style={styles.container}>
       {isLoading ? <Text style={styles.loadingtext}>Loading Data...</Text>:
-      <ImageBackground source={require('../../../assets/dashboardbg.png')} style={styles.bgimage}>
+      <ImageBackground source={require('../../../assets/dashboard.png')} style={styles.bgimage}>
         <View style={[styles.box, styles.box1]}>
           <FontAwesome name="clipboard-list" style={[styles.icon, styles.iconMargin]} />
           <View>
@@ -132,43 +133,41 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    backgroundColor: '#F4F4F4',
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   
   icon: {
-    marginTop: responsiveHeight(1.9),
-    marginLeft: responsiveWidth(1),
+    marginTop: hp('1.9%'),
+    marginLeft: wp('1%'),
     color: "black",
-    fontSize: responsiveFontSize(5),
+    fontSize: hp('6%'),
   },
 
   iconMargin: {
-    marginTop: responsiveHeight(1.4),
+    // marginTop: responsiveHeight(1.4),
+    marginTop: hp('1.4%'),
     marginLeft: responsiveWidth(1.5),
   },
 
   box: {
-    width: responsiveWidth(35),
-    height: responsiveHeight(11),
+    width: wp('35%'),
+    height: hp('12%'),
     borderRadius: 20,
-    padding: responsiveWidth(1.6),
-    paddingLeft: responsiveWidth(1),
-    paddingRight: responsiveWidth(10),
-    marginTop: responsiveHeight(3),
+    padding: wp('2%'),
+    paddingLeft: wp('1%'),
+    paddingRight: wp('10%'),
+    marginTop: hp('3%'),
     flexDirection: 'row'
   },
 
   box1: {
     backgroundColor: '#92CEFA',
-    marginTop: responsiveHeight(8),
+    marginTop: hp('10%'),
   },
 
   box2: {
     backgroundColor: '#FAD692',
-    marginTop: responsiveHeight(8),
+    marginTop: hp('10%'),
   },
 
   box3: {
@@ -201,19 +200,20 @@ const styles = StyleSheet.create({
   },
 
   txtRecent: {
-    marginTop: responsiveHeight(7),
-    fontSize: responsiveFontSize(4),
+    marginTop: hp('5%'),
+    fontSize: hp('4.3%'),
     color: "#000",
     fontWeight: "bold",
   },
 
   recentOuterBox: {
-    marginTop: responsiveHeight(-2),
-    marginBottom: responsiveHeight(2),
-    paddingTop: responsiveHeight(2),
-    paddingBottom: responsiveHeight(2),
-    width: responsiveWidth(85),
-    height: responsiveHeight(47),
+    marginTop: hp('-1%'),
+    marginBottom: hp('1%'),
+    paddingTop: hp('2%'),
+    paddingBottom: hp('2%'),
+    width: wp('85%'),
+    height: hp('52%'),
+    // borderWidth: 1
   },
 
   recentInnerBox: {

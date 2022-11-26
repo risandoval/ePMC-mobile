@@ -1,11 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput } from 'react-native';
-import {
-  responsiveHeight,
-  responsiveWidth,
-  responsiveFontSize
-} from "react-native-responsive-dimensions";
+import {responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 export default function Login( {navigation} ) {
   const [email, setEmail] = useState("");
@@ -130,12 +127,10 @@ export default function Login( {navigation} ) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../assets/loginbg.png')} style={styles.bgimage}>
-        <Text style={styles.txtLogin}> Login </Text>
+      <ImageBackground source={require('../assets/login.png')} style={styles.bgimage}>
+        <Text style={styles.txtLogin}> LOGIN </Text>
 
-        {/* <Pressable > */}
-        {/* <Text onPress={() => navigation.navigate("LoginStaff")} style={styles.forgot}> Forgot Password? </Text> */}
-        {/* </Pressable> */}
+        
 
         <View style={[styles.inputCard, styles.shadow]} >
           <TextInput
@@ -161,6 +156,10 @@ export default function Login( {navigation} ) {
           <Text style={styles.btnLogin1}>Login</Text>
         </Pressable>
 
+        <Pressable >
+        <Text onPress={() => navigation.navigate("Register")} style={styles.forgot}>Register Now</Text>
+        </Pressable>
+
       </ImageBackground>
     </View>
   );
@@ -181,64 +180,59 @@ const styles = StyleSheet.create({
   },
 
   txtLogin: {
-    marginTop: responsiveHeight(-1),
-    marginBottom: responsiveHeight(8),
-    color: "#4d4d4d",
-    fontSize: responsiveFontSize(6),
+    marginTop: hp('27%'),
+    marginBottom: hp('5%'),
+    color: "#033d68",
+    fontSize: hp('4%'),
     fontWeight: "bold",
     textAlign: "center"
   },
 
   forgot: {
-    marginRight: responsiveWidth(11),
-    marginBottom: responsiveHeight(0.5),
-    fontSize: responsiveFontSize(1.5),
-    textAlign: 'right',
-    color: '#BFBFBF'
+    // marginRight: responsiveWidth(11),
+    marginTop: hp('2%'),
+    fontSize: hp('2.2%'),
+    alignSelf: 'center',
+    // justifyContent: 'flex-end',
+    textAlign: 'center',
+    color: '#787878',
+    textDecorationLine: 'underline',
+    // borderWidth: 1,
   },
 
   inputCard: {
     backgroundColor: '#FFF',
-    width: responsiveWidth(80),
-    borderRadius: 20,
-    marginHorizontal: responsiveWidth(10),
-    marginBottom: responsiveHeight(1),
-  },
-
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.00,
-
-    elevation: 3,
+    width: wp('80%'),
+    borderRadius: 10,
+    marginHorizontal: wp('10%'),
+    marginBottom: hp('1%'),
+    elevation: 2,
   },
 
   input: {
     margin: 10,
-    padding: 10,
-    height: 60,
-    fontSize: 20
+    padding: 5,
+    height: hp('4%'),
+    fontSize: hp('2.5%'),
   },
 
   btnLogin: {
     // flex: 1,
+    alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 30,
-    backgroundColor: '#056EBA',
-    width: responsiveWidth(30),
-    height: responsiveHeight(5),
-    marginHorizontal: responsiveWidth(35),
-    marginTop: responsiveHeight(1),
-    padding: 5
+    borderRadius: 15,
+    backgroundColor: '#033d68',
+    width: wp('35%'),
+    height: hp('6%'),
+    marginHorizontal: wp('30%'),
+    marginTop: hp('2%'),
+    padding: 7,
+    
   },
 
   btnLogin1: {
     color: '#fff',
-    fontSize: 20
+    fontSize: 20,
   },
 });

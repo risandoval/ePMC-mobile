@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput } from 'react-native';
+import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput, Dimensions, Image } from 'react-native';
 import {responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
@@ -127,7 +127,8 @@ export default function Login( {navigation} ) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../assets/login.png')} style={styles.bgimage}>
+      {/* <ImageBackground source={require('../assets/login.png')} style={styles.logo}> */}
+      <Image source={require('../assets/epmc-logo.png')} style={styles.logo}/>
         <Text style={styles.txtLogin}> LOGIN </Text>
 
         
@@ -153,14 +154,14 @@ export default function Login( {navigation} ) {
         <Pressable  style={styles.btnLogin} onPress={checkLogin}>
         {/* <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("AdminNavbar")}> */}
           {/* <AntDesign name="arrowright" style={styles.btnLogin1} /> */}
-          <Text style={styles.btnLogin1}>Login</Text>
+          <Text style={styles.btnLogin1}>LOGIN</Text>
         </Pressable>
 
         <Pressable >
         <Text onPress={() => navigation.navigate("Register")} style={styles.forgot}>Register Now</Text>
         </Pressable>
 
-      </ImageBackground>
+      {/* </ImageBackground> */}
     </View>
   );
 }
@@ -168,30 +169,33 @@ export default function Login( {navigation} ) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#efefef',
     alignItems: 'center',
     justifyContent: 'center',
   },
 
-  bgimage: {
-    width: '100%',
-    flex: 1,
-    justifyContent: 'center'
+  logo: {
+    width: wp('30%'),
+    height: hp('11%'),
+    // flex: 1,
+    // justifyContent: 'center',
+    // width: Dimensions.get('window').width,
+    // height: Dimensions.get('window').height,
   },
 
   txtLogin: {
-    marginTop: hp('27%'),
-    marginBottom: hp('5%'),
+    marginTop: hp('1%'),
+    marginBottom: hp('1%'),
     color: "#033d68",
-    fontSize: hp('4%'),
+    fontSize: hp('3.5%'),
     fontWeight: "bold",
     textAlign: "center"
   },
 
   forgot: {
     // marginRight: responsiveWidth(11),
-    marginTop: hp('2%'),
-    fontSize: hp('2.2%'),
+    marginTop: hp('1%'),
+    fontSize: hp('2%'),
     alignSelf: 'center',
     // justifyContent: 'flex-end',
     textAlign: 'center',
@@ -213,7 +217,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 5,
     height: hp('4%'),
-    fontSize: hp('2.5%'),
+    fontSize: hp('1.8%'),
   },
 
   btnLogin: {
@@ -221,18 +225,17 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 15,
+    borderRadius: 20,
     backgroundColor: '#033d68',
     width: wp('35%'),
-    height: hp('6%'),
-    marginHorizontal: wp('30%'),
-    marginTop: hp('2%'),
+    height: hp('4.5%'),
+    marginTop: hp('6%'),
     padding: 7,
     
   },
 
   btnLogin1: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: hp('2.2%'),
   },
 });

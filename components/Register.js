@@ -1,13 +1,38 @@
-import { StyleSheet, ImageBackground, View, Text, TextInput, ScrollView, Pressable} from 'react-native';
-import {responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
+import {StyleSheet, ImageBackground, View, Text, TextInput, ScrollView, Pressable, Image,
+        Alert, Button} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { useState } from 'react';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 
-export default function LoginStaff() {
+
+export default function Register({navigation}) {
+  const [checked, setChecked] = useState(false);
+  //for birthday
+  const [datePicker, setDatePicker] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  function register() {
+    if (!checked) {
+      // alert("Accept the Terms and Conditions by checking the box to register.");
+      Alert.alert(
+        "Note",
+        "Read and accept the Terms and Conditions by checking the box before registering.",
+      );
+    }
+    else {
+      Alert.alert(
+        "",
+        "Register !!!",
+      );
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../assets/register.png')} style={styles.bgimage}>
+      <Image source={require('../assets/epmc-logo.png')} style={styles.logo}/>
         <Text style={styles.txtRegister}> REGISTER </Text>
         <ScrollView style={styles.scroll}>
+          <Text style={styles.labelInfo}>Personal Information</Text>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
@@ -47,15 +72,78 @@ export default function LoginStaff() {
               // onChangeText={emailHandler}
               // value={email}
             />
+            
+          </View>
+          <View style={[styles.inputCard, styles.shadow]} >
+            <TextInput
+              style={styles.input}
+              placeholder="Sex"
+              // onChangeText={emailHandler}
+              // value={email}
+            />
+          </View>
+          <View style={[styles.inputCard, styles.shadow]} >
+            <TextInput
+              style={styles.input}
+              placeholder="Occupation"
+              // onChangeText={emailHandler}
+              // value={email}
+            />
+          </View>
+          <View style={[styles.inputCard, styles.shadow]} >
+            <TextInput
+              style={styles.input}
+              placeholder="Address"
+              // onChangeText={emailHandler}
+              // value={email}
+            />
+          </View>
+
+          <Text style={styles.labelInfo}>Contact Information</Text>
+          <View style={[styles.inputCard, styles.shadow]} >
+            <TextInput
+              style={styles.input}
+              placeholder="Cellphone # (09xxxxxxxxx)"
+              // onChangeText={emailHandler}
+              // value={email}
+            />
+          </View>
+          <View style={[styles.inputCard, styles.shadow]} >
+            <TextInput
+              style={styles.input}
+              placeholder="Telephone # (xxxxxxx)"
+              // onChangeText={passHandler}
+              // value={pass}
+            />
+          </View>
+
+          <Text style={styles.labelInfo}>Emergency Contact</Text>
+          <View style={[styles.inputCard, styles.shadow]} >
+            <TextInput
+              style={styles.input}
+              placeholder="Name of Contact Person"
+              // onChangeText={passHandler}
+              // value={pass}
+            />
+          </View>
+          <View style={[styles.inputCard, styles.shadow]} >
+            <TextInput
+              style={styles.input}
+              placeholder="Relationship"
+              // onChangeText={passHandler}
+              // value={pass}
+            />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
               placeholder="Email"
-              // onChangeText={emailHandler}
-              // value={email}
+              // onChangeText={passHandler}
+              // value={pass}
             />
           </View>
+
+          <Text style={styles.labelInfo}>Password</Text>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
@@ -74,16 +162,29 @@ export default function LoginStaff() {
               // value={pass}
             />
           </View>
-          <Pressable >
-            <Text onPress={() => navigation.navigate("Register")} style={styles.forgot}>Accept Terms & Conditions</Text>
+          
+          <Text style={styles.note}>Please do note that your registration is stil pending and will be 
+          validated upon visting the Pagtakhan Medical Clinic. Once validated, your patient ID will be 
+          provided by the secretaries and will serve as your username.</Text>
+          
+          <View style={styles.termsContainer}>
+            <Pressable onPress={() => setChecked(true)}>
+              {checked ? <Pressable onPress={() => setChecked(false)}><Fontisto name="checkbox-active" size={18} color="#787878" style={styles.checkbox} /></Pressable> : 
+              <Fontisto name="checkbox-passive" size={18} color="#787878" style={styles.checkbox} />}
+            </Pressable>
+
+            <Pressable>
+              <Text onPress={() => navigation.navigate("Terms")} style={styles.terms}>Accept Terms & Conditions</Text>
+            </Pressable>
+          </View>
+          
+          
+          {/* <Pressable  style={styles.btnRegister} > */}
+          <Pressable  style={styles.btnRegister} onPress={() => register()}>
+            <Text style={styles.btnRegistertxt}>REGISTER</Text>
           </Pressable>
-          <Pressable  style={styles.btnLogin} >
-          {/* <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("AdminNavbar")}> */}
-          {/* <AntDesign name="arrowright" style={styles.btnLogin1} /> */}
-          <Text style={styles.btnLogin1}>Login</Text>
-        </Pressable>
+          
         </ScrollView>
-      </ImageBackground>
     </View>
     
     
@@ -91,12 +192,7 @@ export default function LoginStaff() {
 }
 
 const styles = StyleSheet.create({
-  bgimage: {
-    width: '100%',
-    height: '100%',
-    flex: 1
-  },
-
+  
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -104,13 +200,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
+  logo: {
+    width: wp('30%'),
+    height: hp('11%'),
+    marginTop: hp('5%'),
+  },
+
+
   txtRegister: {
-    marginTop: hp('40%'),
+    marginTop: hp('2%'),
     marginBottom: hp('5%'),
     color: "#033d68",
-    fontSize: hp('4%'),
+    fontSize: hp('3%'),
     fontWeight: "bold",
     textAlign: "center"
+  },
+
+  labelInfo:{
+    marginHorizontal: wp('10%'),
+    color: "#033d68",
+    fontSize: hp('1.8%'),
+    marginBottom: hp('0.5%'),
   },
 
   scroll:{
@@ -132,38 +242,54 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 1,
     height: hp('3%'),
+    fontSize: hp('1.5%'),
+  },
+
+  note: {
+    marginHorizontal: wp('10%'),
+    color: "#033d68",
+    fontSize: hp('1%'),
+    textAlign: 'center'
+  },
+
+  termsContainer: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+
+  terms: {
+    marginTop: hp('2%'),
     fontSize: hp('2%'),
-  },
-
-  btnLogin: {
-    // flex: 1,
     alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    backgroundColor: '#033d68',
-    width: wp('35%'),
-    height: hp('6%'),
-    marginHorizontal: wp('30%'),
-    marginTop: hp('2%'),
-    marginBottom: hp('6%'),
-    padding: 7,
-  },
-
-  btnLogin1: {
-    color: '#fff',
-    fontSize: 20,
-  },
-
-  forgot: {
-    // marginRight: responsiveWidth(11),
-    marginTop: hp('2%'),
-    fontSize: hp('2.2%'),
-    alignSelf: 'center',
-    // justifyContent: 'flex-end',
     textAlign: 'center',
     color: '#787878',
     textDecorationLine: 'underline',
     // borderWidth: 1,
   },
+  
+  checkbox: {
+    marginTop: hp('2.6%'),
+    marginRight: wp('2%'),
+  },
+
+  btnRegister: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    backgroundColor: '#033d68',
+    width: wp('35%'),
+    height: hp('4.5%'),
+    marginTop: hp('2%'),
+    marginBottom: hp('2%'),
+    padding: 7,
+    
+  },
+
+  btnRegistertxt: {
+    color: '#fff',
+    fontSize: hp('2.2%'),
+  },
+
+  
 });

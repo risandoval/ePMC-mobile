@@ -4,7 +4,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { useState } from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { validatePathConfig } from '@react-navigation/native';
+import { Dropdown } from 'react-native-element-dropdown';
 
 
 
@@ -27,14 +27,15 @@ export default function Register({navigation}) {
   const [occupationError, setOccupationError] = useState("");
   const [address, setAddress] = useState("");
   const [addressError, setAddressError] = useState("");
+  const [contactInfoError, setContactInfoError] = useState("");
   const [contactNum, setContactNum] = useState("");
   const [contactNumError, setContactNumError] = useState("");
   const [telephoneNum, setTelephoneNum] = useState("");
   const [telephoneNumError, setTelephoneNumError] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [emerContact, setEmerContact] = useState("");
-  const [emerContactError, setEmerContactError] = useState("");
+  const [emerContactName, setEmerContactName] = useState("");
+  const [emerContactNameError, setEmerContactNameError] = useState("");
   const [relationship, setRelationship] = useState("");
   const [relationshipError, setRelationshipError] = useState("");
   const [emerEmail, setEmerEmail] = useState("");
@@ -43,6 +44,7 @@ export default function Register({navigation}) {
   const [passwordError, setPasswordError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [termsError, setTermsError] = useState("");
 
 
   //START for birthday
@@ -75,11 +77,31 @@ export default function Register({navigation}) {
   };
   //END for birthday
 
+  //START for sex dropdown
+  const sexData = [
+    {label: 'Female', value: 1},
+    {label: 'Male', value: 2},
+  ]
+  //END for sex dropdown
+
+  //START for relationship dropdown
+  const relationshipData = [
+    {label: 'Father', value: 1},
+    {label: 'Mother', value: 2},
+    {label: 'Sibling', value: 3},
+    {label: 'Child', value: 4},
+    {label: 'Spouse', value: 5},
+    {label: 'Grandparent', value: 6},
+    {label: 'Guardian', value: 7},
+    {label: 'Other', value: 8},
+  ]
+  //END for relationship dropdown
+
   //START form validations
   const register = async() => {
     //regex validation - alphabet only
     const validateName = (name) => {
-      let re = /^[a-zA-Z]+$/;
+      let re = /[a-zA-Z][a-zA-Z ]+/;
       return re.test(name);
     }
 
@@ -89,10 +111,22 @@ export default function Register({navigation}) {
       return re.test(num);
     }
 
-    //regex validation - data (yyyy-mm-dd)
-    const validateDate = (date) => {
-      let re = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
-      return re.test(date);
+    //regex validation - exact 11 numbers starting with 09
+    const validateContactNum = (num) => {
+      let re = /^09[0-9]{9}$/;
+      return re.test(num);
+    }
+
+    //regex validation - exact 7 numbers
+    const validateTelephoneNum = (num) => {
+      let re = /^[0-9]{7}$/;
+      return re.test(num);
+    }
+
+    //regex validation - email
+    const validateEmail = (email) => {
+      let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
     }
 
 
@@ -152,7 +186,7 @@ export default function Register({navigation}) {
     //birthday validation
     var bdayValid = false;
     if(bday == "") {
-      setBdayError("Birthday is required")
+      setBdayError("Birthday is required");
     }
     else {
       setBdayError("");
@@ -162,7 +196,7 @@ export default function Register({navigation}) {
     //sex validation
     var sexValid = false;
     if(sex == "") {
-      setSexError("Sex is required")
+      setSexError("Sex is required");
     }
     else {
       setSexError("");
@@ -192,9 +226,147 @@ export default function Register({navigation}) {
       addressValid = true;
     }
 
+    //at least one input in contact info
+    if (contactNum == "" && telephoneNum == "" && email == "") {
+      setContactInfoError("At least one input is required in this section");
+    } else {setContactNumError("");};
+
+    //contact number validation
+    var contactNumValid = false;
+    if (contactNum == "") {
+      setContactNumError("");
+    }
+    else if(!validateContactNum(contactNum)) {
+      setContactNumError("Contact number must be exactly 11 digits starting with 09");
+    }
+    else {
+      setContactNumError("");
+      contactNumValid = true;
+    }
+
+    //telephone number validation
+    var telephoneNumValid = false;
+    if (telephoneNum == "") {
+      setTelephoneNumError("");
+    }
+    else if(!validateTelephoneNum(telephoneNum)) {
+      setTelephoneNumError("Telephone number must be exactly 7 digits");
+    }
+    else {
+      setTelephoneNumError("");
+      telephoneNumValid = true;
+    }
+
+    //email validation
+    var emailValid = false;
+    if (email == "") {
+      setEmailError("");
+    }
+    else if(!validateEmail(email)) {
+      setEmailError("Email is invalid");
+    }
+    else {
+      setEmailError("");
+      emailValid = true;
+    }
+
+    //name of contact person validation
+    var emerContactNameValid = false;
+    if(emerContactName == "") {
+      setEmerContactNameError("Name of contact person is required");
+    }
+    else if(!validateName(emerContactName)) {
+      setEmerContactNameError("Name of contact person must be alphabetic");
+    }
+    else {
+      setEmerContactNameError("");
+      emerContactNameValid = true;
+    }
+
+    //relationship of contact person validation
+    var relationshipValid = false;
+    if(relationship == "") {
+      setRelationshipError("Relationship is required");
+    }
+    else {
+      setRelationshipError("");
+      relationshipValid = true;
+    }
+
+    //email of contact person validation
+    var emerEmailValid = false;
+    if(emerEmail == "") {
+      setEmerEmailError("Email is required");
+    }
+    else if(!validateEmail(emerEmail)) {
+      setEmerEmailError("Email is invalid");
+    }
+    else {
+      setEmerEmailError("");
+      emerEmailValid = true;
+    }
+
+    //password validation
+    var passwordValid = false;
+    if(password == "") {
+      setPasswordError("Password is required");
+    }
+    else if(password.length < 8) {
+      setPasswordError("Password must be at least 8 characters");
+    }
+    else {
+      setPasswordError("");
+    }
+
+    //confirm password validation
+    var confirmPasswordValid = false;
+    if(confirmPassword == "") {
+      setConfirmPasswordError("Confirm password is required");
+    }
+    else if(confirmPassword != password) {
+      setConfirmPasswordError("Passwords do not match");
+    }
+    else {
+      setConfirmPasswordError("");
+      confirmPasswordValid = true;
+      passwordValid = true;
+    }
+
+    //check terms if checked
+    var termsChecked = false;
+    if(checked == false) {
+      // setTermsError("Please check the box to agree to the terms and conditions");
+      Alert.alert("", "Please check the box to agree to the terms and conditions")
+    }
+    else {
+      setTermsError("");
+      termsChecked = true;
+    }
+
+
     //all fields are now valid
-    if(firstNameValid && middleNameValid && surnameValid && ageValid && bdayValid && sexValid && occupationValid && addressValid) {
-      Alert.alert("Success", "Registration successful");
+    if( (firstNameValid && middleNameValid && surnameValid && ageValid && bdayValid && sexValid && occupationValid && addressValid) && 
+        (contactNumValid || telephoneNumValid || emailValid) &&
+        (emerContactNameValid && relationshipValid && emerEmailValid) &&
+        (passwordValid) && (termsChecked)) {
+      alert(
+        "Name: " + firstName + typeof(firstName) + middleName + typeof(middleName) + surname + typeof(surname) + "\n" +
+        "Age: " + age + typeof(age) + " " + "\n" + 
+        "Birthday: " + bday + typeof(bday) + " " + "\n" +
+        "Sex: " + sex + typeof(sex) + " " + "\n" +
+        "Occupation: " + occupation + typeof(occupation) + " " + "\n" +
+        "Address: " + address + typeof(address) + " " + "\n" + "\n" +
+
+        "Contact Number: " + contactNum + typeof(contactNum) + " " + "\n" +
+        "Telephone Number: " + telephoneNum + typeof(telephoneNum) + " " + "\n" +
+        "Email: " + email + typeof(email) + " " + "\n" +
+
+        "Name of Contact Person: " + emerContactName + typeof(emerContactName) + " " + "\n" +
+        "Relationship: " + relationship + typeof(relationship) + " " + "\n" +
+        "Email of Contact Person" + emerEmail + typeof(emerEmail) + " " + "\n" +
+
+        "Password" + password + typeof(password)
+      )
     }
   }
 
@@ -264,23 +436,25 @@ export default function Register({navigation}) {
                 onChange={onChange}
               />
             )}
-            
-            {/* <TextInput
-              style={styles.input}
-              placeholder="yyyy-mm-dd"
-              onChangeText={(text) => setBday(text)}
-              value={bday}
-            /> */}
           </View>
           <Text style={styles.errorMsg}>{bdayError}</Text>
 
-          <View style={[styles.inputCard, styles.shadow]} >
+          <View style={[styles.inputCard]} >
             <Text style={styles.label}>Sex:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="e.g. male"
-              onChangeText={(text) => setSex(text)}
+            <Dropdown
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              iconStyle={styles.iconStyle}
+              data={sexData}
+              maxHeight={300}
+              labelField="label"
+              valueField="label"
+              placeholder="select.."
               value={sex}
+              onChange={item => {
+                setSex(item.label);
+              }}
             />
           </View>
           <Text style={styles.errorMsg}>{sexError}</Text>
@@ -308,59 +482,86 @@ export default function Register({navigation}) {
           <Text style={styles.errorMsg}>{addressError}</Text>
 
           <Text style={styles.labelInfo}>Contact Information</Text>
+          <Text style={styles.errorMsg}>{contactInfoError}</Text>
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Contact #:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Cellphone # (09xxxxxxxxx)"
+              placeholder="e.g. 09123456789"
               onChangeText={(text) => setContactNum(text)}
               value={contactNum}
             />
           </View>
+          <Text style={styles.errorMsg}>{contactNumError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Telephone #:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Telephone # (xxxxxxx)"
+              placeholder="e.g. 1234567"
               onChangeText={(text) => setTelephoneNum(text)}
               value={telephoneNum}
             />
           </View>
+          <Text style={styles.errorMsg}>{telephoneNumError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Email:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Email"
+              placeholder="e.g. epmc@email.com"
               onChangeText={(text) => setEmail(text)}
               value={email}
             />
           </View>
+          <Text style={styles.errorMsg}>{emailError}</Text>
 
           <Text style={styles.labelInfo}>Emergency Contact</Text>
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Name:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Name of Contact Person"
-              onChangeText={(text) => setEmerContact(text)}
-              value={emerContact}
+              placeholder="e.g. Maria Dela Cruz"
+              onChangeText={(text) => setEmerContactName(text)}
+              value={emerContactName}
             />
           </View>
+          <Text style={styles.errorMsg}>{emerContactNameError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
-            <TextInput
-              style={styles.input}
-              placeholder="Relationship"
-              onChangeText={(text) => setRelationship(text)}
-              value={relationship}
-            />
+            <Text style={styles.label}>Relationship:</Text>
+            <Dropdown
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                iconStyle={[styles.iconStyle, {marginRight: wp('16%')}]}
+                data={relationshipData}
+                maxHeight={300}
+                labelField="label"
+                valueField="label"
+                placeholder="select.."
+                value={relationship}
+                onChange={item => {
+                  setRelationship(item.label);
+                }}
+              />
           </View>
+          <Text style={styles.errorMsg}>{relationshipError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Email:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Email of Contact Person"
+              placeholder="e.g. epmc@email.com"
               onChangeText={(text) => setEmerEmail(text)}
               value={emerEmail}
             />
           </View>
+          <Text style={styles.errorMsg}>{emerEmailError}</Text>
 
           <Text style={styles.labelInfo}>Password</Text>
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Password:</Text>
             <TextInput
               style={styles.input}
               placeholder="Password"
@@ -369,7 +570,10 @@ export default function Register({navigation}) {
               value={password}
             />
           </View>
+          <Text style={styles.errorMsg}>{passwordError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Confirm Password:</Text>
             <TextInput
               style={styles.input}
               placeholder="Confirm Password"
@@ -378,8 +582,9 @@ export default function Register({navigation}) {
               value={confirmPassword}
             />
           </View>
+          <Text style={styles.errorMsg}>{confirmPasswordError}</Text>
           
-          <Text style={styles.note}>Please do note that your registration is stil pending and will be 
+          <Text style={styles.note}>{'\n'}Please do note that your registration is stil pending and will be 
           validated upon visting the Pagtakhan Medical Clinic. Once validated, your patient ID will be 
           provided by the secretaries and will serve as your username.</Text>
           
@@ -393,6 +598,7 @@ export default function Register({navigation}) {
               <Text onPress={() => navigation.navigate("Terms")} style={styles.terms}>Accept Terms & Conditions</Text>
             </Pressable>
           </View>
+          {/* <Text style={styles.errorMsg}>{termsError}</Text> */}
           
           
           {/* <Pressable  style={styles.btnRegister} > */}
@@ -528,5 +734,26 @@ const styles = StyleSheet.create({
     // marginBottom: hp('1%'),
   },
 
-  
+  dropdown: {
+    width: wp('70%'),
+    margin: 10,
+    padding: 1,
+    height: hp('3%'),
+    fontSize: hp('1.5%'),
+  },
+
+  placeholderStyle: {
+    fontSize: hp('1.5%'),
+    color: '#787878',
+  },
+
+  selectedTextStyle: {
+    fontSize: hp('1.5%'),
+    color: '#787878',
+  },
+  iconStyle: {
+    marginRight: wp('3%'),
+    width: wp('7%'),
+    color: '#787878',
+  },
 });

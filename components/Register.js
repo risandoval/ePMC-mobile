@@ -4,28 +4,45 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { useState } from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { validatePathConfig } from '@react-navigation/native';
 
 
 
 export default function Register({navigation}) {
   const [checked, setChecked] = useState(false);
-  //null value of inputs
+  //null value of inputs and errorMsg
   const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
   const [middleName, setMiddleName] = useState("");
+  const [middleNameError, setMiddleNameError] = useState("");
   const [surname, setSurname] = useState("");
+  const [surnameError, setSurnameError] = useState("");
   const [age, setAge] = useState("");
+  const [ageError, setAgeError] = useState("");
   const [bday, setBday] = useState("");
+  const [bdayError, setBdayError] = useState("");
   const [sex, setSex]  = useState("");
+  const [sexError, setSexError]  = useState("");
   const [occupation, setOccupation] = useState("");
+  const [occupationError, setOccupationError] = useState("");
   const [address, setAddress] = useState("");
+  const [addressError, setAddressError] = useState("");
   const [contactNum, setContactNum] = useState("");
+  const [contactNumError, setContactNumError] = useState("");
   const [telephoneNum, setTelephoneNum] = useState("");
+  const [telephoneNumError, setTelephoneNumError] = useState("");
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [emerContact, setEmerContact] = useState("");
+  const [emerContactError, setEmerContactError] = useState("");
   const [relationship, setRelationship] = useState("");
+  const [relationshipError, setRelationshipError] = useState("");
   const [emerEmail, setEmerEmail] = useState("");
+  const [emerEmailError, setEmerEmailError] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
 
   //START for birthday
@@ -39,6 +56,10 @@ export default function Register({navigation}) {
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
+
+    const formattedDate = currentDate.getFullYear() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getDate()
+    setBday(formattedDate);
+    console.log(bday);
     setDateText(true);
   };
 
@@ -56,37 +77,125 @@ export default function Register({navigation}) {
 
   //START form validations
   const register = async() => {
-    //personal info required
-    if (firstName == "" || middleName == "" || surname == "" || age == "" || 
-        bday == "" || sex == "" || occupation == "" || address == "" ) 
-    {
-      Alert.alert(
-        "Warning",
-        "Input fields of Personal Information are Required"
-      )
-    }
-    //at least one input in contact info
-    if (contactNum == "" && telephoneNum == "" && email == "") {
-      Alert.alert(
-        "Warning",
-        "Enter at least one input field on Contact Information"
-      )
-    }
-    //emergency contact required
-    if (emerContact == "" || relationship == "" || emerEmail == "") {
-      Alert.alert(
-        "Warning",
-        "Input fields of Emergency Contact are Required"
-      )
-    }
-    //password required
-    if (password == "" || confirmPassword == "") {
-      Alert.alert(
-        "Warning",
-        "Input fields of Password are Required"
-      )
+    //regex validation - alphabet only
+    const validateName = (name) => {
+      let re = /^[a-zA-Z]+$/;
+      return re.test(name);
     }
 
+    //regex validation - numbers only
+    const validateNum = (num) => {
+      let re = /^[0-9]+$/;
+      return re.test(num);
+    }
+
+    //regex validation - data (yyyy-mm-dd)
+    const validateDate = (date) => {
+      let re = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
+      return re.test(date);
+    }
+
+
+    //first name validation
+    var firstNameValid = false;
+    // const [firstNameValid1, setFirstNameValid1] = useState(false);
+    if(firstName == "") {
+      setFirstNameError("First name is required");
+    }
+    else if(!validateName(firstName)) {
+      setFirstNameError("First name must be alphabetic");
+    }
+    else { 
+      setFirstNameError("");
+      firstNameValid = true;
+    }
+
+    //middle name validation
+    var middleNameValid = false;
+    if(middleName == "") {
+      setMiddleNameError("Middle name is required");
+    }
+    else if(!validateName(middleName)) {
+      setMiddleNameError("Middle name must be alphabetic");
+    }
+    else {
+      setMiddleNameError("");
+      middleNameValid = true; 
+    }
+
+    //surname validation
+    var surnameValid = false;
+    if(surname == "") {
+      setSurnameError("Surname is required");
+    }
+    else if(!validateName(surname)) {
+      setSurnameError("Surname must be alphabetic");
+    }
+    else {
+      setSurnameError("");
+      surnameValid = true;
+    }
+
+    //age validation
+    var ageValid = false;
+    if(age == "") {
+      setAgeError("Age is required");
+    }
+    else if(!validateNum(age)) {
+      setAgeError("Age must be numeric");
+    }
+    else {
+      setAgeError("");
+      ageValid = true; 
+    }
+
+    //birthday validation
+    var bdayValid = false;
+    if(bday == "") {
+      setBdayError("Birthday is required")
+    }
+    else {
+      setBdayError("");
+      bdayValid = true;
+    }
+
+    //sex validation
+    var sexValid = false;
+    if(sex == "") {
+      setSexError("Sex is required")
+    }
+    else {
+      setSexError("");
+      sexValid = true;
+    }
+
+    //occupation validation
+    var occupationValid = false;
+    if(occupation == "") {
+      setOccupationError("Occupation is required")
+    }
+    else if (!validateName(occupation)) {
+      setOccupationError("Occupation must be alphabetic")
+    }
+    else {
+      setOccupationError("");
+      occupationValid = true; 
+    }
+
+    //address validation
+    var addressValid = false;
+    if(address == "") {
+      setAddressError("Address is required")
+    }
+    else {
+      setAddressError("");
+      addressValid = true;
+    }
+
+    //all fields are now valid
+    if(firstNameValid && middleNameValid && surnameValid && ageValid && bdayValid && sexValid && occupationValid && addressValid) {
+      Alert.alert("Success", "Registration successful");
+    }
   }
 
   return (
@@ -96,39 +205,52 @@ export default function Register({navigation}) {
         <ScrollView style={styles.scroll}>
           <Text style={styles.labelInfo}>Personal Information</Text>
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>First Name:</Text>
             <TextInput
               style={styles.input}
-              placeholder="First Name"
+              placeholder="e.g. Juan"
               onChangeText={(text) => setFirstName(text)}
               value={firstName}
             />
           </View>
+          <Text style={styles.errorMsg}>{firstNameError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Middle Name:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Middle Name"
+              placeholder="e.g. Reyes"
               onChangeText={(text) => setMiddleName(text)}
               value={middleName}
             />
           </View>
+          <Text style={styles.errorMsg}>{middleNameError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Surname:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Surname"
+              placeholder="e.g. De la Cruz"
               onChangeText={(text) => setSurname(text)}
               value={surname}
             />
           </View>
+          <Text style={styles.errorMsg}>{surnameError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Age:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Age"
+              placeholder="e.g. 25"
               onChangeText={(text) => setAge(text)}
               value={age}
             />
           </View>
+          <Text style={styles.errorMsg}>{ageError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
-            {/* <Pressable onPress={showDatepicker} style={styles.input}>
+            <Text style={styles.label}>Birthday:</Text>
+            <Pressable onPress={showDatepicker} style={styles.input}>
               <Text style={styles.bday}>
                 {dateText ? date.toDateString() : birthdayText}
               </Text>
@@ -138,41 +260,52 @@ export default function Register({navigation}) {
                 testID="dateTimePicker"
                 value={date}
                 mode={mode}
-                is24Hour={true}
+                // is24Hour={true}
                 onChange={onChange}
               />
-            )} */}
-            <TextInput
+            )}
+            
+            {/* <TextInput
               style={styles.input}
-              placeholder="Birthday"
+              placeholder="yyyy-mm-dd"
               onChangeText={(text) => setBday(text)}
               value={bday}
-            />
+            /> */}
           </View>
+          <Text style={styles.errorMsg}>{bdayError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Sex:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Sex"
+              placeholder="e.g. male"
               onChangeText={(text) => setSex(text)}
               value={sex}
             />
           </View>
+          <Text style={styles.errorMsg}>{sexError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Occupation:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Occupation"
+              placeholder="e.g. Accountant"
               onChangeText={(text) => setOccupation(text)}
               value={occupation}
             />
           </View>
+          <Text style={styles.errorMsg}>{occupationError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
+            <Text style={styles.label}>Address:</Text>
             <TextInput
               style={styles.input}
-              placeholder="Address"
+              placeholder="e.g. 123 Narra Street, Bacoor, Cavite"
               onChangeText={(text) => setAddress(text)}
               value={address}
             />
           </View>
+          <Text style={styles.errorMsg}>{addressError}</Text>
 
           <Text style={styles.labelInfo}>Contact Information</Text>
           <View style={[styles.inputCard, styles.shadow]} >
@@ -312,7 +445,15 @@ const styles = StyleSheet.create({
     paddingTop: hp('1%'),
   },
 
+  label: {
+    marginTop: hp('1.3%'),
+    marginLeft: wp('2%'),
+    marginBottom: hp('-1%'),
+    fontSize: hp('1.5%'),
+  },
+
   inputCard: {
+    flexDirection: 'row',
     backgroundColor: '#FFF',
     width: wp('80%'),
     borderRadius: 10,
@@ -378,6 +519,13 @@ const styles = StyleSheet.create({
   btnRegistertxt: {
     color: '#fff',
     fontSize: hp('2.2%'),
+  },
+
+  errorMsg: {
+    color: '#FF0000',
+    marginHorizontal: wp('10%'),
+    marginTop: hp('-0.8%'),
+    // marginBottom: hp('1%'),
   },
 
   

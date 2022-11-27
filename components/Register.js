@@ -1,30 +1,92 @@
-import {StyleSheet, ImageBackground, View, Text, TextInput, ScrollView, Pressable, Image,
+import {StyleSheet, View, Text, TextInput, ScrollView, Pressable, Image,
         Alert, Button} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { useState } from 'react';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 
 export default function Register({navigation}) {
   const [checked, setChecked] = useState(false);
-  //for birthday
-  const [datePicker, setDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date());
+  //null value of inputs
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [age, setAge] = useState("");
+  const [bday, setBday] = useState("");
+  const [sex, setSex]  = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [address, setAddress] = useState("");
+  const [contactNum, setContactNum] = useState("");
+  const [telephoneNum, setTelephoneNum] = useState("");
+  const [email, setEmail] = useState("");
+  const [emerContact, setEmerContact] = useState("");
+  const [relationship, setRelationship] = useState("");
+  const [emerEmail, setEmerEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  function register() {
-    if (!checked) {
-      // alert("Accept the Terms and Conditions by checking the box to register.");
-      Alert.alert(
-        "Note",
-        "Read and accept the Terms and Conditions by checking the box before registering.",
-      );
+
+  //START for birthday
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+  const [dateText, setDateText] = useState(false);
+  const birthdayText = 'Birthday';
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+    setDateText(true);
+  };
+
+  const showMode = (currentMode) => {
+    if (Platform.OS === 'android') {
+      setShow(true);
     }
-    else {
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+  //END for birthday
+
+  //START form validations
+  const register = async() => {
+    //personal info required
+    if (firstName == "" || middleName == "" || surname == "" || age == "" || 
+        bday == "" || sex == "" || occupation == "" || address == "" ) 
+    {
       Alert.alert(
-        "",
-        "Register !!!",
-      );
+        "Warning",
+        "Input fields of Personal Information are Required"
+      )
     }
+    //at least one input in contact info
+    if (contactNum == "" && telephoneNum == "" && email == "") {
+      Alert.alert(
+        "Warning",
+        "Enter at least one input field on Contact Information"
+      )
+    }
+    //emergency contact required
+    if (emerContact == "" || relationship == "" || emerEmail == "") {
+      Alert.alert(
+        "Warning",
+        "Input fields of Emergency Contact are Required"
+      )
+    }
+    //password required
+    if (password == "" || confirmPassword == "") {
+      Alert.alert(
+        "Warning",
+        "Input fields of Password are Required"
+      )
+    }
+
   }
 
   return (
@@ -37,65 +99,78 @@ export default function Register({navigation}) {
             <TextInput
               style={styles.input}
               placeholder="First Name"
-              // onChangeText={emailHandler}
-              // value={email}
+              onChangeText={(text) => setFirstName(text)}
+              value={firstName}
             />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
               placeholder="Middle Name"
-              // onChangeText={emailHandler}
-              // value={email}
+              onChangeText={(text) => setMiddleName(text)}
+              value={middleName}
             />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
               placeholder="Surname"
-              // onChangeText={emailHandler}
-              // value={email}
+              onChangeText={(text) => setSurname(text)}
+              value={surname}
             />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
               placeholder="Age"
-              // onChangeText={emailHandler}
-              // value={email}
+              onChangeText={(text) => setAge(text)}
+              value={age}
             />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
+            {/* <Pressable onPress={showDatepicker} style={styles.input}>
+              <Text style={styles.bday}>
+                {dateText ? date.toDateString() : birthdayText}
+              </Text>
+            </Pressable>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                onChange={onChange}
+              />
+            )} */}
             <TextInput
               style={styles.input}
-              placeholder="Birthday (yyyy-mm-dd)"
-              // onChangeText={emailHandler}
-              // value={email}
+              placeholder="Birthday"
+              onChangeText={(text) => setBday(text)}
+              value={bday}
             />
-            
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
               placeholder="Sex"
-              // onChangeText={emailHandler}
-              // value={email}
+              onChangeText={(text) => setSex(text)}
+              value={sex}
             />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
               placeholder="Occupation"
-              // onChangeText={emailHandler}
-              // value={email}
+              onChangeText={(text) => setOccupation(text)}
+              value={occupation}
             />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
               placeholder="Address"
-              // onChangeText={emailHandler}
-              // value={email}
+              onChangeText={(text) => setAddress(text)}
+              value={address}
             />
           </View>
 
@@ -104,16 +179,24 @@ export default function Register({navigation}) {
             <TextInput
               style={styles.input}
               placeholder="Cellphone # (09xxxxxxxxx)"
-              // onChangeText={emailHandler}
-              // value={email}
+              onChangeText={(text) => setContactNum(text)}
+              value={contactNum}
             />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
               placeholder="Telephone # (xxxxxxx)"
-              // onChangeText={passHandler}
-              // value={pass}
+              onChangeText={(text) => setTelephoneNum(text)}
+              value={telephoneNum}
+            />
+          </View>
+          <View style={[styles.inputCard, styles.shadow]} >
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              onChangeText={(text) => setEmail(text)}
+              value={email}
             />
           </View>
 
@@ -122,24 +205,24 @@ export default function Register({navigation}) {
             <TextInput
               style={styles.input}
               placeholder="Name of Contact Person"
-              // onChangeText={passHandler}
-              // value={pass}
+              onChangeText={(text) => setEmerContact(text)}
+              value={emerContact}
             />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
               placeholder="Relationship"
-              // onChangeText={passHandler}
-              // value={pass}
+              onChangeText={(text) => setRelationship(text)}
+              value={relationship}
             />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
             <TextInput
               style={styles.input}
-              placeholder="Email"
-              // onChangeText={passHandler}
-              // value={pass}
+              placeholder="Email of Contact Person"
+              onChangeText={(text) => setEmerEmail(text)}
+              value={emerEmail}
             />
           </View>
 
@@ -149,8 +232,8 @@ export default function Register({navigation}) {
               style={styles.input}
               placeholder="Password"
               secureTextEntry={true}
-              // onChangeText={passHandler}
-              // value={pass}
+              onChangeText={(text) => setPassword(text)}
+              value={password}
             />
           </View>
           <View style={[styles.inputCard, styles.shadow]} >
@@ -158,8 +241,8 @@ export default function Register({navigation}) {
               style={styles.input}
               placeholder="Confirm Password"
               secureTextEntry={true}
-              // onChangeText={passHandler}
-              // value={pass}
+              onChangeText={(text) => setConfirmPassword(text)}
+              value={confirmPassword}
             />
           </View>
           
@@ -243,6 +326,12 @@ const styles = StyleSheet.create({
     padding: 1,
     height: hp('3%'),
     fontSize: hp('1.5%'),
+  },
+
+  bday: {
+    fontSize: hp('1.5%'),
+    paddingTop: hp('0.5%'),
+    color: '#9e9e9e',
   },
 
   note: {

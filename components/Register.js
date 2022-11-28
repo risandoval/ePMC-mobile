@@ -160,7 +160,7 @@ export default function Register({navigation}) {
     //middle name validation
     var middleNameValid = false;
     if(middleName == "") {
-      setMiddleNameError("Middle name is required");
+      setMiddleNameError("");
     }
     else if(!validateName(middleName)) {
       setMiddleNameError("Middle name must be alphabetic");
@@ -368,7 +368,7 @@ export default function Register({navigation}) {
 
 
     //all fields are now valid
-    if( (firstNameValid && middleNameValid && surnameValid && ageValid && bdayValid && sexValid && civilStatusValid && occupationValid && addressValid) &&
+    if( (firstNameValid && surnameValid && ageValid && bdayValid && sexValid && civilStatusValid && occupationValid && addressValid) &&
         (contactNumValid && emailValid) &&
         (emerContactNameValid && relationshipValid && emerContactNumValid) &&
         (passwordValid) && (termsChecked)) {
@@ -418,21 +418,10 @@ export default function Register({navigation}) {
               Alert.alert("Error", "Email already exists, please try another email address.");
             }
             else {
-              Alert.alert("Success", "Account successfully registered");
-              // navigation.navigate('Login');
+              Alert.alert("Success", "You have successfully signed up! Please check your email for verification.");
+              navigation.navigate('Register');
             }
           })
-
-          //get response
-          // const json = await response.json();
-          // console.log(json);
-          // if(json.success == true) {
-          //   Alert.alert("", "Registration successful");
-          //   navigation.navigate('Login');
-          // }
-          // else {
-          //   Alert.alert("", "Registration failed");
-          // }
         }
         catch(error) {
           console.log(error);
@@ -449,7 +438,7 @@ export default function Register({navigation}) {
         <ScrollView style={styles.scroll}>
           <Text style={styles.labelInfo}>Personal Information</Text>
           <View style={[styles.inputCard, styles.shadow]} >
-            <Text style={styles.label}>First Name:</Text>
+            <Text style={styles.label}>* First Name:</Text>
             <TextInput
               style={styles.input}
               placeholder="e.g. Juan"

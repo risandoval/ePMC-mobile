@@ -4,7 +4,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 
 
-export default function LoginPatient() {
+export default function Terms({navigation}) {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
@@ -14,8 +14,8 @@ export default function LoginPatient() {
           confidential information you may give the clinic securely and privately. {'\n'}{'\n'}
 
           Please read carefully the Data Privacy Policy to understand how your personal and health information are handled. 
-          Click <Text onPress={() => Linking.openURL('http://google.com')} style={styles.textlink}>ePMC Data Privacy Policy</Text> 
-          to read the Privacy Statement in full.
+          Click <Text onPress={() => navigation.navigate('Privacy')} style={styles.textlink}>ePMC Data Privacy Policy</Text> 
+          {' '}to read the Privacy Statement in full.
         </Text>
 
         <Text style={styles.contentLabel}>
@@ -48,7 +48,7 @@ export default function LoginPatient() {
           By choosing to use the system, you are agreeing to the Policy's terms. You acknowledge that you 
           are accountable for all actions that take place in your ePMC account and that you will notify us right
           away if your account is used without your permission. You can do this by sending us a message 
-          through this page. As a result of any unauthorized access to and/or use of your account, or for 
+          through this <Text style={styles.textlink}>page</Text>. As a result of any unauthorized access to and/or use of your account, or for 
           any other reason, we disclaim all liability for any loss or damage you or any third party may sustain. 
         </Text>
 
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
 
   textlink: {
     textDecorationLine: 'underline',
-    textDecorationColor: 'blue'
+    color: '#033d68',
   },
 
   contentLabel: {

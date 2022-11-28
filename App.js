@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./components/Login";
 import Register from './components/Register';
 import Terms from './components/Terms';
+import Privacy from './components/Privacy';
 import AdminNavbar from "./components/admin/AdminNavbar";
 import DoctorNavbar from "./components/doctor/DoctorNavbar";
 import PatientNavbar from "./components/patient/PatientNavbar";
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
         <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
         <Stack.Screen name="Terms" component={Terms} options={{headerShown: false}} />
+        <Stack.Screen name="Privacy" component={Privacy} options={{headerShown: false}} />
         <Stack.Screen name="AdminNavbar" component={AdminNavbar} options={{headerShown: false}} />
         <Stack.Screen name="DoctorNavbar" component={DoctorNavbar} options={{headerShown: false}} />
         <Stack.Screen name="PatientNavbar" component={PatientNavbar} options={{headerShown: false}} />

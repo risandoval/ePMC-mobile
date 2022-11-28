@@ -23,6 +23,8 @@ export default function Register({navigation}) {
   const [bdayError, setBdayError] = useState("");
   const [sex, setSex]  = useState("");
   const [sexError, setSexError]  = useState("");
+  const [civilStatus, setCivilStatus] = useState("");
+  const [civilStatusError, setCivilStatusError] = useState("");
   const [occupation, setOccupation] = useState("");
   const [occupationError, setOccupationError] = useState("");
   const [address, setAddress] = useState("");
@@ -38,13 +40,14 @@ export default function Register({navigation}) {
   const [emerContactNameError, setEmerContactNameError] = useState("");
   const [relationship, setRelationship] = useState("");
   const [relationshipError, setRelationshipError] = useState("");
-  const [emerEmail, setEmerEmail] = useState("");
-  const [emerEmailError, setEmerEmailError] = useState("");
+  const [emerContactNum, setEmerContactNum] = useState("");
+  const [emerContactNumError, setEmerContactNumError] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [termsError, setTermsError] = useState("");
+  const [checkEmail, setCheckEmail] = useState("");
 
 
   //START for birthday
@@ -81,8 +84,18 @@ export default function Register({navigation}) {
   const sexData = [
     {label: 'Female', value: 1},
     {label: 'Male', value: 2},
-  ]
+  ];
   //END for sex dropdown
+
+  //START Civil Status dropdown
+  const civilStatusData = [
+    {label: 'Single', value: 1},
+    {label: 'Married', value: 2},
+    {label: 'Widowed', value: 3},
+    {label: 'Separated', value: 4},
+    {label: 'Divorced', value: 5},
+  ];
+  //END Civil Status dropdown
 
   //START for relationship dropdown
   const relationshipData = [
@@ -203,6 +216,16 @@ export default function Register({navigation}) {
       sexValid = true;
     }
 
+    //civil status validation
+    var civilStatusValid = false;
+    if(civilStatus == "") {
+      setCivilStatusError("Civil status is required");
+    }
+    else {
+      setCivilStatusError("");
+      civilStatusValid = true;
+    }
+
     //occupation validation
     var occupationValid = false;
     if(occupation == "") {
@@ -228,8 +251,8 @@ export default function Register({navigation}) {
 
     //at least one input in contact info
     if (contactNum == "" && telephoneNum == "" && email == "") {
-      setContactInfoError("At least one input is required in this section");
-    } else {setContactNumError("");};
+      setContactInfoError("Enter at least your email");
+    } else { setContactNumError(""); };
 
     //contact number validation
     var contactNumValid = false;
@@ -260,7 +283,7 @@ export default function Register({navigation}) {
     //email validation
     var emailValid = false;
     if (email == "") {
-      setEmailError("");
+      setEmailError("Working email address is required");
     }
     else if(!validateEmail(email)) {
       setEmailError("Email is invalid");
@@ -293,17 +316,17 @@ export default function Register({navigation}) {
       relationshipValid = true;
     }
 
-    //email of contact person validation
-    var emerEmailValid = false;
-    if(emerEmail == "") {
-      setEmerEmailError("Email is required");
+    //number of contact person validation
+    var emerContactNumValid = false;
+    if(emerContactNum == "") {
+      setEmerContactNumError("Contact # is required");
     }
-    else if(!validateEmail(emerEmail)) {
-      setEmerEmailError("Email is invalid");
+    else if(!validateContactNum(emerContactNum)) {
+      setEmerContactNumError("Contact # must be exactly 11 digits starting with 09");
     }
     else {
-      setEmerEmailError("");
-      emerEmailValid = true;
+      setEmerContactNumError("");
+      emerContactNumValid = true;
     }
 
     //password validation
@@ -345,28 +368,77 @@ export default function Register({navigation}) {
 
 
     //all fields are now valid
-    if( (firstNameValid && middleNameValid && surnameValid && ageValid && bdayValid && sexValid && occupationValid && addressValid) && 
-        (contactNumValid || telephoneNumValid || emailValid) &&
-        (emerContactNameValid && relationshipValid && emerEmailValid) &&
+    if( (firstNameValid && middleNameValid && surnameValid && ageValid && bdayValid && sexValid && civilStatusValid && occupationValid && addressValid) &&
+        (contactNumValid && emailValid) &&
+        (emerContactNameValid && relationshipValid && emerContactNumValid) &&
         (passwordValid) && (termsChecked)) {
-      alert(
-        "Name: " + firstName + typeof(firstName) + middleName + typeof(middleName) + surname + typeof(surname) + "\n" +
-        "Age: " + age + typeof(age) + " " + "\n" + 
-        "Birthday: " + bday + typeof(bday) + " " + "\n" +
-        "Sex: " + sex + typeof(sex) + " " + "\n" +
-        "Occupation: " + occupation + typeof(occupation) + " " + "\n" +
-        "Address: " + address + typeof(address) + " " + "\n" + "\n" +
+      
+      //path of register_mobile in codeigniter
+        var registerpath = "http://192.168.1.5:80/epmc-4/register_mobile";
+        //var registerpath = "http://192.168.2.115:80/epmc-4/register_mobile";
+        // var registerpath = "http://e-pmc.com/register_mobile";
 
-        "Contact Number: " + contactNum + typeof(contactNum) + " " + "\n" +
-        "Telephone Number: " + telephoneNum + typeof(telephoneNum) + " " + "\n" +
-        "Email: " + email + typeof(email) + " " + "\n" +
+        //assign values
+        var data = {
+          firstName: firstName,
+          middleName: middleName,
+          surname: surname,
+          age: age,
+          bday: bday,
+          sex: sex,
+          civilStatus: civilStatus,
+          occupation: occupation,
+          address: address,
+          contactNum: contactNum,
+          telephoneNum: telephoneNum,
+          email: email,
+          emerContactName: emerContactName,
+          relationship: relationship,
+          emerContactNum: emerContactNum,
+          password: password,
+          checkEmail: checkEmail,
+        };
 
-        "Name of Contact Person: " + emerContactName + typeof(emerContactName) + " " + "\n" +
-        "Relationship: " + relationship + typeof(relationship) + " " + "\n" +
-        "Email of Contact Person" + emerEmail + typeof(emerEmail) + " " + "\n" +
+        try {
+          //post request
+          await fetch(registerpath, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type' : 'application/json;charset=UTF-8',
+              'X-API-KEY':'myapi',
+              'Authorization':'Basic YWRtaW46YWRtaW4xMjM='
+            },
+            body: JSON.stringify(data),
+          })
+          .then((response)=>response.json())
+          // .then((response)=>console.log(response))
+          .then((response)=>{
+            if(response.message == "Email already exist") {
+              Alert.alert("Error", "Email already exists, please try another email address.");
+            }
+            else {
+              Alert.alert("Success", "Account successfully registered");
+              // navigation.navigate('Login');
+            }
+          })
 
-        "Password" + password + typeof(password)
-      )
+          //get response
+          // const json = await response.json();
+          // console.log(json);
+          // if(json.success == true) {
+          //   Alert.alert("", "Registration successful");
+          //   navigation.navigate('Login');
+          // }
+          // else {
+          //   Alert.alert("", "Registration failed");
+          // }
+        }
+        catch(error) {
+          console.log(error);
+        }
+
+        
     }
   }
 
@@ -459,6 +531,26 @@ export default function Register({navigation}) {
           </View>
           <Text style={styles.errorMsg}>{sexError}</Text>
 
+          <View style={[styles.inputCard]} >
+            <Text style={styles.label}>Civil Status:</Text>
+            <Dropdown
+              style={[styles.dropdown, {width:wp('59%')}]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              iconStyle={styles.iconStyle}
+              data={civilStatusData}
+              maxHeight={300}
+              labelField="label"
+              valueField="label"
+              placeholder="select.."
+              value={civilStatus}
+              onChange={item => {
+                setCivilStatus(item.label);
+              }}
+            />
+          </View>
+          <Text style={styles.errorMsg}>{civilStatusError}</Text>
+
           <View style={[styles.inputCard, styles.shadow]} >
             <Text style={styles.label}>Occupation:</Text>
             <TextInput
@@ -531,10 +623,10 @@ export default function Register({navigation}) {
           <View style={[styles.inputCard, styles.shadow]} >
             <Text style={styles.label}>Relationship:</Text>
             <Dropdown
-                style={styles.dropdown}
+                style={[styles.dropdown, {width: wp('60%')}]}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
-                iconStyle={[styles.iconStyle, {marginRight: wp('16%')}]}
+                iconStyle={[styles.iconStyle, {marginRight: wp('6%')}]}
                 data={relationshipData}
                 maxHeight={300}
                 labelField="label"
@@ -549,15 +641,15 @@ export default function Register({navigation}) {
           <Text style={styles.errorMsg}>{relationshipError}</Text>
 
           <View style={[styles.inputCard, styles.shadow]} >
-            <Text style={styles.label}>Email:</Text>
+            <Text style={styles.label}>Contact #:</Text>
             <TextInput
               style={styles.input}
-              placeholder="e.g. epmc@email.com"
-              onChangeText={(text) => setEmerEmail(text)}
-              value={emerEmail}
+              placeholder="e.g. 09123456789"
+              onChangeText={(text) => setEmerContactNum(text)}
+              value={emerContactNum}
             />
           </View>
-          <Text style={styles.errorMsg}>{emerEmailError}</Text>
+          <Text style={styles.errorMsg}>{emerContactNumError}</Text>
 
           <Text style={styles.labelInfo}>Password</Text>
           <View style={[styles.inputCard, styles.shadow]} >
@@ -584,9 +676,9 @@ export default function Register({navigation}) {
           </View>
           <Text style={styles.errorMsg}>{confirmPasswordError}</Text>
           
-          <Text style={styles.note}>{'\n'}Please do note that your registration is stil pending and will be 
+          {/* <Text style={styles.note}>{'\n'}Please do note that your registration is stil pending and will be 
           validated upon visting the Pagtakhan Medical Clinic. Once validated, your patient ID will be 
-          provided by the secretaries and will serve as your username.</Text>
+          provided by the secretaries and will serve as your username.</Text> */}
           
           <View style={styles.termsContainer}>
             <Pressable onPress={() => setChecked(true)}>
@@ -728,9 +820,10 @@ const styles = StyleSheet.create({
   },
 
   errorMsg: {
-    color: '#FF0000',
+    color: '#EB144C',
     marginHorizontal: wp('10%'),
     marginTop: hp('-0.8%'),
+    fontSize: hp('1.2%'),
     // marginBottom: hp('1%'),
   },
 

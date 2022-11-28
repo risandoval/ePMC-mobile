@@ -24,10 +24,10 @@ export default function AdminDashboard() {
   // fetching for Total
   const fetchTotal = async () => {
 
-    // var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_total";
+    var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_total";
     // var dashboardpath = "http://192.168.2.115:80/epmc-4/adm_dashboard_total";
 
-       var dashboardpath = "http://e-pmc.com/adm_dashboard_total";
+      //  var dashboardpath = "http://e-pmc.com/adm_dashboard_total";
   
     await fetch(dashboardpath,{
       headers: headers
@@ -47,10 +47,10 @@ export default function AdminDashboard() {
   // fetching for Recent Activity
   const fetchRecent = async () => {
 
-    // var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_recent";
+    var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_recent";
     // var dashboardpath = "http://192.168.2.115:80/epmc-4/adm_dashboard_recent";
 
-    var dashboardpath = "http://e-pmc.com/adm_dashboard_recent";
+    // var dashboardpath = "http://e-pmc.com/adm_dashboard_recent";
   
     await fetch(dashboardpath,{
       headers: headers
@@ -137,16 +137,16 @@ const styles = StyleSheet.create({
   },
   
   icon: {
-    marginTop: hp('1.9%'),
-    marginLeft: wp('1%'),
+    marginTop: hp('2.2%'),
+    marginLeft: wp('2%'),
     color: "black",
     fontSize: hp('6%'),
   },
 
   iconMargin: {
     // marginTop: responsiveHeight(1.4),
-    marginTop: hp('1.4%'),
-    marginLeft: responsiveWidth(1.5),
+    marginTop: hp('1.8%'),
+    marginLeft: responsiveWidth(2.5),
   },
 
   box: {
@@ -155,19 +155,19 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: wp('2%'),
     paddingLeft: wp('1%'),
-    paddingRight: wp('10%'),
+    paddingRight: wp('15%'),
     marginTop: hp('3%'),
     flexDirection: 'row'
   },
 
   box1: {
     backgroundColor: '#92CEFA',
-    marginTop: hp('10%'),
+    marginTop: hp('6%'),
   },
 
   box2: {
     backgroundColor: '#FAD692',
-    marginTop: hp('10%'),
+    marginTop: hp('6%'),
   },
 
   box3: {
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
 
   txtTotal: {
     fontSize: responsiveFontSize(1),
-    marginTop: responsiveHeight(2),
+    marginTop: responsiveHeight(3),
     marginLeft: responsiveWidth(0.4),
   },
 
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
 
   txtNum: {
-    fontSize: responsiveFontSize(2),
+    fontSize: responsiveFontSize(2.2),
     fontWeight: 'bold',
     marginLeft: responsiveWidth(2),
     marginTop: responsiveHeight(-0.1),

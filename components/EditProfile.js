@@ -1,26 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { StyleSheet, ImageBackground, View, Text, Image, Pressable, Alert } from 'react-native';
+import { StyleSheet, ImageBackground, View, Text, Image, Pressable, Alert, TextInput } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo'
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-
-const logout = async(navigation) =>  {
-    Alert.alert(
-        "Are you sure you want to logout?",
-        "You can come back anytime!", [
-            {text: "Logout", onPress: async() => {await AsyncStorage.clear();
-                                                  navigation.reset({
-                                                    index: 0,
-                                                    routes: [{ name: "Login" }],
-                                                  });
-        }}, 
-            {text: "Cancel"},    
-        ],
-    );
-    console.log("logout")
-}
-
 
 
 export default function Profile({navigation}) {
@@ -36,6 +19,7 @@ export default function Profile({navigation}) {
         let passBullet = "*".repeat(passLength);
         hidePass = passBullet;
     }
+
     const prof = async() => {
         try {
           const data1 = await AsyncStorage.getItem('admin');
@@ -45,7 +29,7 @@ export default function Profile({navigation}) {
           const doc = JSON.parse(data2);
           const pat = JSON.parse(data3);
           // const datata = JSON.parse(getdata);
-        //   const email = await AsyncStorage.getItem('email');
+          // const email = await AsyncStorage.getItem('email');
           if (adm !== null || doc !== null || pat !== null) {
             if (adm !== null) {
                 setValue(adm)
@@ -80,18 +64,22 @@ export default function Profile({navigation}) {
                                 {val.map(_prof=><Image style={styles.profileimg} key={""}source={{uri:_prof.avatar}}/>)}
                             </View>
 
-                            
-
                             <View style={styles.namebox}>
                                 {val.map(_prof=><Text style={styles.profilename} key={""}>{_prof.full_name}</Text>)}
                             </View>
                         </View>
                     </View>
+
+                    <Pressable  style={styles.changePicBox}>
+                        <Text style={styles.changetxt}>Change Photo</Text>
+                    </Pressable>
                 
                     <View style={styles.profileinfo}>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Username: '} </Text>
-                            {val.map(_prof=><Text style={styles.profiletext} key={""}>{_prof.username}</Text>)}
+                            {/* <TextInput style={styles.profiletext}> 
+                            </TextInput> */}
+                            {val.map(_prof=><TextInput style={styles.profiletext} key={""}>{_prof.username}</TextInput>)}
                         </View>
                         {/* <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Password: '} </Text>
@@ -114,15 +102,27 @@ export default function Profile({navigation}) {
                             <Text style={[styles.profilelabel]}>{'Email:         '} </Text>
                             {val.map(_prof=><Text style={styles.profiletext} key={""}>{_prof.email}</Text>)}
                         </View>
+                        <View style={styles.rowProfile}>
+                            <Text style={[styles.profilelabel]}>{'Current\nPassword: '} </Text>
+                            <Text style={styles.profiletext}></Text>
+                        </View>
+                        <View style={styles.rowProfile}>
+                            <Text style={[styles.profilelabel]}>{'New\nPassword: '} </Text>
+                            <Text style={styles.profiletext}></Text>
+                        </View>
+                        <View style={styles.rowProfile}>
+                            <Text style={[styles.profilelabel]}>{'Confirm\nPassword: '} </Text>
+                            <Text style={styles.profiletext}></Text>
+                        </View>
                     </View>
 
                     <View style={[styles.row, styles.btnRow]}>
-                        <Pressable onPress={() => navigation.navigate('EditProfile')} style={styles.logoutbox}>
-                            <Text style={styles.logouttxt}>EDIT</Text>
+                        <Pressable  style={styles.logoutbox}>
+                            <Text style={styles.logouttxt}>SAVE</Text>
                         </Pressable>
 
-                        <Pressable onPress={() => logout(navigation)} style={styles.logoutbox}>
-                            <Text style={styles.logouttxt}>LOGOUT</Text>
+                        <Pressable onPress={() => navigation.navigate('Profile')} style={styles.logoutbox}>
+                            <Text style={styles.logouttxt}>CANCEL</Text>
                         </Pressable>
                     </View>
 
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     profilecont: {
         marginTop: hp('16%'),
         marginLeft: wp('6%'),
-        // borderRadius: 500,
+        borderRadius: 500,
         // elevation: 10,
         // borderWidth: 2,
     },
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         width: wp('40%'),
         height: hp('18%'),
         resizeMode: 'contain',
-        borderRadius: 200,
+        borderRadius: 500,
         borderWidth: 1,
     },
     
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'space-evenly',
         width: wp('85%'),
-        marginTop: hp('-1%'),
+        marginTop: hp('-3%'),
         // borderWidth: 1,
     },
 
@@ -201,7 +201,17 @@ const styles = StyleSheet.create({
         marginTop: hp('5%'),
         // marginLeft: responsiveWidth(61),
         borderRadius: 15,
-        
+    },
+
+    changePicBox: {
+        backgroundColor: '#49bccf',
+        width: wp('22%'),
+        height: hp('3.1%'),
+        padding: responsiveWidth(1.5),
+        marginTop: hp('-2%'),
+        marginLeft: wp('15%'),
+        // marginLeft: responsiveWidth(61),
+        borderRadius: 15,
     },
 
     logouttxt: {
@@ -210,14 +220,20 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 
+    changetxt: {
+        fontSize: 15,
+        color: '#fff',
+        textAlign: 'center',
+    },
+
     profileinfo: {
         backgroundColor: '#fff',
-        marginTop: hp('3%'),
+        marginTop: hp('2%'),
         marginHorizontal: wp('7.5%'),
         padding: wp('5%'),
         paddingTop: hp('1%'),
         width: wp('85%'),
-        height: hp('30%'),
+        height: hp('48%'),
         borderRadius: 15,
         // elevation: 5,
     },
@@ -226,7 +242,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        
+        marginBottom: hp('-1.5%'),
     },
 
     profilelabel: {

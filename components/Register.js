@@ -438,7 +438,7 @@ export default function Register({navigation}) {
         <ScrollView style={styles.scroll}>
           <Text style={styles.labelInfo}>Personal Information</Text>
           <View style={[styles.inputCard, styles.shadow]} >
-            <Text style={styles.label}>* First Name:</Text>
+            <Text style={styles.label}>First Name:</Text>
             <TextInput
               style={styles.input}
               placeholder="e.g. Juan"

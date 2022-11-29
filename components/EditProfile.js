@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 import { StyleSheet, ImageBackground, View, Text, Image, Pressable, Alert, TextInput } from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo'
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
@@ -9,7 +8,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 export default function Profile({navigation}) {
     const [shouldShow, setShouldShow] = useState(true);
     const [val, setValue] = useState([]);
-    const [pass, setPass] = useState([]);
+    const [pass, setPass] = useState('');
     var showPass = pass;
     let passGetLength = showPass.length;
     let passLength = passGetLength;
@@ -21,33 +20,12 @@ export default function Profile({navigation}) {
     }
 
     const prof = async() => {
-        try {
-          const data1 = await AsyncStorage.getItem('admin');
-          const data2 = await AsyncStorage.getItem('doctor');
-          const data3 = await AsyncStorage.getItem('patient');
-          const adm = JSON.parse(data1);
-          const doc = JSON.parse(data2);
-          const pat = JSON.parse(data3);
-          // const datata = JSON.parse(getdata);
-          // const email = await AsyncStorage.getItem('email');
-          if (adm !== null || doc !== null || pat !== null) {
-            if (adm !== null) {
-                setValue(adm)
-                setPass(adm[0].pass)
-            }
-            else if (doc !== null) {
-                setValue(doc);
-                setPass(doc[0].pass)
-            }
-            else if (pat !== null) {
-                setValue(pat);
-                setPass(pat[0].pass)
-            } 
-          }
-        } catch (e) {
-          alert('Failed to fetch the input from storage');
-        }
-        
+        const fet = await SecureStore.getItemAsync('data');
+        const fetc = await SecureStore.getItemAsync('editprof');
+        const editprofdata = JSON.parse(fetc);
+        const editprofdat = JSON.parse(fet);
+        setValue(editprofdata)
+        setPass(editprofdat.pass)
       }
 
       useEffect(() => {
@@ -77,9 +55,7 @@ export default function Profile({navigation}) {
                     <View style={styles.profileinfo}>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Username: '} </Text>
-                            {/* <TextInput style={styles.profiletext}> 
-                            </TextInput> */}
-                            {val.map(_prof=><TextInput style={styles.profiletext} key={""}>{_prof.username}</TextInput>)}
+                            {val.map(_prof=><Text style={styles.profiletext} key={""}>{_prof.username}</Text>)}
                         </View>
                         {/* <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Password: '} </Text>
@@ -92,11 +68,11 @@ export default function Profile({navigation}) {
                         </View> */}
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Birthday:    '} </Text>
-                            {val.map(_prof=><Text style={styles.profiletext} key={""}>{_prof.bday}</Text>)}
+                            {val.map(_prof=><TextInput style={styles.profiletext2} key={""}>{_prof.bday}</TextInput>)}
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Contact:     '} </Text>
-                            {val.map(_prof=><Text style={styles.profiletext} key={""}>{_prof.contact_no}</Text>)}
+                            {val.map(_prof=><TextInput style={styles.profiletext2} key={""}>{_prof.contact_no}</TextInput>)}
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Email:         '} </Text>
@@ -104,15 +80,15 @@ export default function Profile({navigation}) {
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Current\nPassword: '} </Text>
-                            <Text style={styles.profiletext}></Text>
+                            <Text style={styles.profiletext2}></Text>
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'New\nPassword: '} </Text>
-                            <Text style={styles.profiletext}></Text>
+                            <Text style={styles.profiletext2}></Text>
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Confirm\nPassword: '} </Text>
-                            <Text style={styles.profiletext}></Text>
+                            <Text style={styles.profiletext2}></Text>
                         </View>
                     </View>
 
@@ -258,12 +234,26 @@ const styles = StyleSheet.create({
     profiletext: {
         fontSize: responsiveFontSize(1.5),
         borderWidth: 1,
+        borderColor: 'gray',
         width: responsiveWidth(50),
         textAlign: 'right',
         padding: responsiveWidth(2),
         paddingLeft: responsiveWidth(0),
         paddingRight: responsiveWidth(2),
         borderRadius: 10,
+        color: 'gray'
+    },
+
+    profiletext2: {
+        fontSize: responsiveFontSize(1.5),
+        borderWidth: 2,
+        width: responsiveWidth(50),
+        textAlign: 'right',
+        padding: responsiveWidth(2),
+        paddingLeft: responsiveWidth(0),
+        paddingRight: responsiveWidth(2),
+        borderRadius: 10,
+        color: '#000'
     },
 
     passBtn: {

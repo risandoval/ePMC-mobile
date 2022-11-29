@@ -193,7 +193,7 @@ export default function DoctorReports() {
   return (
     <View style={styles.container}>
       {isLoading ? <Text style={styles.loadingtext}>Loading Data...</Text>:
-        <ImageBackground source={require('../../../assets/reportbg.png')} style={styles.bgimage}>
+        <ImageBackground source={require('../../../assets/patientrec.png')} style={styles.bgimage}>
           <ScrollView>
             <View style={styles.reportContainer}>
 

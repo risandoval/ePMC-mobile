@@ -64,7 +64,7 @@ export default function Profile({navigation}) {
           alert('Failed to fetch the input from storage');
         }
         
-      }
+    }
 
       useEffect(() => {
         prof();

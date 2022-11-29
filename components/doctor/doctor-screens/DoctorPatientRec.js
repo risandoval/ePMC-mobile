@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, ImageBackground, FlatList, View, TextInput, Pressable, Text, Image, Modal, SectionList } from 'react-native';
+import {StyleSheet, ImageBackground, FlatList, View, TextInput, Pressable, Text, Image, Modal, 
+        SectionList } from 'react-native';
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
@@ -267,7 +269,7 @@ export default function DoctorPatientRec({navigation}) {
   return (
     <View style={styles.container}>
       {isLoading ? <Text style={styles.loadingtext}>Loading Data...</Text>:
-      <ImageBackground source={require('../../../assets/patientrecbg.png')} style={styles.bgimage}>
+      <ImageBackground source={require('../../../assets/patientrec.png')} style={styles.bgimage}>
         <View style={styles.searchBar}>
           <TextInput 
             style={styles.search}
@@ -388,12 +390,12 @@ const styles = StyleSheet.create({
 
   searchBar: {
     backgroundColor: '#fff',
-    width: responsiveWidth(80),
-    height: responsiveHeight(5),
-    marginVertical: responsiveHeight(6),
-    marginHorizontal: responsiveWidth(10),
-    paddingLeft: responsiveWidth(5),
-    borderRadius: 50,
+    width: wp('80%'),
+    height: hp('5%'),
+    marginTop:hp('10%'),
+    marginHorizontal: wp('10%'),
+    paddingLeft: wp('5%'),
+    borderRadius: 40,
     elevation: 5,
     flexDirection: 'row',
   },
@@ -410,13 +412,13 @@ const styles = StyleSheet.create({
   },
 
   total: {
-    marginTop: responsiveHeight(-2),
-    marginHorizontal: responsiveWidth(10),
+    marginTop: hp('3%'),
+    marginHorizontal: wp('12%'),
   },
 
   txtTotal: {
     color: '#fff',
-    fontSize: responsiveFontSize(1.7),
+    fontSize: hp('2.3%'),
     fontWeight: 'bold',
     textDecorationLine: 'underline',
     textDecorationColor: '#32FFE6',
@@ -424,11 +426,11 @@ const styles = StyleSheet.create({
 
   patientlist: {
     backgroundColor: '#fff',
-    marginVertical: responsiveHeight(1.5),
+    marginTop: hp('2%'),
     marginHorizontal: responsiveWidth(10),
-    padding: 20,
-    width: responsiveWidth(80),
-    height: responsiveHeight(70),
+    padding: 10,
+    width: wp('80%'),
+    height: hp('72%'),
     borderRadius: 20,
   },
 
@@ -439,14 +441,17 @@ const styles = StyleSheet.create({
   },
 
   listHeader: {
-    height: 55,
+    // height: 50,
+    // borderWidth: 1,
+    marginTop: hp('1%'),
+    // marginBottom: hp('-1%'),
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
 
   listHeadline: {
     color: '#333',
-    fontSize: 21,
+    fontSize: hp('3.3%'),
     fontWeight: 'bold'
   },
 
@@ -455,16 +460,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 13,
+    paddingVertical: 5,
+    
   },
 
   avatarContainer: {
     // backgroundColor: '#D9D9D9',
     // borderRadius: 100,
-    height: 90,
-    width: 90,
-    paddingTop: 10,
-    marginLeft: 10,
+    // borderWidth: 1,
+    height: hp('10%'),
+    width: wp('20%'),
+    // paddingTop: 10,
+    marginLeft: wp('1%'),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -472,6 +479,7 @@ const styles = StyleSheet.create({
   avatarContainer2: {
     // backgroundColor: '#D9D9D9',
     // borderRadius: 100,
+    // borderWidth: 1,
     height: 50,
     width: 50,
     paddingTop: 10,
@@ -482,8 +490,8 @@ const styles = StyleSheet.create({
 
   avatar: {
     borderRadius: 100,
-    height: 75,
-    width: 75,
+    height: hp('9%'),
+    width: wp('16%'),
   },
 
   avatar2: {
@@ -495,6 +503,7 @@ const styles = StyleSheet.create({
   nametxt: {
     flex: 1,
     textAlign: 'left',
+
   },
 
   viewContainer: {

@@ -24,10 +24,10 @@ export default function AdminDashboard() {
   // fetching for Total
   const fetchTotal = async () => {
 
-    var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_total";
+    // var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_total";
     // var dashboardpath = "http://192.168.2.115:80/epmc-4/adm_dashboard_total";
 
-      //  var dashboardpath = "http://e-pmc.com/adm_dashboard_total";
+       var dashboardpath = "http://e-pmc.com/adm_dashboard_total";
   
     await fetch(dashboardpath,{
       headers: headers
@@ -47,10 +47,10 @@ export default function AdminDashboard() {
   // fetching for Recent Activity
   const fetchRecent = async () => {
 
-    var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_recent";
+    // var dashboardpath = "http://192.168.1.5:80/epmc-4/adm_dashboard_recent";
     // var dashboardpath = "http://192.168.2.115:80/epmc-4/adm_dashboard_recent";
 
-    // var dashboardpath = "http://e-pmc.com/adm_dashboard_recent";
+    var dashboardpath = "http://e-pmc.com/adm_dashboard_recent";
   
     await fetch(dashboardpath,{
       headers: headers

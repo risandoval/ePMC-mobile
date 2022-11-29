@@ -71,8 +71,8 @@ export default function Profile({navigation}) {
         }
 
         // var editprofilepath = "http://192.168.1.5:80/epmc-4/editprofile_mobile";
-        var editprofilepath = "http://192.168.2.115:80/epmc-4/editprofile_mobile";
-        // var editprofilepath = "http://e-pmc.com/editprofile_mobile";
+        // var editprofilepath = "http://192.168.2.115:80/epmc-4/editprofile_mobile";
+        var editprofilepath = "http://e-pmc.com/editprofile_mobile";
 
         var data = {
             bday: bday,

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 import { StyleSheet, ImageBackground, View, Text, Image, Pressable, Alert } from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo'
 import { responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
@@ -9,7 +8,7 @@ const logout = async(navigation) =>  {
     Alert.alert(
         "Are you sure you want to logout?",
         "You can come back anytime!", [
-            {text: "Logout", onPress: async() => {await AsyncStorage.clear();
+            {text: "Logout", onPress: async() => {await SecureStore.deleteItemAsync('data');
                                                   navigation.reset({
                                                     index: 0,
                                                     routes: [{ name: "Login" }],
@@ -36,40 +35,49 @@ export default function Profile({navigation}) {
         let passBullet = "*".repeat(passLength);
         hidePass = passBullet;
     }
-    const prof = async() => {
-        try {
-          const data1 = await AsyncStorage.getItem('admin');
-          const data2 = await AsyncStorage.getItem('doctor');
-          const data3 = await AsyncStorage.getItem('patient');
-          const adm = JSON.parse(data1);
-          const doc = JSON.parse(data2);
-          const pat = JSON.parse(data3);
-          // const datata = JSON.parse(getdata);
-        //   const email = await AsyncStorage.getItem('email');
-          if (adm !== null || doc !== null || pat !== null) {
-            if (adm !== null) {
-                setValue(adm)
-                setPass(adm[0].pass)
-            }
-            else if (doc !== null) {
-                setValue(doc);
-                setPass(doc[0].pass)
-            }
-            else if (pat !== null) {
-                setValue(pat);
-                setPass(pat[0].pass)
-            } 
-          }
-        } catch (e) {
-          alert('Failed to fetch the input from storage');
-        }
-        
+    
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type' : 'application/json;charset=UTF-8',
+        'X-API-KEY':'myapi',
+        'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
     }
 
-      useEffect(() => {
+    const prof = async() => {
+        const fet = await SecureStore.getItemAsync('data');
+        const profiledata = JSON.parse(fet);
+
+        var profilepath = "http://192.168.2.115:80/epmc-4/profile_mobile";
+        // var profilepath = "http://192.168.1.5:80/epmc-4/profile_mobile";
+        // var profilepath = "http://e-pmc.com/adm_dashboard_total";
+
+        var data ={
+            email: profiledata.email,
+            pass: profiledata.pass
+        };
+
+        await fetch(profilepath,{
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data)
+          })  
+          .then((response)=>response.json())
+          .then((response)=>{
+              if (response[0] !== null) {
+                setValue(response)
+              } else {
+                alert("Failed to fetch");
+              }
+          })
+          .catch((error)=>{
+            console.error("ERROR FOUND " + error);
+          })
+    }
+    useEffect(()=>{
         prof();
-      }, []);
-    
+        const dataInterval = setInterval(() => prof(), 5 * 1000);
+        return () => clearInterval(dataInterval);
+    },[]);
 
     return (
         <View style={[styles.container, styles.responsiveBox]}>

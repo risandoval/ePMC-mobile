@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from 'expo-secure-store';
 import React, { useState, useEffect } from "react";
 import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput, Dimensions, Image } from 'react-native';
 import {responsiveHeight, responsiveWidth, responsiveFontSize } from "react-native-responsive-dimensions";
@@ -27,9 +28,9 @@ export default function Login( {navigation} ) {
       setIsLogin(true);
 
       // var loginpath = "http://192.168.1.5:80/epmc-4/login_mobile";
-      // var loginpath = "http://192.168.2.115:80/epmc-4/login_mobile";
+      var loginpath = "http://192.168.2.115:80/epmc-4/login_mobile";
 
-      var loginpath = "http://e-pmc.com/login_mobile";
+      // var loginpath = "http://e-pmc.com/login_mobile";
 
       var data ={
         email: email,
@@ -49,30 +50,14 @@ export default function Login( {navigation} ) {
       .then((response)=>response.json())
       .then((response)=>{
         (async function() {
-          if (response[0].role == "Admin") {
-            await AsyncStorage.setItem('admin', JSON.stringify(response));
-            // await AsyncStorage.setItem('email', email);
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "AdminNavbar" }],
-            });
-          } 
-          else if (response[0].role == "Doctor") {
-            await AsyncStorage.setItem('doctor', JSON.stringify(response));
-            // await AsyncStorage.setItem('email', email);
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "DoctorNavbar" }],
-            });
-          }
-          else if (response[0].role == "patient") {
-            await AsyncStorage.setItem('patient', JSON.stringify(response));
-            // await AsyncStorage.setItem('email', email);
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "PatientNavbar" }],
-            });
-          } else if (response[0].role == "Invalid") {
+          if (response[0] !== null) {
+            if (response[0].status == '0'){
+              alert("Account is not activated yet. Please check your email for activation link.");
+            } else {
+              alert("All good");
+              navigation.navigate("OTP",{sess:data,data:response[0].email,data1:response[0].verification_code,data2:response[0].nav});
+            }
+          } else {
             alert("Invalid email or password");
           }
         })();
@@ -83,45 +68,45 @@ export default function Login( {navigation} ) {
     }
   }
 
-  const keeploggedin = async() => {
-    try {
-      const data1 = await AsyncStorage.getItem('admin');
-      const data2 = await AsyncStorage.getItem('doctor');
-      const data3 = await AsyncStorage.getItem('patient');
-      const adm = JSON.parse(data1);
-      const doc = JSON.parse(data2);
-      const pat = JSON.parse(data3);
-      // const datata = JSON.parse(getdata);
-      // const email = await AsyncStorage.getItem('email');
-      if (adm !== null || doc !== null || pat !== null) {
-        if (adm !== null) {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "AdminNavbar" }],
-          });
-        }
-        else if (doc !== null) {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "DoctorNavbar" }],
-          });
-        }
-        else if (pat !== null) {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "PatientNavbar" }],
-          });
-        } 
-      }
-    } catch (e) {
-      alert('Failed to fetch the input from storage');
-    }
+  // const keeploggedin = async() => {
+  //   try {
+  //       const data1 = await SecureStore.getItemAsync('admin');
+  //       const data2 = await SecureStore.getItemAsync('doctor');
+  //       const data3 = await SecureStore.getItemAsync('patient');
+  //       const adm = JSON.parse(data1);
+  //       const doc = JSON.parse(data2);
+  //       const pat = JSON.parse(data3);
+  //     // const datata = JSON.parse(getdata);
+  //     // const email = await AsyncStorage.getItem('email');
+  //     if (adm !== null || doc !== null || pat !== null) {
+  //       if (adm !== null) {
+  //         navigation.reset({
+  //           index: 0,
+  //           routes: [{ name: "AdminNavbar" }],
+  //         });
+  //       }
+  //       else if (doc !== null) {
+  //         navigation.reset({
+  //           index: 0,
+  //           routes: [{ name: "DoctorNavbar" }],
+  //         });
+  //       }
+  //       else if (pat !== null) {
+  //         navigation.reset({
+  //           index: 0,
+  //           routes: [{ name: "PatientNavbar" }],
+  //         });
+  //       } 
+  //     }
+  //   } catch (e) {
+  //     alert('Failed to fetch the input from storage');
+  //   }
     
-  }
+  // }
 
-  useEffect(() => {
-    keeploggedin();
-  }, []);
+  // useEffect(() => {
+  //   keeploggedin();
+  // }, []);
 
   
 
@@ -235,7 +220,9 @@ const styles = StyleSheet.create({
   },
 
   btnLogin1: {
+    textAlign: 'center',
+    fontSize: 20,
     color: '#fff',
-    fontSize: hp('2.2%'),
+    fontWeight: '700',
   },
 });

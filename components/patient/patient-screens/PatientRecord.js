@@ -6,7 +6,7 @@ import { responsiveHeight,  responsiveWidth, responsiveFontSize } from "react-na
 export default function PatientRecord() {
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../../../assets/recordbg.png')} style={styles.bgimage}>
+      <ImageBackground source={require('../../../assets/patientrec.png')} style={styles.bgimage}>
           <View style={{marginBottom: responsiveHeight(8)}}>
             <ScrollView>
               <View style={styles.infoContainer}>

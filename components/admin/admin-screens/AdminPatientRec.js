@@ -55,9 +55,9 @@ export default function AdminPatientRec({navigation}) {
   const fetchPatient = async () => {
 
     // var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
-    // var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
+    var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
 
-    var patientrec = "http://e-pmc.com/adm_patientrec_patients";
+    // var patientrec = "http://e-pmc.com/adm_patientrec_patients";
   
     await fetch(patientrec,{
       headers: headers
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: wp('80%'),
     height: hp('5%'),
-    marginTop:hp('10%'),
+    marginTop:hp('5%'),
     marginHorizontal: wp('10%'),
     paddingLeft: wp('5%'),
     borderRadius: 40,
@@ -428,7 +428,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginTop: hp('2%'),
     marginHorizontal: responsiveWidth(10),
-    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     width: wp('80%'),
     height: hp('72%'),
     borderRadius: 20,
@@ -490,8 +491,8 @@ const styles = StyleSheet.create({
 
   avatar: {
     borderRadius: 100,
-    height: hp('9%'),
-    width: wp('16%'),
+    height: hp('8%'),
+    width: wp('18%'),
   },
 
   avatar2: {

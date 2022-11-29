@@ -63,11 +63,14 @@ export default function Profile({navigation}) {
           })  
           .then((response)=>response.json())
           .then((response)=>{
+            (async function() {
               if (response[0] !== null) {
+                await SecureStore.setItemAsync('editprof',JSON.stringify(response));
                 setValue(response)
               } else {
                 alert("Failed to fetch");
               }
+            })();
           })
           .catch((error)=>{
             console.error("ERROR FOUND " + error);

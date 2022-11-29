@@ -9,6 +9,16 @@ export default function Profile({navigation}) {
     const [shouldShow, setShouldShow] = useState(true);
     const [val, setValue] = useState([]);
     const [pass, setPass] = useState('');
+    const [bday, setBday] = useState("");
+    const [contactNum, setContactNum] = useState("");
+    const [contactNumError, setContactNumError] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [currentPasswordError, setCurrentPasswordError] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [newPasswordError, setNewPasswordError] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
     var showPass = pass;
     let passGetLength = showPass.length;
     let passLength = passGetLength;
@@ -31,6 +41,71 @@ export default function Profile({navigation}) {
       useEffect(() => {
         prof();
       }, []);
+    
+    const update = async() => {
+
+        //password validation
+        var passwordValid = false;
+        if(newPassword == "") {
+        setNewPasswordError("Password is required");
+        }
+        else if(newPassword.length < 8) {
+        setNewPasswordError("Password must be at least 8 characters");
+        }
+        else {
+        setNewPasswordError("");
+        }
+
+        //confirm password validation
+        var confirmPasswordValid = false;
+        if(confirmPassword == "") {
+        setConfirmPasswordError("Confirm password is required");
+        }
+        else if(confirmPassword != password) {
+        setConfirmPasswordError("Passwords do not match");
+        }
+        else {
+        setConfirmPasswordError("");
+        confirmPasswordValid = true;
+        passwordValid = true;
+        }
+
+        // var editprofilepath = "http://192.168.1.5:80/epmc-4/editprofile_mobile";
+        var editprofilepath = "http://192.168.2.115:80/epmc-4/editprofile_mobile";
+        // var editprofilepath = "http://e-pmc.com/editprofile_mobile";
+
+        var data = {
+            bday: bday,
+            contactNum: contactNum,
+            email: email,
+            pass: pass,
+            newpass: newPassword,
+          };
+
+          try {
+            //post request
+            await fetch(editprofilepath, {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type' : 'application/json;charset=UTF-8',
+                'X-API-KEY':'myapi',
+                'Authorization':'Basic YWRtaW46YWRtaW4xMjM='
+              },
+              body: JSON.stringify(data),
+            })
+            .then((response)=>response.json())
+            .then((response)=>{
+              if(response) {
+                Alert.alert("Success", "You have successfully updated your profile.");
+                navigation.navigate('Profile');
+              }
+            })
+          }
+          catch(error) {
+            console.log(error);
+          }
+    }
     
 
     return (
@@ -68,11 +143,25 @@ export default function Profile({navigation}) {
                         </View> */}
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Birthday:    '} </Text>
-                            {val.map(_prof=><TextInput style={styles.profiletext2} key={""}>{_prof.bday}</TextInput>)}
+                            {val.map(_prof=>
+                                <TextInput 
+                                    style={styles.profiletext2}
+                                    placeholder={'e.g. ' + _prof.bday}
+                                    onChangeText={(text) => setBday(text)}
+                                    value={bday} 
+                                    key={""}>
+                                </TextInput>)}
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Contact:     '} </Text>
-                            {val.map(_prof=><TextInput style={styles.profiletext2} key={""}>{_prof.contact_no}</TextInput>)}
+                            {val.map(_prof=>
+                                <TextInput 
+                                    style={styles.profiletext2}
+                                    placeholder={'e.g. ' + _prof.contact_no}
+                                    onChangeText={(text) => setContactNum(text)}
+                                    value={contactNum} 
+                                    key={""}>
+                                </TextInput>)}
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Email:         '} </Text>
@@ -80,16 +169,34 @@ export default function Profile({navigation}) {
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Current\nPassword: '} </Text>
-                            <Text style={styles.profiletext2}></Text>
+                            <TextInput 
+                                style={styles.profiletext2} 
+                                secureTextEntry={true}
+                                onChangeText={(text) => setCurrentPassword(text)}
+                                value={currentPassword}>
+                            </TextInput>
                         </View>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'New\nPassword: '} </Text>
-                            <Text style={styles.profiletext2}></Text>
+                            <TextInput 
+                                style={styles.profiletext2} 
+                                secureTextEntry={true}
+                                onChangeText={(text) => setNewPassword(text)}
+                                value={newPassword}>
+                            </TextInput>
                         </View>
+                        <Text style={styles.errorMsg}>{newPasswordError}</Text>
                         <View style={styles.rowProfile}>
                             <Text style={[styles.profilelabel]}>{'Confirm\nPassword: '} </Text>
-                            <Text style={styles.profiletext2}></Text>
+                            <TextInput 
+                                style={styles.profiletext2} 
+                                secureTextEntry={true}
+                                onChangeText={(text) => setConfirmPassword(text)}
+                                value={confirmPassword}>
+                            </TextInput>
                         </View>
+                        <Text style={styles.errorMsg}>{confirmPasswordError}</Text>
+                        
                     </View>
 
                     <View style={[styles.row, styles.btnRow]}>
@@ -260,6 +367,14 @@ const styles = StyleSheet.create({
         marginBottom: responsiveHeight(-0.3),
         borderLeftWidth: 1,
     },
+    errorMsg: {
+        color: '#EB144C',
+        marginHorizontal: wp('10%'),
+        marginTop: hp('-0.8%'),
+        fontSize: hp('1.2%'),
+        // marginBottom: hp('1%'),
+      },
+    
 
     
 });

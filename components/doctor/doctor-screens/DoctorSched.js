@@ -7,7 +7,7 @@ import {Calendar, Agenda} from 'react-native-calendars';
 
 
 
-export default function AdminSched({}) {
+export default function DoctorSched({}) {
   const [isLoading, setLoading] = useState(true);
   const [schedData, setSchedData] = useState([]);
 

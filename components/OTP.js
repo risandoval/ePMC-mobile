@@ -95,10 +95,13 @@ export default function AnimatedExample({route,navigation}){
   const verify = async() => {
     if (value==route.params.data1){
       await SecureStore.setItemAsync('data',JSON.stringify(route.params.sess));
+      alert("Login successful")
       navigation.reset({
         index: 0,
         routes: [{ name: route.params.data2 }],
       });
+    } else {
+      alert("Wrong code")
     }
   }
 

@@ -20,10 +20,10 @@ export default function AdminSched({}) {
 
   const fetchSchedule = async () => {
 
-    var schedulepath = "http://192.168.1.5:80/epmc-4/adm_sched_mobile";
+    // var schedulepath = "http://192.168.1.5:80/epmc-4/adm_sched_mobile";
     // var schedulepath = "http://192.168.2.115:80/epmc-4/adm_sched_mobile";
 
-    // var schedulepath = "http://e-pmc.com/adm_sched_mobile";
+    var schedulepath = "http://e-pmc.com/adm_sched_mobile";
   
     await fetch(schedulepath,{
       headers: headers
@@ -61,9 +61,7 @@ export default function AdminSched({}) {
             style={styles.calendar} //calendar style
             items={schedData} //data
             // items={{
-            //   '2022-11-22': [{doctor_name: 'Dr. Miguel Pagtakhan', specialization: 'Internal Medicine'}],
-            //   '2022-11-23': [{doctor_name: 'Dr. Miguel Pagtakhan', specialization: 'Internal Medicine'}],
-            //   '2022-11-29': [{doctor_name: 'Dr. Miguel Pagtakhan', specialization: 'Internal Medicine'}]
+            //   '2022-11-29': [{name: "Next Consultation", doctor_name: 'Dr. Miguel Pagtakhan', specialization: 'Internal Medicine', start_time: "08:00:00"}]
             // }}
             renderItem={renderItem}
           />

@@ -20,10 +20,10 @@ export default function AdminSched({}) {
 
   const fetchSchedule = async () => {
 
-    // var schedulepath = "http://192.168.1.5:80/epmc-4/adm_sched_mobile";
+    var schedulepath = "http://192.168.1.5:80/epmc-4/adm_sched_mobile";
     // var schedulepath = "http://192.168.2.115:80/epmc-4/adm_sched_mobile";
 
-    var schedulepath = "http://e-pmc.com/adm_sched_mobile";
+    // var schedulepath = "http://e-pmc.com/adm_sched_mobile";
   
     await fetch(schedulepath,{
       headers: headers

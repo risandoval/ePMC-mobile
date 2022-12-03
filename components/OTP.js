@@ -129,7 +129,7 @@ export default function AnimatedExample({route,navigation}){
         textContentType="oneTimeCode"
         renderCell={renderCell}
       />
-     
+      
         <Pressable style={styles.nextButton} onPress={verify}>
           <Text style={styles.nextButtonText}>Verify</Text>
         </Pressable>

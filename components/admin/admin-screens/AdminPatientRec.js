@@ -54,8 +54,8 @@ export default function AdminPatientRec({navigation}) {
 
   const fetchPatient = async () => {
 
-    // var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
-    var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
+    var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
+    // var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
 
     // var patientrec = "http://e-pmc.com/adm_patientrec_patients";
   

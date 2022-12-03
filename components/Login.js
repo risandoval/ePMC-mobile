@@ -50,12 +50,14 @@ export default function Login( {navigation} ) {
       .then((response)=>response.json())
       .then((response)=>{
         (async function() {
+          // await AsyncStorage.setItem('patient_id', response.patient_id);
           if (response[0] !== null) {
             if (response[0].status == '0'){
               alert("Account is not activated yet. Please check your email for activation link.");
             } else {
               alert("Please check your email for verification");
               navigation.navigate("OTP",{sess:data,data:response[0].email,data1:response[0].verification_code,data2:response[0].nav});
+              // navigation.navigate("AdminNavbar")
             }
           } else {
             alert("Invalid email or password");
@@ -138,7 +140,6 @@ export default function Login( {navigation} ) {
 
         <Pressable  style={styles.btnLogin} onPress={checkLogin}>
         {/* <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("AdminNavbar")}> */}
-          {/* <AntDesign name="arrowright" style={styles.btnLogin1} /> */}
           <Text style={styles.btnLogin1}>LOGIN</Text>
         </Pressable>
 

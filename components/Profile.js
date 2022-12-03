@@ -46,10 +46,10 @@ export default function Profile({navigation}) {
     const prof = async() => {
         const fet = await SecureStore.getItemAsync('data');
         const profiledata = JSON.parse(fet);
-
+        
+        var profilepath = "http://192.168.1.5:80/epmc-4/profile_mobile";
         // var profilepath = "http://192.168.2.115:80/epmc-4/profile_mobile";
-        // var profilepath = "http://192.168.1.5:80/epmc-4/profile_mobile";
-        var profilepath = "http://e-pmc.com/adm_dashboard_total";
+        // var profilepath = "http://e-pmc.com/adm_dashboard_total";
 
         var data ={
             email: profiledata.email,

@@ -27,10 +27,10 @@ export default function Login( {navigation} ) {
       
       setIsLogin(true);
 
-      // var loginpath = "http://192.168.1.5:80/epmc-4/login_mobile";
+      var loginpath = "http://192.168.1.5:80/epmc-4/login_mobile";
       // var loginpath = "http://192.168.2.115:80/epmc-4/login_mobile";
 
-      var loginpath = "http://e-pmc.com/login_mobile";
+      // var loginpath = "http://e-pmc.com/login_mobile";
 
       var data ={
         email: email,

@@ -55,9 +55,10 @@ export default function Login( {navigation} ) {
             if (response[0].status == '0'){
               alert("Account is not activated yet. Please check your email for activation link.");
             } else {
-              alert("Please check your email for verification");
-              navigation.navigate("OTP",{sess:data,data:response[0].email,data1:response[0].verification_code,data2:response[0].nav});
-              // navigation.navigate("AdminNavbar")
+              // alert("Please check your email for verification");
+              // navigation.navigate("OTP",{sess:data,data:response[0].email,data1:response[0].verification_code,data2:response[0].nav});
+              await SecureStore.setItemAsync('data',JSON.stringify(data));
+              navigation.navigate(response[0].nav)
             }
           } else {
             alert("Invalid email or password");

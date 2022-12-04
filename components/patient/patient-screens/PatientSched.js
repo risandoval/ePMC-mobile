@@ -110,47 +110,6 @@ export default function AdminSched({}) {
   };
   //END for Time
 
-
-  const headers = {
-    'Accept': 'application/json',
-    'Content-Type' : 'application/json;charset=UTF-8',
-    'X-API-KEY':'myapi',
-    'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
-  }
-
-  const fetchSchedule = async () => {
-
-    var schedulepath = "http://192.168.1.5:80/epmc-4/adm_sched_mobile";
-    // var schedulepath = "http://192.168.2.115:80/epmc-4/adm_sched_mobile";
-
-    // var schedulepath = "http://e-pmc.com/adm_sched_mobile";
-  
-    await fetch(schedulepath,{
-      headers: headers
-    })  
-    .then((response)=>response.json())
-    .then((json)=>setSchedData(json))
-    .catch((error)=> console.error("ERROR FOUND " + error))
-    .finally(() => setLoading(false));
-  }
-
-  useEffect(()=>{
-    fetchSchedule();
-    const dataInterval = setInterval(() => fetchSchedule(), 5 * 1000);
-    return () => clearInterval(dataInterval);
-  },[]);
-
-  const renderItem = (item) => {
-    return (
-      
-      <View style={styles.itemContainer}>
-        <Text style={[styles.itemText, {fontWeight: 'bold'}]}>{item.doctor_name}</Text>
-        <Text style={styles.itemText}>{item.specialization}</Text>
-        <Text style={styles.itemText}>{item.start_time} - {item.end_time}</Text>
-      </View>
-    )
-  }
-
   //fetch id and full name
   const getFullName = async() => {
     const fetc = await SecureStore.getItemAsync('editprof');
@@ -273,18 +232,96 @@ export default function AdminSched({}) {
       selectTimeValid = true;
     }
 
-    //if all validations are true
+    //if all validations are true - add to the database
     if (fullNameValid && doctorNameValid && selectDateValid && selectTimeValid) {
-      alert(
-        patientID + "\n" +
-        username + "\n" +
-        fullName + "\n" +
-        doctorName + "\n" +
-        selectDate + "\n" +
-        selectTime+ "\n" 
-      )
+
+        //path of patient appointment in codeigniter
+        var add_appointmentpath = "http://192.168.1.5:80/epmc-4/add_appointment";
+        // var add_appointmentpath = "http://192.168.2.115:80/epmc-4/add_appointment";
+        // var add_appointmentpath = "http://e-pmc.com/add_appointment";
+
+        //assign values
+        var data = {
+          patientID: patientID,
+          username: username,
+          fullName: fullName,
+          doctorName: doctorName,
+          selectDate: selectDate,
+          selectTime: selectTime,
+        }
+
+        try {
+          //post request
+          await fetch(add_appointmentpath, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type' : 'application/json;charset=UTF-8',
+              'X-API-KEY':'myapi',
+              'Authorization':'Basic YWRtaW46YWRtaW4xMjM='
+            },
+            body: JSON.stringify(data),
+          })
+          .then((response)=>response.json())
+          // .then((response)=>console.log(response))
+          .then((response)=>{
+            if(response.message == "Date already exist") {
+              Alert.alert("Error", "Appointment already exists, please try another time or day.");
+            }
+            else {
+              Alert.alert("Success", "Appointment successfully booked! Wait for the clinic to confirm it.");
+              // navigation.navigate('Register');
+            }
+          })
+        }
+        catch(error) {
+          console.log(error);
+        }
+      
     }
   }
+
+  //START fetch patient schedule
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type' : 'application/json;charset=UTF-8',
+    'X-API-KEY':'myapi',
+    'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
+  }
+
+  const fetchSchedule = async () => {
+
+    var schedulepath = "http://192.168.1.5:80/epmc-4/adm_sched_mobile";
+    // var schedulepath = "http://192.168.2.115:80/epmc-4/adm_sched_mobile";
+
+    // var schedulepath = "http://e-pmc.com/adm_sched_mobile";
+  
+    await fetch(schedulepath,{
+      headers: headers
+    })  
+    .then((response)=>response.json())
+    .then((json)=>setSchedData(json))
+    .catch((error)=> console.error("ERROR FOUND " + error))
+    .finally(() => setLoading(false));
+  }
+
+  useEffect(()=>{
+    fetchSchedule();
+    const dataInterval = setInterval(() => fetchSchedule(), 5 * 1000);
+    return () => clearInterval(dataInterval);
+  },[]);
+
+  const renderItem = (item) => {
+    return (
+      
+      <View style={styles.itemContainer}>
+        <Text style={[styles.itemText, {fontWeight: 'bold'}]}>{item.doctor_name}</Text>
+        <Text style={styles.itemText}>{item.specialization}</Text>
+        <Text style={styles.itemText}>{item.start_time} - {item.end_time}</Text>
+      </View>
+    )
+  }
+  //END fetch patient schedule
 
   return (
     <View style={styles.container}>

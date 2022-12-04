@@ -55,9 +55,9 @@ export default function AdminPatientRec({navigation}) {
   const fetchPatient = async () => {
 
     // var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_patients";
-    var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
+    // var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_patients";
 
-    // var patientrec = "http://e-pmc.com/adm_patientrec_patients";
+    var patientrec = "http://e-pmc.com/adm_patientrec_patients";
   
     await fetch(patientrec,{
       headers: headers
@@ -99,6 +99,7 @@ export default function AdminPatientRec({navigation}) {
   useEffect(()=>{
     
       // var patientrecpath = 'http://192.168.1.5:80/epmc-4/adm_patientrec_view';
+      // var patientrecpath = 'http://192.168.2.115:80/epmc-4/adm_patientrec_view';
       var patientrecpath = 'http://e-pmc.com/adm_patientrec_view';
       // let isSubscribed = true;
 
@@ -491,8 +492,8 @@ const styles = StyleSheet.create({
 
   avatar: {
     borderRadius: 100,
-    height: hp('8%'),
-    width: wp('18%'),
+    height: hp('7%'),
+    width: wp('16%'),
   },
 
   avatar2: {

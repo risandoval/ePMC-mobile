@@ -41,11 +41,12 @@ const styles = StyleSheet.create({
   // =======================
 
   root: {
-    minHeight: 800,
-    padding: 20,
+    flex: 1,
+    backgroundColor: '#efefef',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
-    marginTop: hp('27%'),
     color: "#033d68",
     fontSize: hp('4%'),
     fontWeight: "bold",
@@ -86,6 +87,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#fff',
     fontWeight: '700',
+  },
+
+  logo: {
+    width: wp('30%'),
+    height: hp('11%'),
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignContent: 'center'
+    // width: Dimensions.get('window').width,
+    // height: Dimensions.get('window').height,
   },
 });
 

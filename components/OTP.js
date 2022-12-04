@@ -107,13 +107,14 @@
 
 //   return (
 //     <SafeAreaView style={styles.root}>
+//       <Image source={require('../assets/epmc-logo.png')} style={styles.logo}/>
 //       <Text style={styles.title}>Verification</Text>
-//       <Image style={styles.icon} source={source} />
+//       <Image style={styles.icon} source={require('../assets/otplock.png')} />
 //       <Text style={styles.subTitle}>
 //         Please enter the verification code{'\n'}
 //         we sent to your email address:{'\n'}
 //         <Text style={styles.subTitle2}>
-//         {route.params.data}
+//         {/* {route.params.data} */}
 //         </Text>
 //       </Text>
       
@@ -130,7 +131,7 @@
 //         renderCell={renderCell}
 //       />
      
-//         <Pressable style={styles.nextButton} onPress={verify}>
+//         <Pressable style={styles.nextButton}>
 //           <Text style={styles.nextButtonText}>Verify</Text>
 //         </Pressable>
     

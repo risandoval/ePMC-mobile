@@ -8,12 +8,11 @@ import { Dropdown } from 'react-native-element-dropdown';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-
 export default function AdminSched({}) {
   const [isLoading, setLoading] = useState(true);
-  const [schedData, setSchedData] = useState([]);
+  const [schedData, setSchedData] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
-  const [patientID, setPatientID] = useState([]);
+  const [patientID, setPatientID] = useState('');
   const [patientIDError, setPatientIDError] = useState([]);
   const [username, setUsername] = useState([]);
   const [usernameError, setUsernameError] = useState('');
@@ -28,6 +27,14 @@ export default function AdminSched({}) {
   const [selectDateError, setSelectDateError] = useState([]);
   const [selectTime, setSelectTime] = useState([]);
   const [selectTimeError, setSelectTimeError] = useState([]);
+
+  //header
+  const headers = {
+    'Accept': 'application/json',
+    'Content-Type' : 'application/json;charset=UTF-8',
+    'X-API-KEY':'myapi',
+    'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
+  }
   
 
   //START Doctor Names dropdown
@@ -36,15 +43,6 @@ export default function AdminSched({}) {
     {label: 'Dr. Luis Pagtakhan', value: 2},
     {label: 'Dra. Jaymie Pagtakhan', value: 3},
     {label: 'Dr. Jass Hussein', value: 4},
-  ];
-  //END Doctor Names dropdown
-
-  //START specialization dropdown
-  const specializationData = [
-    {label: 'Internal Medicine', value: 1},
-    {label: 'Family Medicine', value: 2},
-    {label: 'Orthopedics', value: 3},
-    {label: 'Obstetrics and Gynecology', value: 4},
   ];
   //END Doctor Names dropdown
 
@@ -117,14 +115,34 @@ export default function AdminSched({}) {
     setFullName(editprofdata[0].full_name)
     setPatientID(editprofdata[0].patient_id)
     setUsername(editprofdata[0].username)
-  }
 
+    //display patient's appointment
+    var p_appointmentpath = "http://192.168.1.5:80/epmc-4/patient_appointment";
+      // var p_appointmentpath = "http://192.168.2.115:80/epmc-4/patient_appointment";
+      // var p_appointmentpath = "http://e-pmc.com/patient_appointment";
+  
+    var data = {
+      patientID: editprofdata[0].patient_id,
+    }
+      
+    await fetch(p_appointmentpath, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(data),
+    })
+    .then((response)=>response.json())
+    // .then((response)=>console.log(data))
+    .then((json)=>setSchedData(json))
+    .catch((error)=> console.error("ERROR FOUND " + error))
+    .finally(() => setLoading(false));     
+  }
+      
   useEffect(() => {
     getFullName();
   }, []);
 
   //START form validations
-  const saveSchedule = async () => {
+  const saveAppointment = async () => {
     //full name validation
     var fullNameValid = false;
     if (fullName == '') {
@@ -254,12 +272,7 @@ export default function AdminSched({}) {
           //post request
           await fetch(add_appointmentpath, {
             method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type' : 'application/json;charset=UTF-8',
-              'X-API-KEY':'myapi',
-              'Authorization':'Basic YWRtaW46YWRtaW4xMjM='
-            },
+            headers: headers,
             body: JSON.stringify(data),
           })
           .then((response)=>response.json())
@@ -277,47 +290,34 @@ export default function AdminSched({}) {
         catch(error) {
           console.log(error);
         }
-      
     }
+
+    //display 'pending' if status is 0
+    const [status, setStatus] = useState(false);
+    if (status == 0) {
+      setStatus("Pending");
+      console.log("status: ", status)
+    }
+    else if (status == 1) {
+      setStatus("Declined");
+    }
+    else if (status == 2) {
+      setStatus("Confirmed");
+    }
+
   }
-
-  //START fetch patient schedule
-  const headers = {
-    'Accept': 'application/json',
-    'Content-Type' : 'application/json;charset=UTF-8',
-    'X-API-KEY':'myapi',
-    'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
-  }
-
-  const fetchSchedule = async () => {
-
-    var schedulepath = "http://192.168.1.5:80/epmc-4/adm_sched_mobile";
-    // var schedulepath = "http://192.168.2.115:80/epmc-4/adm_sched_mobile";
-
-    // var schedulepath = "http://e-pmc.com/adm_sched_mobile";
-  
-    await fetch(schedulepath,{
-      headers: headers
-    })  
-    .then((response)=>response.json())
-    .then((json)=>setSchedData(json))
-    .catch((error)=> console.error("ERROR FOUND " + error))
-    .finally(() => setLoading(false));
-  }
-
-  useEffect(()=>{
-    fetchSchedule();
-    const dataInterval = setInterval(() => fetchSchedule(), 5 * 1000);
-    return () => clearInterval(dataInterval);
-  },[]);
 
   const renderItem = (item) => {
     return (
-      
       <View style={styles.itemContainer}>
         <Text style={[styles.itemText, {fontWeight: 'bold'}]}>{item.doctor_name}</Text>
-        <Text style={styles.itemText}>{item.specialization}</Text>
-        <Text style={styles.itemText}>{item.start_time} - {item.end_time}</Text>
+        <Text style={styles.itemText}>{item.time}</Text>
+        <View style={styles.statusCont}>
+          {item.status == 0 ? <Text style={[styles.statusText, {backgroundColor: '#FAD692'}]}>Pending</Text> : null}
+          {item.status == 1 ? <Text style={[styles.statusText, {backgroundColor: '#FA9292'}]}>Declined</Text> : null}
+          {item.status == 2 ? <Text style={[styles.statusText, {backgroundColor: '#92FAA3'}]}>Confirmed</Text> : null}
+        </View>
+        
       </View>
     )
   }
@@ -430,11 +430,9 @@ export default function AdminSched({}) {
                 </View>
                 
 
-                
-
                 {/* Hides modal */}
                 <View style={[styles.buttonCont]}>
-                  <Pressable style={styles.button} onPress={() => saveSchedule()}>
+                  <Pressable style={styles.button} onPress={() => saveAppointment()}>
                     <Text style={styles.buttonText}>SAVE</Text>
                   </Pressable>
                   <Pressable style={styles.button} onPress={() => setModalVisible(!modalVisible)}>
@@ -487,6 +485,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: 'white',
     margin: 5,
+    padding: 20,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -495,7 +494,8 @@ const styles = StyleSheet.create({
 
   itemText: {
     alignSelf: 'flex-start',
-    marginLeft: wp('5%'),
+    marginBottom: 3,
+    fontSize: 16,
   },
 
   addSchedCont: {
@@ -598,5 +598,17 @@ const styles = StyleSheet.create({
     color: '#EB144C',
     fontSize: hp('1.2%'),
     width: wp('75%'),
+  },
+
+  statusCont: {
+    width: wp('20%'),
+    alignSelf: 'flex-start',
+    
+  },
+
+  statusText: {
+    textAlign: 'center',
+    padding: 3,
+    borderRadius: 10,
   },
 });

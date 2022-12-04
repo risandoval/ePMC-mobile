@@ -291,20 +291,6 @@ export default function AdminSched({}) {
           console.log(error);
         }
     }
-
-    //display 'pending' if status is 0
-    const [status, setStatus] = useState(false);
-    if (status == 0) {
-      setStatus("Pending");
-      console.log("status: ", status)
-    }
-    else if (status == 1) {
-      setStatus("Declined");
-    }
-    else if (status == 2) {
-      setStatus("Confirmed");
-    }
-
   }
 
   const renderItem = (item) => {

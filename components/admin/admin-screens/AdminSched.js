@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {StyleSheet, ImageBackground, View, Text, TouchableOpacity, Modal, Pressable, FlatList, Dimensions  } from 'react-native';
 import {responsiveHeight, responsiveWidth, responsiveFontSize} from "react-native-responsive-dimensions";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {Calendar, Agenda} from 'react-native-calendars';
-
-
+import {Agenda} from 'react-native-calendars';
 
 
 export default function AdminSched({}) {
@@ -17,15 +15,15 @@ export default function AdminSched({}) {
     'X-API-KEY':'myapi',
     'Authorization':'Basic YWRtaW46YWRtaW4xMjM='   
   }
-
+  //get all appointments
   const fetchSchedule = async () => {
 
-    var schedulepath = "http://192.168.1.5:80/epmc-4/adm_sched_mobile";
-    // var schedulepath = "http://192.168.2.115:80/epmc-4/adm_sched_mobile";
+    var all_appointmentpath = "http://192.168.1.5:80/epmc-4/adm_view_appointment";
+    // var all_appointmentpath = "http://192.168.2.115:80/epmc-4/adm_view_appointment";
 
-    // var schedulepath = "http://e-pmc.com/adm_sched_mobile";
+    // var all_appointmentpath = "http://e-pmc.com/adm_view_appointment";
   
-    await fetch(schedulepath,{
+    await fetch(all_appointmentpath,{
       headers: headers
     })  
     .then((response)=>response.json())
@@ -42,11 +40,16 @@ export default function AdminSched({}) {
 
   const renderItem = (item) => {
     return (
-      
       <View style={styles.itemContainer}>
-        <Text style={[styles.itemText, {fontWeight: 'bold'}]}>{item.doctor_name}</Text>
-        <Text style={styles.itemText}>{item.specialization}</Text>
-        <Text style={styles.itemText}>{item.start_time} - {item.end_time}</Text>
+        <Text style={[styles.itemText, {fontWeight: '800'}]}>{item.doctor_name}</Text>
+        <Text style={[styles.itemText, {fontWeight: '500'}]}>{item.username}</Text>
+        <Text style={styles.itemText}>{item.time}</Text>
+        <View style={styles.statusCont}>
+          {item.status == 0 ? <Text style={[styles.statusText, {backgroundColor: '#FAD692'}]}>Pending</Text> : null}
+          {item.status == 1 ? <Text style={[styles.statusText, {backgroundColor: '#FA9292'}]}>Declined</Text> : null}
+          {item.status == 2 ? <Text style={[styles.statusText, {backgroundColor: '#92FAA3'}]}>Confirmed</Text> : null}
+        </View>
+        
       </View>
     )
   }
@@ -100,6 +103,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: 'white',
     margin: 5,
+    padding: 20,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -108,7 +112,20 @@ const styles = StyleSheet.create({
 
   itemText: {
     alignSelf: 'flex-start',
-    marginLeft: wp('5%'),
+    marginBottom: 3,
+    fontSize: 16,
+  },
+
+  statusCont: {
+    width: wp('20%'),
+    alignSelf: 'flex-start',
+    
+  },
+
+  statusText: {
+    textAlign: 'center',
+    padding: 3,
+    borderRadius: 10,
   },
 
   

@@ -39,8 +39,8 @@ export default function AdminReports() {
   //START - fetch all inventory item (stockin)
     const fetchStockIn = async() => {
 
-    var stockinpath = "http://e-pmc.com/adm_reports_stockin";
-    // var stockinpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockin";
+    var stockinpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockin";
+    // var stockinpath = "http://e-pmc.com/adm_reports_stockin";
 
     await fetch(stockinpath,{
       headers: headers
@@ -62,8 +62,9 @@ export default function AdminReports() {
   //START - fetch all stock in (stockout)
     const fetchStockOut = async() => {
 
-      var stockoutpath = "http://e-pmc.com/adm_reports_stockin";
-    // var stockoutpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockout";
+    var stockoutpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockout";
+    // var stockoutpath = "http://e-pmc.com/adm_reports_stockin";
+    
 
     await fetch(stockoutpath,{
       headers: headers
@@ -86,8 +87,8 @@ export default function AdminReports() {
   //START - fetch 7 days insertion of patients
     const fetchInsertion = async() => {
 
-      var insertionpath = "http://e-pmc.com/adm_insert_patient";
-    // var insertionpath = "http://192.168.1.5:80/epmc-4/adm_insert_patient";
+    var insertionpath = "http://192.168.1.5:80/epmc-4/adm_insert_patient";
+    // var insertionpath = "http://e-pmc.com/adm_insert_patient";
 
     await fetch(insertionpath,{
       headers: headers
@@ -110,8 +111,8 @@ export default function AdminReports() {
   //START - fetch 7 days deletion of patients
   const fetchDeletion = async() => {
 
-    var deletionpath = "http://e-pmc.com/adm_delete_patient";
-  // var deletionpath = "http://192.168.1.5:80/epmc-4/adm_delete_patient";
+  var deletionpath = "http://192.168.1.5:80/epmc-4/adm_delete_patient";
+  // var deletionpath = "http://e-pmc.com/adm_delete_patient";
 
   await fetch(deletionpath,{
     headers: headers

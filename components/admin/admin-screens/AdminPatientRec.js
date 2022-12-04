@@ -99,7 +99,6 @@ export default function AdminPatientRec({navigation}) {
   useEffect(()=>{
     
       // var patientrecpath = 'http://192.168.1.5:80/epmc-4/adm_patientrec_view';
-      // var patientrecpath = 'http://192.168.2.115:80/epmc-4/adm_patientrec_view';
       var patientrecpath = 'http://e-pmc.com/adm_patientrec_view';
       // let isSubscribed = true;
 

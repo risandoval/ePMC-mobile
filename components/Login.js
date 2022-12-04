@@ -27,8 +27,8 @@ export default function Login( {navigation} ) {
       
       setIsLogin(true);
 
-      // var loginpath = "http://192.168.1.5:80/epmc-4/login_mobile";
-      var loginpath = "http://192.168.2.115:80/epmc-4/login_mobile";
+      var loginpath = "http://192.168.1.5:80/epmc-4/login_mobile";
+      // var loginpath = "http://192.168.2.115:80/epmc-4/login_mobile";
 
       // var loginpath = "http://e-pmc.com/login_mobile";
 
@@ -50,6 +50,7 @@ export default function Login( {navigation} ) {
       .then((response)=>response.json())
       .then((response)=>{
         (async function() {
+          // await AsyncStorage.setItem('patient_id', response.patient_id);
           if (response[0] !== null) {
             if (response[0].status == '0'){
               alert("Account is not activated yet. Please check your email for activation link.");
@@ -140,7 +141,6 @@ export default function Login( {navigation} ) {
 
         <Pressable  style={styles.btnLogin} onPress={checkLogin}>
         {/* <Pressable  style={styles.btnLogin} onPress={() => navigation.navigate("AdminNavbar")}> */}
-          {/* <AntDesign name="arrowright" style={styles.btnLogin1} /> */}
           <Text style={styles.btnLogin1}>LOGIN</Text>
         </Pressable>
 

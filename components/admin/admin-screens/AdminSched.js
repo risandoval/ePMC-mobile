@@ -109,5 +109,7 @@ const styles = StyleSheet.create({
   itemText: {
     alignSelf: 'flex-start',
     marginLeft: wp('5%'),
-  }
+  },
+
+  
 });

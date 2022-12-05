@@ -117,8 +117,8 @@ export default function AdminSched({}) {
     setUsername(editprofdata[0].username)
 
     //display patient's appointment
-    var p_appointmentpath = "http://192.168.1.5:80/epmc-4/patient_appointment";
-      // var p_appointmentpath = "http://192.168.2.115:80/epmc-4/patient_appointment";
+    // var p_appointmentpath = "http://192.168.1.5:80/epmc-4/patient_appointment";
+      var p_appointmentpath = "http://192.168.2.115:80/epmc-4/patient_appointment";
       // var p_appointmentpath = "http://e-pmc.com/patient_appointment";
   
     var data = {

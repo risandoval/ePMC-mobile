@@ -1,13 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import {StyleSheet, ImageBackground, View, Text, TouchableOpacity, Modal, Pressable, FlatList, Dimensions  } from 'react-native';
+import {StyleSheet, ImageBackground, View, Text, Alert, Modal, Pressable, ScrollView, Dimensions  } from 'react-native';
 import {responsiveHeight, responsiveWidth, responsiveFontSize} from "react-native-responsive-dimensions";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Agenda} from 'react-native-calendars';
+import { Dropdown } from 'react-native-element-dropdown';
 
 
 export default function AdminSched({}) {
   const [isLoading, setLoading] = useState(true);
   const [schedData, setSchedData] = useState([]);
+  const [status, setStatus] = useState("");
+  const [patientID, setPatientID] = useState("");
+  const [appointmentID, setAppointmentID]  = useState("");
+  const [patientUN, setPatientUN] = useState("");
+  const [patientName, setPatientName] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+
+  //START status dropdown
+  const statusData = [
+    {label: 'Pending', value: 0},
+    {label: 'Declined', value: 1},
+    {label: 'Confirm', value: 2}
+  ];
+  //END status dropdown
 
   const headers = {
     'Accept': 'application/json',
@@ -38,19 +53,112 @@ export default function AdminSched({}) {
     return () => clearInterval(dataInterval);
   },[]);
 
+  //update status
+  const updateStatus = async () => {
+    var update_statuspath = "http://192.168.1.5:80/epmc-4/adm_update_appointment";
+    //var update_statuspath = "http://192.168.2.115:80/epmc-4/adm_update_appointment";
+    //var update_statuspath = "http://e-pmc.com/adm_update_appointment";
+
+    var data = {
+      appointmentID: appointmentID,
+      status: status
+    }
+
+    try {
+      //post request
+      await fetch(update_statuspath, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data),
+      })
+      .then((response)=>response.json())
+      // .then((response)=>console.log(response))
+      .then((response)=>{
+        // console.log(response)
+        if(response.message == "Appointment ID not found") {
+          Alert.alert("Error", "Appointment ID not found. This might be deleted by the patient.");
+        }
+        else {
+          Alert.alert("Success", "Appointment status successfully updated");
+          // navigation.navigate('AdminSched');
+        }
+      })
+    }
+    catch(error) {
+      console.log(error);
+    }
+
+  }
+
   const renderItem = (item) => {
     return (
-      <View style={styles.itemContainer}>
-        <Text style={[styles.itemText, {fontWeight: '800'}]}>{item.doctor_name}</Text>
-        <Text style={[styles.itemText, {fontWeight: '500'}]}>{item.username}</Text>
-        <Text style={styles.itemText}>{item.time}</Text>
-        <View style={styles.statusCont}>
-          {item.status == 0 ? <Text style={[styles.statusText, {backgroundColor: '#FAD692'}]}>Pending</Text> : null}
-          {item.status == 1 ? <Text style={[styles.statusText, {backgroundColor: '#FA9292'}]}>Declined</Text> : null}
-          {item.status == 2 ? <Text style={[styles.statusText, {backgroundColor: '#92FAA3'}]}>Confirmed</Text> : null}
+      <ScrollView style={styles.scroll}>
+        <View style={styles.itemContainer}>
+          <View>
+            <Text style={[styles.itemText, {fontWeight: '500'}]}>{item.username} - {item.full_name}</Text>
+            <Text style={[styles.itemText, {fontWeight: '800'}]}>{item.doctor_name}</Text>
+            <Text style={styles.itemText}>{item.time}</Text>
+              {item.status == 0 ? <Text style={[styles.itemText]}>Status: Pending</Text> : null}
+              {item.status == 1 ? <Text style={[styles.itemText]}>Status: Declined</Text> : null}
+              {item.status == 2 ? <Text style={[styles.itemText]}>Status: Confirm</Text> : null}
+              
+          </View>
+          
+          <View>
+            <Pressable style={styles.saveCont} onPress={() => setModalVisible(true, setPatientID(item.patient_id), setAppointmentID(item.appointment_id) , setPatientUN(item.username), setPatientName(item.full_name))}>
+              <Text style={styles.saveText}>Edit Status</Text>
+            </Pressable>
+          </View>
+          
+          {/* Modal */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+              <Text style={styles.itemText}>Patient ID: {patientID}</Text>
+                <Text style={styles.itemText}>Patient username: {patientUN}</Text>
+                <Text style={styles.itemText}>Patient Name: {patientName}</Text>
+                <Text style={styles.itemText}>Appointment ID: {appointmentID}</Text>
+                
+                <Text style={styles.itemText}>{"\n"}Edit Status</Text>
+                <Dropdown
+                  style={styles.dropdown}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  iconStyle={styles.iconStyle}
+                  data={statusData}
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder="select status"
+                  value={status}
+                  onChange={item => {
+                    setStatus(item.value);
+                  }}
+                />
+                
+                <View style={[styles.buttonCont]}>
+                    <Pressable style={[styles.button, {backgroundColor: '#969696'}]} onPress={() => setModalVisible(!modalVisible)}>
+                      <Text style={styles.buttonText}>CANCEL</Text>
+                    </Pressable>
+                    <Pressable style={[styles.button, {backgroundColor: '#8acf4e'}]} onPress={() => updateStatus()}>
+                      <Text style={styles.buttonText}>SAVE</Text>
+                    </Pressable>
+                    
+                </View>
+
+              </View>
+            </View>
+          </Modal>
+          
         </View>
-        
-      </View>
+      </ScrollView>
     )
   }
 
@@ -100,13 +208,18 @@ const styles = StyleSheet.create({
     // marginTop: hp('5%'),
   },
 
+  scroll: {
+    // marginBottom: hp('2%'),
+  },
+
   itemContainer: {
     backgroundColor: 'white',
     margin: 5,
     padding: 20,
     borderRadius: 15,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    flexDirection: 'row',
     flex: 1,
   },
 
@@ -128,5 +241,74 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
-  
+  saveCont: {
+    backgroundColor: '#033d68',
+    padding: 8,
+    borderRadius: 10,
+  },
+
+  saveText: {
+    color: 'white',
+  },
+
+  dropdown: {
+    width: wp('45%'),
+    height: hp('3%'),
+    marginTop: hp('0.5%'),
+    paddingLeft: wp('2%'),
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+
+  placeholderStyle: {
+    fontSize: hp('1.5%'),
+    // color: '#000',
+    color: '#787878',
+  },
+
+  selectedTextStyle: {
+    fontSize: hp('1.5%'),
+    color: '#000',
+    // color: '#787878',
+  },
+
+  iconStyle: {
+    marginRight: wp('1%'),
+    width: wp('7%'),
+    color: '#787878',
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  modalView: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    elevation: 5
+  },
+
+  buttonCont: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: wp('45%'),
+    marginTop: hp('2%'),
+  },
+
+  button: {
+    backgroundColor: "#033d68",
+    width: wp('20%'),
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+
+  buttonText: {
+    color: "white",
+    textAlign: "center"
+  },
 });

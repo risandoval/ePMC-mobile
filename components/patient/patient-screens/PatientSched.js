@@ -12,6 +12,7 @@ export default function AdminSched({}) {
   const [isLoading, setLoading] = useState(true);
   const [schedData, setSchedData] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const [patientID, setPatientID] = useState('');
   const [patientIDError, setPatientIDError] = useState([]);
   const [username, setUsername] = useState([]);
@@ -27,6 +28,8 @@ export default function AdminSched({}) {
   const [selectDateError, setSelectDateError] = useState([]);
   const [selectTime, setSelectTime] = useState([]);
   const [selectTimeError, setSelectTimeError] = useState([]);
+  const [appointmentID, setAppointmentID]  = useState("");
+  const [status, setStatus] = useState("");
 
   //header
   const headers = {
@@ -139,7 +142,7 @@ export default function AdminSched({}) {
       
   useEffect(() => {
     getFullName();
-  }, []);
+  }, [status]);
 
   //START form validations
   const saveAppointment = async () => {
@@ -223,13 +226,13 @@ export default function AdminSched({}) {
     }
       //Dra. Jaymie 10AM - 12PM Sat only
     else if (doctorName == 'Dra. Jaymie Pagtakhan' &&
-            (selectDay == 1 || selectDay == 2 || selectDay == 3 || selectDay == 5 || selectDay == 6 ) &&
+            (selectDay == 1 || selectDay == 2 || selectDay == 3 || selectDay == 4 || selectDay == 5 ) &&
             (selectTime !== null)) {
         setSelectTimeError("It is not within Dra. Jaymie's Clinic Hours. Please choose around 10AM - 12PM on Saturday");
     }
       //time should not be before 10AM and after 12PM on Sat
     else if (doctorName == 'Dra. Jaymie Pagtakhan' &&
-            selectDay == 7 &&
+            selectDay == 6 &&
             (selectTime < '10:00' || selectTime > '12:00')) {
       setSelectTimeError("It is not within Dra. Jaymie's Clinic Hours. Please choose around 10AM - 12PM");
     }
@@ -250,7 +253,7 @@ export default function AdminSched({}) {
       selectTimeValid = true;
     }
 
-    //if all validations are true - add to the database
+    //if all validations are true - add appointment
     if (fullNameValid && doctorNameValid && selectDateValid && selectTimeValid) {
 
         //path of patient appointment in codeigniter
@@ -283,7 +286,8 @@ export default function AdminSched({}) {
             }
             else {
               Alert.alert("Success", "Appointment successfully booked! Wait for the clinic to confirm it.");
-              // navigation.navigate('Register');
+              setStatus(response.status);
+              // navigation.navigate('Register'); 
             }
           })
         }
@@ -293,16 +297,98 @@ export default function AdminSched({}) {
     }
   }
 
+  //delete appointment
+  const deleteAppointment = async () => {
+    var del_appointmentpath = "http://192.168.1.5:80/epmc-4/patient_del_appointment";
+    // var del_appointmentpath = "http://http://192.168.2.115:80/epmc-4/patient_del_appointment";
+    // var del_appointmentpath = "http://e-pmc.com/patient_del_appointment";
+
+    var data = {
+      appointmentID: appointmentID
+    }
+
+    // console.log(data);
+
+    try {
+      //post request
+      await fetch(del_appointmentpath, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(data),
+      })
+      .then((response)=>response.json())
+      // .then((response)=>console.log(response))
+      .then((response)=>{
+        // console.log(response)
+        setStatus(response.status);
+        if(response.message == "Appointment deleted") {
+          Alert.alert("Success", "Appointment has been deleted");
+          
+        }
+        else {
+          Alert.alert("Error", "Failed to delete appointment. Please try again later.");
+          // navigation.navigate('AdminSched');
+        }
+        
+      })
+    }
+    catch(error) {
+      console.log(error);
+    }
+  }
+
   const renderItem = (item) => {
     return (
       <View style={styles.itemContainer}>
-        <Text style={[styles.itemText, {fontWeight: 'bold'}]}>{item.doctor_name}</Text>
-        <Text style={styles.itemText}>{item.time}</Text>
-        <View style={styles.statusCont}>
-          {item.status == 0 ? <Text style={[styles.statusText, {backgroundColor: '#FAD692'}]}>Pending</Text> : null}
-          {item.status == 1 ? <Text style={[styles.statusText, {backgroundColor: '#FA9292'}]}>Declined</Text> : null}
-          {item.status == 2 ? <Text style={[styles.statusText, {backgroundColor: '#92FAA3'}]}>Confirmed</Text> : null}
+        <View>
+          <Text style={[styles.itemText, {fontWeight: 'bold'}]}>{item.doctor_name}</Text>
+          <Text style={styles.itemText}>{item.time}</Text>
+          <View style={styles.statusCont}>
+            {item.status == 0 ? <Text style={[styles.statusText, {backgroundColor: '#FAD692'}]}>Pending</Text> : null}
+            {item.status == 1 ? <Text style={[styles.statusText, {backgroundColor: '#FA9292'}]}>Declined</Text> : null}
+            {item.status == 2 ? <Text style={[styles.statusText, {backgroundColor: '#92FAA3'}]}>Confirmed</Text> : null}
+          </View>
         </View>
+        
+        <View>
+          {item.status == 0 ? 
+            <Pressable style={styles.delCont} onPress={() => setDeleteModal(true, setAppointmentID(item.appointment_id))}>
+              <Text style={styles.delText}>Delete</Text>
+            </Pressable>
+          : null}
+          {item.status == 1 ? 
+            <Pressable style={styles.delCont} onPress={() => setDeleteModal(true, setAppointmentID(item.appointment_id))}>
+              <Text style={styles.delText}>Delete</Text>
+            </Pressable>
+          : null}
+          
+          
+        </View>
+
+        {/* Delete Modal */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={deleteModal}
+          onRequestClose={() => {
+            setDeleteModal(!deleteModal);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={[styles.modalText, {fontSize: hp('1.5%')}]}>Are you sure you want to delete appointment?</Text>
+              
+              <View style={[styles.buttonCont]}>
+                  <Pressable style={[styles.button, {backgroundColor: '#969696'}]} onPress={() => setDeleteModal(!deleteModal)}>
+                    <Text style={styles.buttonText}>CANCEL</Text>
+                  </Pressable>
+                  <Pressable style={[styles.button, {backgroundColor: '#F44336'}]} onPress={() => {deleteAppointment(), setDeleteModal(!deleteModal)}}>
+                    <Text style={styles.buttonText}>DELETE</Text>
+                  </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
         
       </View>
     )
@@ -324,7 +410,6 @@ export default function AdminSched({}) {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
               setModalVisible(!modalVisible);
             }}
           >
@@ -418,11 +503,11 @@ export default function AdminSched({}) {
 
                 {/* Hides modal */}
                 <View style={[styles.buttonCont]}>
-                  <Pressable style={styles.button} onPress={() => saveAppointment()}>
-                    <Text style={styles.buttonText}>SAVE</Text>
-                  </Pressable>
-                  <Pressable style={styles.button} onPress={() => setModalVisible(!modalVisible)}>
+                  <Pressable style={[styles.button, {backgroundColor: '#969696'}]} onPress={() => setModalVisible(!modalVisible)}>
                     <Text style={styles.buttonText}>CANCEL</Text>
+                  </Pressable>
+                  <Pressable style={[styles.button, {backgroundColor: '#8acf4e'}]} onPress={() => saveAppointment()}>
+                    <Text style={styles.buttonText}>SAVE</Text>
                   </Pressable>
                 </View>
               </View>
@@ -433,6 +518,7 @@ export default function AdminSched({}) {
             style={styles.calendar} //calendar style
             items={schedData} //data
             renderItem={renderItem}
+            // onRefresh={() => console.log('refreshing...')}
           />
         </View>
         // </ImageBackground>
@@ -473,8 +559,9 @@ const styles = StyleSheet.create({
     margin: 5,
     padding: 20,
     borderRadius: 15,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    flexDirection: 'row',
     flex: 1,
   },
 
@@ -482,6 +569,16 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginBottom: 3,
     fontSize: 16,
+  },
+
+  delCont: {
+    backgroundColor: '#033d68',
+    padding: 8,
+    borderRadius: 10,
+  },
+
+  delText: {
+    color: 'white',
   },
 
   addSchedCont: {

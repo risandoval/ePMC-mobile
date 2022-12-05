@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {StyleSheet, ImageBackground, View, Text, Alert, Modal, Pressable, FlatList, Dimensions  } from 'react-native';
+import {StyleSheet, ImageBackground, View, Text, Alert, Modal, Pressable, ScrollView, Dimensions  } from 'react-native';
 import {responsiveHeight, responsiveWidth, responsiveFontSize} from "react-native-responsive-dimensions";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {Agenda} from 'react-native-calendars';
@@ -19,8 +19,8 @@ export default function AdminSched({}) {
   //START status dropdown
   const statusData = [
     {label: 'Pending', value: 0},
-    {label: 'Confirmed', value: 1},
-    {label: 'Declined', value: 2}
+    {label: 'Declined', value: 1},
+    {label: 'Confirm', value: 2}
   ];
   //END status dropdown
 
@@ -80,7 +80,7 @@ export default function AdminSched({}) {
         }
         else {
           Alert.alert("Success", "Appointment status successfully updated");
-          // navigation.navigate('Register');
+          // navigation.navigate('AdminSched');
         }
       })
     }
@@ -92,75 +92,73 @@ export default function AdminSched({}) {
 
   const renderItem = (item) => {
     return (
-      <View style={styles.itemContainer}>
-        <View>
-          <Text style={[styles.itemText, {fontWeight: '500'}]}>{item.username} - {item.full_name}</Text>
-          <Text style={[styles.itemText, {fontWeight: '800'}]}>{item.doctor_name}</Text>
-          <Text style={styles.itemText}>{item.time}</Text>
-            {item.status == 0 ? <Text style={[styles.itemText]}>Status: Pending</Text> : null}
-            {item.status == 1 ? <Text style={[styles.itemText]}>Status: Declined</Text> : null}
-            {item.status == 2 ? <Text style={[styles.itemText]}>Status: Confirmed</Text> : null}
-            
-        </View>
-        
-        <View>
-          <Pressable style={styles.saveCont} onPress={() => setModalVisible(true, setPatientID(item.patient_id), setAppointmentID(item.appointment_id) , setPatientUN(item.username), setPatientName(item.full_name))}>
-            <Text style={styles.saveText}>Edit Status</Text>
-          </Pressable>
-          {/* <Pressable style={styles.saveCont}>
-            <Text style={styles.saveText}>Save Status</Text>
-          </Pressable> */}
-        </View>
-        
-        {/* Modal */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-            <Text style={styles.itemText}>Patient ID: {patientID}</Text>
-              <Text style={styles.itemText}>Patient username: {patientUN}</Text>
-              <Text style={styles.itemText}>Patient Name: {patientName}</Text>
-              <Text style={styles.itemText}>Appointment ID: {appointmentID}</Text>
+      <ScrollView style={styles.scroll}>
+        <View style={styles.itemContainer}>
+          <View>
+            <Text style={[styles.itemText, {fontWeight: '500'}]}>{item.username} - {item.full_name}</Text>
+            <Text style={[styles.itemText, {fontWeight: '800'}]}>{item.doctor_name}</Text>
+            <Text style={styles.itemText}>{item.time}</Text>
+              {item.status == 0 ? <Text style={[styles.itemText]}>Status: Pending</Text> : null}
+              {item.status == 1 ? <Text style={[styles.itemText]}>Status: Declined</Text> : null}
+              {item.status == 2 ? <Text style={[styles.itemText]}>Status: Confirm</Text> : null}
               
-              <Text style={styles.itemText}>{"\n"}Edit Status</Text>
-              <Dropdown
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                iconStyle={styles.iconStyle}
-                data={statusData}
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder="select status"
-                value={status}
-                onChange={item => {
-                  setStatus(item.value);
-                }}
-              />
-              <Text>{status}</Text>
-              
-              <View style={[styles.buttonCont]}>
-                  <Pressable style={styles.button} onPress={() => updateStatus()}>
-                    <Text style={styles.buttonText}>SAVE</Text>
-                  </Pressable>
-                  <Pressable style={styles.button} onPress={() => setModalVisible(!modalVisible)}>
-                    <Text style={styles.buttonText}>CANCEL</Text>
-                  </Pressable>
-              </View>
-
-            </View>
           </View>
-        </Modal>
-        
-      </View>
+          
+          <View>
+            <Pressable style={styles.saveCont} onPress={() => setModalVisible(true, setPatientID(item.patient_id), setAppointmentID(item.appointment_id) , setPatientUN(item.username), setPatientName(item.full_name))}>
+              <Text style={styles.saveText}>Edit Status</Text>
+            </Pressable>
+          </View>
+          
+          {/* Modal */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+              <Text style={styles.itemText}>Patient ID: {patientID}</Text>
+                <Text style={styles.itemText}>Patient username: {patientUN}</Text>
+                <Text style={styles.itemText}>Patient Name: {patientName}</Text>
+                <Text style={styles.itemText}>Appointment ID: {appointmentID}</Text>
+                
+                <Text style={styles.itemText}>{"\n"}Edit Status</Text>
+                <Dropdown
+                  style={styles.dropdown}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  iconStyle={styles.iconStyle}
+                  data={statusData}
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder="select status"
+                  value={status}
+                  onChange={item => {
+                    setStatus(item.value);
+                  }}
+                />
+                
+                <View style={[styles.buttonCont]}>
+                    <Pressable style={[styles.button, {backgroundColor: '#969696'}]} onPress={() => setModalVisible(!modalVisible)}>
+                      <Text style={styles.buttonText}>CANCEL</Text>
+                    </Pressable>
+                    <Pressable style={[styles.button, {backgroundColor: '#8acf4e'}]} onPress={() => updateStatus()}>
+                      <Text style={styles.buttonText}>SAVE</Text>
+                    </Pressable>
+                    
+                </View>
+
+              </View>
+            </View>
+          </Modal>
+          
+        </View>
+      </ScrollView>
     )
   }
 
@@ -208,6 +206,10 @@ const styles = StyleSheet.create({
 
   header: {
     // marginTop: hp('5%'),
+  },
+
+  scroll: {
+    // marginBottom: hp('2%'),
   },
 
   itemContainer: {

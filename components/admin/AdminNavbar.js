@@ -13,7 +13,7 @@ import Profile from "../Profile";
 const admdashboard = 'Dashboard';
 const admpatientrec = 'Patient Record';
 const admreports = 'Reports';
-const admsched = 'Schedule';
+const admsched = 'Appointment';
 const profile = 'Profile';
 
 const Tab = createBottomTabNavigator();

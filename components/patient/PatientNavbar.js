@@ -11,7 +11,7 @@ import Profile from "../Profile";
 //screen names
 const patientdashboard = 'Dashboard';
 const patientrec = 'Patient Record';
-const patientsched = 'Schedule';
+const patientsched = 'Appointment';
 const profile = 'Profile';
 
 const Tab = createBottomTabNavigator();

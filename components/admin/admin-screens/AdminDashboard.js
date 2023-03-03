@@ -68,7 +68,7 @@ export default function AdminDashboard() {
   return (
     <View style={styles.container}>
       {isLoading ? <Text style={styles.loadingtext}>Loading Data...</Text>:
-      <ImageBackground source={require('../../../assets/dashboard.png')} style={styles.bgimage}>
+      <ImageBackground source={require('../../../assets/dashboardfinal.png')} style={styles.bgimage}>
         <View style={[styles.box, styles.box1]}>
           <FontAwesome name="clipboard-list" style={[styles.icon, styles.iconMargin]} />
           <View>
@@ -160,12 +160,12 @@ const styles = StyleSheet.create({
 
   box1: {
     backgroundColor: '#92CEFA',
-    marginTop: hp('6%'),
+    marginTop: hp('15%'),
   },
 
   box2: {
     backgroundColor: '#FAD692',
-    marginTop: hp('6%'),
+    marginTop: hp('15%'),
   },
 
   box3: {
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   },
 
   txtRecent: {
-    marginTop: hp('5%'),
+    marginTop: hp('4%'),
     fontSize: hp('4.3%'),
     color: "#000",
     fontWeight: "bold",

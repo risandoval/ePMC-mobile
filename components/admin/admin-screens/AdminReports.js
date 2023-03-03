@@ -88,8 +88,8 @@ export default function AdminReports() {
   //START - fetch 7 days insertion of patients
     const fetchInsertion = async() => {
 
-    // var insertionpath = "http://192.168.1.4:80/epmc-4/adm_insert_patient";
-    var insertionpath = "http://e-pmc.com/adm_insert_patient";
+    var insertionpath = "http://192.168.1.5:80/epmc-4/adm_insert_patient";
+    // var insertionpath = "http://e-pmc.com/adm_insert_patient";
 
     await fetch(insertionpath,{
       headers: headers

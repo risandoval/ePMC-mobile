@@ -33,10 +33,9 @@ export default function AdminSched({}) {
   //get all appointments
   const fetchSchedule = async () => {
 
-    var all_appointmentpath = "http://192.168.1.5:80/epmc-4/adm_view_appointment";
+    // var all_appointmentpath = "http://192.168.1.16:80/epmc-4/adm_view_appointment";
     // var all_appointmentpath = "http://192.168.2.115:80/epmc-4/adm_view_appointment";
-
-    // var all_appointmentpath = "http://e-pmc.com/adm_view_appointment";
+    var all_appointmentpath = "http://e-pmc.com/adm_view_appointment";
   
     await fetch(all_appointmentpath,{
       headers: headers
@@ -55,9 +54,9 @@ export default function AdminSched({}) {
 
   //update status
   const updateStatus = async () => {
-    var update_statuspath = "http://192.168.1.5:80/epmc-4/adm_update_appointment";
+    // var update_statuspath = "http://192.168.1.16:80/epmc-4/adm_update_appointment";
     //var update_statuspath = "http://192.168.2.115:80/epmc-4/adm_update_appointment";
-    //var update_statuspath = "http://e-pmc.com/adm_update_appointment";
+    var update_statuspath = "http://e-pmc.com/adm_update_appointment";
 
     var data = {
       appointmentID: appointmentID,
@@ -90,12 +89,12 @@ export default function AdminSched({}) {
 
   }
 
-  const renderItem = (item) => {
+  const renderItem = (item) => {appointmentID
     return (
       <ScrollView style={styles.scroll}>
         <View style={styles.itemContainer}>
           <View>
-            <Text style={[styles.itemText, {fontWeight: '500'}]}>{item.username} - {item.full_name}</Text>
+            <Text style={[styles.itemText, {fontWeight: '500'}]}>{item.patient_name}</Text>
             <Text style={[styles.itemText, {fontWeight: '800'}]}>{item.doctor_name}</Text>
             <Text style={styles.itemText}>{item.time}</Text>
               {item.status == 0 ? <Text style={[styles.itemText]}>Status: Pending</Text> : null}
@@ -105,7 +104,7 @@ export default function AdminSched({}) {
           </View>
           
           <View>
-            <Pressable style={styles.saveCont} onPress={() => setModalVisible(true, setPatientID(item.patient_id), setAppointmentID(item.appointment_id) , setPatientUN(item.username), setPatientName(item.full_name))}>
+            <Pressable style={styles.saveCont} onPress={() => setModalVisible(true, setPatientID(item.un_patient_id), setAppointmentID(item.schedule_id) , setPatientName(item.patient_name))}>
               <Text style={styles.saveText}>Edit Status</Text>
             </Pressable>
           </View>
@@ -122,7 +121,7 @@ export default function AdminSched({}) {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
               <Text style={styles.itemText}>Patient ID: {patientID}</Text>
-                <Text style={styles.itemText}>Patient username: {patientUN}</Text>
+                {/* <Text style={styles.itemText}>Patient username: {patientUN}</Text> */}
                 <Text style={styles.itemText}>Patient Name: {patientName}</Text>
                 <Text style={styles.itemText}>Appointment ID: {appointmentID}</Text>
                 

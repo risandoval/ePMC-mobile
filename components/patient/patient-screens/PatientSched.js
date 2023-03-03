@@ -116,16 +116,18 @@ export default function AdminSched({}) {
     const fetc = await SecureStore.getItemAsync('editprof');
     const editprofdata = JSON.parse(fetc);
     setFullName(editprofdata[0].full_name)
-    setPatientID(editprofdata[0].patient_id)
+    // setPatientID(editprofdata[0].un_patient_id)
     setUsername(editprofdata[0].username)
 
-    //display patient's appointment
-    var p_appointmentpath = "http://192.168.1.5:80/epmc-4/patient_appointment";
+    //START display patient's appointment
+    // var p_appointmentpath = "http://192.168.1.16:80/epmc-4/patient_appointment";
       // var p_appointmentpath = "http://192.168.2.115:80/epmc-4/patient_appointment";
-      // var p_appointmentpath = "http://e-pmc.com/patient_appointment";
+      var p_appointmentpath = "http://e-pmc.com/patient_appointment";
   
     var data = {
-      patientID: editprofdata[0].patient_id,
+      // patientID: editprofdata[0].patient_id,
+      patient_name: editprofdata[0].patient_name,
+      username: editprofdata[0].username
     }
       
     await fetch(p_appointmentpath, {
@@ -143,6 +145,7 @@ export default function AdminSched({}) {
   useEffect(() => {
     getFullName();
   }, [status]);
+  //END display patient's appointment
 
   //START form validations
   const saveAppointment = async () => {
@@ -257,14 +260,14 @@ export default function AdminSched({}) {
     if (fullNameValid && doctorNameValid && selectDateValid && selectTimeValid) {
 
         //path of patient appointment in codeigniter
-        var add_appointmentpath = "http://192.168.1.5:80/epmc-4/add_appointment";
+        // var add_appointmentpath = "http://192.168.1.16:80/epmc-4/add_appointment";
         // var add_appointmentpath = "http://192.168.2.115:80/epmc-4/add_appointment";
-        // var add_appointmentpath = "http://e-pmc.com/add_appointment";
+        var add_appointmentpath = "http://e-pmc.com/add_appointment";
 
         //assign values
         var data = {
           patientID: patientID,
-          username: username,
+          username: username, //un patient id
           fullName: fullName,
           doctorName: doctorName,
           selectDate: selectDate,
@@ -299,9 +302,9 @@ export default function AdminSched({}) {
 
   //delete appointment
   const deleteAppointment = async () => {
-    var del_appointmentpath = "http://192.168.1.5:80/epmc-4/patient_del_appointment";
+    // var del_appointmentpath = "http://192.168.1.16:80/epmc-4/patient_del_appointment";
     // var del_appointmentpath = "http://http://192.168.2.115:80/epmc-4/patient_del_appointment";
-    // var del_appointmentpath = "http://e-pmc.com/patient_del_appointment";
+    var del_appointmentpath = "http://e-pmc.com/patient_del_appointment";
 
     var data = {
       appointmentID: appointmentID
@@ -344,7 +347,7 @@ export default function AdminSched({}) {
           <Text style={[styles.itemText, {fontWeight: 'bold'}]}>{item.doctor_name}</Text>
           <Text style={styles.itemText}>{item.time}</Text>
           <View style={styles.statusCont}>
-            {item.status == 0 ? <Text style={[styles.statusText, {backgroundColor: '#FAD692'}]}>Pending</Text> : null}
+            {item.status == 0? <Text style={[styles.statusText, {backgroundColor: '#FAD692'}]}>Pending</Text> : null}
             {item.status == 1 ? <Text style={[styles.statusText, {backgroundColor: '#FA9292'}]}>Declined</Text> : null}
             {item.status == 2 ? <Text style={[styles.statusText, {backgroundColor: '#92FAA3'}]}>Confirmed</Text> : null}
           </View>
@@ -352,12 +355,12 @@ export default function AdminSched({}) {
         
         <View>
           {item.status == 0 ? 
-            <Pressable style={styles.delCont} onPress={() => setDeleteModal(true, setAppointmentID(item.appointment_id))}>
+            <Pressable style={styles.delCont} onPress={() => setDeleteModal(true, setAppointmentID(item.schedule_id))}>
               <Text style={styles.delText}>Delete</Text>
             </Pressable>
           : null}
           {item.status == 1 ? 
-            <Pressable style={styles.delCont} onPress={() => setDeleteModal(true, setAppointmentID(item.appointment_id))}>
+            <Pressable style={styles.delCont} onPress={() => setDeleteModal(true, setAppointmentID(item.schedule_id))}>
               <Text style={styles.delText}>Delete</Text>
             </Pressable>
           : null}

@@ -19,9 +19,9 @@ export default function PatientDashboard() {
     const fet = await SecureStore.getItemAsync('data');
     const profiledata = JSON.parse(fet);
     
-    var profilepath = "http://192.168.1.5:80/epmc-4/profile_mobile";
+    // var profilepath = "http://192.168.1.16:80/epmc-4/profile_mobile";
     // var profilepath = "http://192.168.2.115:80/epmc-4/profile_mobile";
-    // var profilepath = "http://e-pmc.com/adm_dashboard_total";
+    var profilepath = "http://e-pmc.com/profile_mobile";
 
     var data ={
         email: profiledata.email,
@@ -87,7 +87,7 @@ export default function PatientDashboard() {
         
         <View style={styles.nextConsultCont}>
         {/* {isLoading ? <Text style={styles.loadingtext}>Loading Data...</Text> : */}
-          <Text style={styles.nextConsultText}><Text style={{fontWeight:"bold"}}>Next Consultation:</Text> {'November 23, 2022'}</Text>
+          <Text style={styles.nextConsultText}><Text style={{fontWeight:"bold"}}>Next Consultation:</Text> {'March 6, 2023'}</Text>
         {/* } */}
         </View>
         

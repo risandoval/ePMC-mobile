@@ -32,10 +32,10 @@ export default function AdminPatientRec({navigation}) {
   // fetching for Total
   const fetchTotal = async () => {
 
-    // var patientrec = "http://192.168.1.5:80/epmc-4/api/Admin_dashboard/total";
+    // var patientrec = "http://192.168.1.5:80/epmc-4/adm_patientrec_total";
+    var patientrec = "http://192.168.1.11:80/epmc-4/adm_patientrec_total";
     // var patientrec = "http://192.168.2.115:80/epmc-4/adm_patientrec_total";
-
-    var patientrec = "http://e-pmc.com/adm_patientrec_total";
+    // var patientrec = "http://e-pmc.com/adm_patientrec_total";
   
     await fetch(patientrec,{
       headers: headers
@@ -98,7 +98,8 @@ export default function AdminPatientRec({navigation}) {
 
   useEffect(()=>{
     
-      // var patientrecpath = 'http://192.168.1.5:80/epmc-4/adm_patientrec_view';
+      // var patientrecpath = 'http://192.168.1.4:80/epmc-4/adm_patientrec_view';
+      // var patientrecpath = "http://192.168.2.115:80/epmc-4/adm_patientrec_view";
       var patientrecpath = 'http://e-pmc.com/adm_patientrec_view';
       // let isSubscribed = true;
 
@@ -151,7 +152,7 @@ export default function AdminPatientRec({navigation}) {
       title: "Personal Information",
       data: [{id:"                                  ", value: <View style={styles.avatarContainer}>
       <Image source={{uri:url}} style={styles.avatar2}/>
-    </View>},{id: "                    PATIENT NO: ", value : "PMCKAS"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
+    </View>},{id: "PATIENT NO: ", value : "PMCKAS"}, {id: "2", value : "PMC"}, {id: "3", value : "Risotto"}]
     },
     {
       title: "Contact Information",

@@ -47,9 +47,9 @@ export default function Profile({navigation}) {
         const fet = await SecureStore.getItemAsync('data');
         const profiledata = JSON.parse(fet);
         
-        var profilepath = "http://192.168.1.5:80/epmc-4/profile_mobile";
+        // var profilepath = "http://192.168.1.16:80/epmc-4/profile_mobile";
         // var profilepath = "http://192.168.2.115:80/epmc-4/profile_mobile";
-        // var profilepath = "http://e-pmc.com/adm_dashboard_total";
+        var profilepath = "http://e-pmc.com/profile_mobile";
 
         var data ={
             email: profiledata.email,
@@ -128,7 +128,8 @@ export default function Profile({navigation}) {
                     </View>
 
                     <View style={[styles.row, styles.btnRow]}>
-                        <Pressable onPress={() => navigation.navigate('EditProfile')} style={styles.logoutbox}>
+                        {/* <Pressable onPress={() => navigation.navigate('EditProfile')} style={styles.logoutbox}> */}
+                        <Pressable style={styles.logoutbox}>
                             <Text style={styles.logouttxt}>EDIT</Text>
                         </Pressable>
 

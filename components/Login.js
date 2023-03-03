@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SecureStore from 'expo-secure-store';
 import React, { useState, useEffect } from "react";
 import { StyleSheet, ImageBackground, Pressable, View, Text, TextInput, Dimensions, Image } from 'react-native';
@@ -28,9 +27,9 @@ export default function Login( {navigation} ) {
       setIsLogin(true);
 
       // var loginpath = "http://192.168.1.5:80/epmc-4/login_mobile";
-      var loginpath = "http://192.168.2.115:80/epmc-4/login_mobile";
+      // var loginpath = "http://192.168.2.115:80/epmc-4/login_mobile";
 
-      // var loginpath = "http://e-pmc.com/login_mobile";
+      var loginpath = "http://e-pmc.com/login_mobile";
 
       var data ={
         email: email,
@@ -50,7 +49,6 @@ export default function Login( {navigation} ) {
       .then((response)=>response.json())
       .then((response)=>{
         (async function() {
-          // await AsyncStorage.setItem('patient_id', response.patient_id);
           if (response[0] !== null) {
             if (response[0].status == '0'){
               alert("Account is not activated yet. Please check your email for activation link.");
@@ -80,7 +78,6 @@ export default function Login( {navigation} ) {
   //       const doc = JSON.parse(data2);
   //       const pat = JSON.parse(data3);
   //     // const datata = JSON.parse(getdata);
-  //     // const email = await AsyncStorage.getItem('email');
   //     if (adm !== null || doc !== null || pat !== null) {
   //       if (adm !== null) {
   //         navigation.reset({

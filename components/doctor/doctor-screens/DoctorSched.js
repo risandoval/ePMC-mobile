@@ -33,10 +33,10 @@ export default function DoctorSched({}) {
   //get all appointments
   const fetchSchedule = async () => {
 
-    var all_appointmentpath = "http://192.168.1.5:80/epmc-4/adm_view_appointment";
+    // var all_appointmentpath = "http://192.168.1.5:80/epmc-4/adm_view_appointment";
     // var all_appointmentpath = "http://192.168.2.115:80/epmc-4/adm_view_appointment";
 
-    // var all_appointmentpath = "http://e-pmc.com/adm_view_appointment";
+    var all_appointmentpath = "http://e-pmc.com/adm_view_appointment";
   
     await fetch(all_appointmentpath,{
       headers: headers
@@ -55,9 +55,9 @@ export default function DoctorSched({}) {
 
   //update status
   const updateStatus = async () => {
-    var update_statuspath = "http://192.168.1.5:80/epmc-4/adm_update_appointment";
-    //var update_statuspath = "http://192.168.2.115:80/epmc-4/adm_update_appointment";
-    //var update_statuspath = "http://e-pmc.com/adm_update_appointment";
+    // var update_statuspath = "http://192.168.1.5:80/epmc-4/adm_update_appointment";
+    // var update_statuspath = "http://192.168.2.115:80/epmc-4/adm_update_appointment";
+    var update_statuspath = "http://e-pmc.com/adm_update_appointment";
 
     var data = {
       appointmentID: appointmentID,

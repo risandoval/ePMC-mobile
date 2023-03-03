@@ -250,9 +250,9 @@ export default function Register({navigation}) {
     }
 
     //at least one input in contact info
-    if (contactNum == "" && telephoneNum == "" && email == "") {
+    if (email == "") {
       setContactInfoError("Enter at least your email");
-    } else { setContactNumError(""); };
+    } else { setContactInfoError(""); };
 
     //contact number validation
     var contactNumValid = false;
@@ -374,9 +374,9 @@ export default function Register({navigation}) {
         (passwordValid) && (termsChecked)) {
       
       //path of register_mobile in codeigniter
-        var registerpath = "http://192.168.1.5:80/epmc-4/register_mobile";
-        //var registerpath = "http://192.168.2.115:80/epmc-4/register_mobile";
-        // var registerpath = "http://e-pmc.com/register_mobile";
+        // var registerpath = "http://192.168.1.5:80/epmc-4/register_mobile";
+        // var registerpath = "http://192.168.2.115:80/epmc-4/register_mobile";
+        var registerpath = "http://e-pmc.com/register_mobile";
 
         //assign values
         var data = {

@@ -121,8 +121,8 @@ export default function AdminSched({}) {
 
     //display patient's appointment
     // var p_appointmentpath = "http://192.168.1.5:80/epmc-4/patient_appointment";
-      var p_appointmentpath = "http://192.168.2.115:80/epmc-4/patient_appointment";
-      // var p_appointmentpath = "http://e-pmc.com/patient_appointment";
+      // var p_appointmentpath = "http://192.168.2.115:80/epmc-4/patient_appointment";
+      var p_appointmentpath = "http://e-pmc.com/patient_appointment";
   
     var data = {
       patientID: editprofdata[0].patient_id,
@@ -257,9 +257,9 @@ export default function AdminSched({}) {
     if (fullNameValid && doctorNameValid && selectDateValid && selectTimeValid) {
 
         //path of patient appointment in codeigniter
-        var add_appointmentpath = "http://192.168.1.5:80/epmc-4/add_appointment";
+        // var add_appointmentpath = "http://192.168.1.5:80/epmc-4/add_appointment";
         // var add_appointmentpath = "http://192.168.2.115:80/epmc-4/add_appointment";
-        // var add_appointmentpath = "http://e-pmc.com/add_appointment";
+        var add_appointmentpath = "http://e-pmc.com/add_appointment";
 
         //assign values
         var data = {
@@ -299,9 +299,9 @@ export default function AdminSched({}) {
 
   //delete appointment
   const deleteAppointment = async () => {
-    var del_appointmentpath = "http://192.168.1.5:80/epmc-4/patient_del_appointment";
-    // var del_appointmentpath = "http://http://192.168.2.115:80/epmc-4/patient_del_appointment";
-    // var del_appointmentpath = "http://e-pmc.com/patient_del_appointment";
+    // var del_appointmentpath = "http://192.168.1.5:80/epmc-4/patient_del_appointment";
+    // var del_appointmentpath = "http://192.168.2.115:80/epmc-4/patient_del_appointment";
+    var del_appointmentpath = "http://e-pmc.com/patient_del_appointment";
 
     var data = {
       appointmentID: appointmentID
@@ -320,10 +320,9 @@ export default function AdminSched({}) {
       // .then((response)=>console.log(response))
       .then((response)=>{
         // console.log(response)
-        setStatus(response.status);
         if(response.message == "Appointment deleted") {
           Alert.alert("Success", "Appointment has been deleted");
-          
+          setStatus(response.status);
         }
         else {
           Alert.alert("Error", "Failed to delete appointment. Please try again later.");

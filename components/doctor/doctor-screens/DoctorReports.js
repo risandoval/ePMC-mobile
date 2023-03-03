@@ -43,6 +43,8 @@ export default function DoctorReports() {
 
       var agerangepath = "http://e-pmc.com/doc_reports_age_range";
     // var agerangepath = "http://192.168.1.5:80/epmc-4/doc_reports_age_range";
+    // var agerangepath = "http://192.168.2.115:80/epmc-4/doc_reports_age_range";
+
 
     await fetch(agerangepath,{
       headers: headers
@@ -67,6 +69,7 @@ export default function DoctorReports() {
 
     var bmipath = "http://e-pmc.com/doc_reports_age_range";
   // var bmipath = "http://192.168.1.5:80/epmc-4/doc_reports_bmi";
+  // var bmipath = "http://192.168.2.115:80/epmc-4/doc_reports_bmi";
 
   await fetch(bmipath,{
     headers: headers
@@ -96,6 +99,7 @@ export default function DoctorReports() {
 
       var insertionpath = "http://e-pmc.com/adm_insert_patient";
     // var insertionpath = "http://192.168.1.5:80/epmc-4/adm_insert_patient";
+    // var insertionpath = "http://192.168.2.115:80/epmc-4/adm_insert_patient";
 
     await fetch(insertionpath,{
       headers: headers
@@ -120,6 +124,7 @@ export default function DoctorReports() {
 
     var deletionpath = "http://e-pmc.com/adm_delete_patient";
   // var deletionpath = "http://192.168.1.5:80/epmc-4/adm_delete_patient";
+    // var deletionpath = "http://192.168.2.115:80/epmc-4/adm_delete_patient";
 
   await fetch(deletionpath,{
     headers: headers
@@ -144,6 +149,7 @@ export default function DoctorReports() {
 
     var stockinpath = "http://e-pmc.com/adm_reports_stockin";
     // var stockinpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockin";
+    // var stockinpath = "http://192.168.2.115:80/epmc-4/adm_reports_stockin";
 
     await fetch(stockinpath,{
       headers: headers
@@ -172,6 +178,7 @@ export default function DoctorReports() {
 
       var stockoutpath = "http://e-pmc.com/adm_reports_stockin";
     // var stockoutpath = "http://192.168.1.5:80/epmc-4/adm_reports_stockout";
+      // var stockoutpath = "http://192.168.2.115:80/epmc-4/adm_reports_stockout";
 
     await fetch(stockoutpath,{
       headers: headers

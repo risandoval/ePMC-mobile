@@ -20,7 +20,7 @@ export default function App() {
   return(
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        {/* <Stack.Screen name="OTP" component={OTP} options={{headerShown: false}} /> */}
+        <Stack.Screen name="OTP" component={OTP} options={{headerShown: false}} />
         <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
         <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
         <Stack.Screen name="Terms" component={Terms} options={{headerShown: false}} />
@@ -28,7 +28,7 @@ export default function App() {
         <Stack.Screen name="AdminNavbar" component={AdminNavbar} options={{headerShown: false}} />
         <Stack.Screen name="DoctorNavbar" component={DoctorNavbar} options={{headerShown: false}} />
         <Stack.Screen name="PatientNavbar" component={PatientNavbar} options={{headerShown: false}} />
-        <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}} />
+        {/* <Stack.Screen name="EditProfile" component={EditProfile} options={{headerShown: false}} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

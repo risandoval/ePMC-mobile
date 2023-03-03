@@ -11,7 +11,7 @@ import AdminNavbar from "./components/admin/AdminNavbar";
 import DoctorNavbar from "./components/doctor/DoctorNavbar";
 import PatientNavbar from "./components/patient/PatientNavbar";
 import OTP from "./components/OTP";
-import EditProfile from "./components/EditProfile";
+// import EditProfile from "./components/EditProfile";
 
 
 const Stack = createNativeStackNavigator();

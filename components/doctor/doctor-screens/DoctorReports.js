@@ -171,7 +171,7 @@ export default function DoctorReports() {
     const fetchStockOut = async() => {
 
     // var stockoutpath = "http://192.168.1.4:80/epmc-4/adm_reports_stockout";
-    var stockoutpath = "http://e-pmc.com/adm_reports_stockin";
+    var stockoutpath = "http://e-pmc.com/adm_reports_stockout";
 
     await fetch(stockoutpath,{
       headers: headers
